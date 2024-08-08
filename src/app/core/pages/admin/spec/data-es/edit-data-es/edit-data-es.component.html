@@ -1,0 +1,386 @@
+<app-header></app-header>
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <app-message class="animated1 fadeIn" *ngIf="msnOk"></app-message>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-5" *ngIf="edit=='true'">Editar Data en español</h2>
+                            <h2 class="mb-5" *ngIf="edit=='false'">Ver Data en español</h2>
+                        </div>
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="row">
+
+
+                                <!-- <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group" *ngIf="edit ==='true'">
+                                        <label for="tipoStock">Tipo de pipeline</label>
+                                        <select name="" id="tipoStock" formControlName="tipoStock" class="form-control upper">
+                                            <option value="">Selecciona un tipo de pipeline</option>
+                                            <option [value]="item.uid" *ngFor="let item of tipoStocks">{{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['tipoStock'].errors " class="error">Es requerido
+                                    </span>
+                                    <div class="form-group" *ngIf="edit ==='false'">
+
+                                        <div class="form-group">
+                                            <label for="tipoStock">Tipo de pipeline</label>
+                                            <input type="text" class="form-control upper" id="tipoStock" placeholder="Rol"
+                                                formControlName="tipoStock" [readonly]="edit==='false'">
+                                        </div>
+                                    </div>
+                                </div> -->
+                              
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="numero">Número</label>
+                                        <input type="text" class="form-control upper" id="numero" formControlName="numero"
+                                            placeholder="Número" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['numero'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="producto">producto</label>
+                                        <input type="text" class="form-control upper" id="producto" formControlName="producto"
+                                            placeholder="producto" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['producto'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="fruta">Fruta</label>
+                                        <input type="text" class="form-control upper" id="fruta" formControlName="fruta"
+                                            placeholder="Fruta" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['fruta'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="variedad">Variedad</label>
+                                        <input type="text" class="form-control upper" id="variedad" formControlName="variedad"
+                                            placeholder="Variedad" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['variedad'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="presentacion">Presentacion</label>
+                                        <input type="text" class="form-control upper" id="presentacion" formControlName="presentacion"
+                                            placeholder="Presentacion" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['presentacion'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="tipo">Tipo</label>
+                                        <input type="text" class="form-control upper" id="tipo" formControlName="tipo"
+                                            placeholder="Tipo" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['tipo'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                               
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="paisOrigen">País de origen</label>
+                                        <input type="text" class="form-control upper" id="paisOrigen" formControlName="paisOrigen"
+                                            placeholder="País de origen" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['paisOrigen'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="duracion">Duración</label>
+                                        <input type="text" class="form-control upper" id="duracion" formControlName="duracion"
+                                            placeholder="Duración" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['duracion'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="descripcion">Descripción</label>
+                                        <textarea type="text" class="form-control upper" id="descripcion" formControlName="descripcion"
+                                            placeholder="Descripción" [readonly]="edit==='false'"> </textarea>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['descripcion'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-6 mt-3 text-center">
+
+                                    <div class="form-group" >
+                                        <label for="img">Imagen
+
+                                            <i class="fa fa-upload" aria-hidden="true"></i>
+
+                                        </label>
+
+
+
+
+
+
+                                        
+                                        <input type="file" class="form-control upper" id="img" formControlName="img"
+                                            placeholder="Imagen" [readonly]="edit==='false'"  (change)="selectImg($event)" *ngIf="edit=='true'">
+                                            <ng-container   >
+
+                                                <input type="text" class="form-control upper" id="url" formControlName="url"
+                                                placeholder="URL" [readonly]="edit==='false'">
+                                            </ng-container>
+                                            
+                                    </div>
+                                    <span *ngIf="submited && errorControl['img'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                
+                                <div class="col-6 mt-3 text-center">
+
+                                    <img 
+                                    [src]="url+'/upload/dataEs/'+imgdataEs"
+                                     class="img-avatar" *ngIf="!imgTemp">
+                                    <img 
+                                   [src]="imgTemp"
+                                     class="img-avatar" *ngIf="imgTemp">
+                                </div>
+
+
+                                <div class="col-12 col-md-4 mt-3">
+                                    <div class="form-group">
+                                        <label for="jasuSpec">Jasu Spec</label>
+                                        <input type="text" class="form-control upper" id="jasuSpec" formControlName="jasuSpec"
+                                            placeholder="Jasu Spec" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['jasuSpec'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+                                    <div class="form-group">
+                                        <label for="jasuMsds">Jasu MSDS</label>
+                                        <input type="text" class="form-control upper" id="jasuMsds" formControlName="jasuMsds"
+                                            placeholder="Jasu MSDS" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['jasuMsds'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+                                    <div class="form-group">
+                                        <label for="msdsUrl">MSDS URL</label>
+                                        <input type="text" class="form-control upper" id="msdsUrl" formControlName="msdsUrl"
+                                            placeholder="MSDS URL" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['msdsUrl'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="ingredientes">Ingredientes</label>
+                                        <textarea type="text" class="form-control upper" id="ingredientes" formControlName="ingredientes"
+                                            placeholder="Ingredientes" [readonly]="edit==='false'"> </textarea>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['ingredientes'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="pc1">PC1</label>
+                                        <input type="text" class="form-control upper" id="pc1" formControlName="pc1"
+                                            placeholder="PC1" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['pc1'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="ppc1">PPC1</label>
+                                        <input type="text" class="form-control upper" id="ppc1" formControlName="ppc1"
+                                            placeholder="PPC1" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['ppc1'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="pc2">PC2</label>
+                                        <input type="text" class="form-control upper" id="pc2" formControlName="pc2"
+                                            placeholder="PC2" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['pc2'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="ppc2">PPC2</label>
+                                        <input type="text" class="form-control upper" id="ppc2" formControlName="ppc2"
+                                            placeholder="PPC2" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['ppc2'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="pc3">PC3</label>
+                                        <input type="text" class="form-control upper" id="pc3" formControlName="pc3"
+                                            placeholder="PC3" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['pc3'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="ppc3">PPC3</label>
+                                        <input type="text" class="form-control upper" id="ppc3" formControlName="ppc3"
+                                            placeholder="PPC3" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['ppc3'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="pc4">PC4</label>
+                                        <input type="text" class="form-control upper" id="pc4" formControlName="pc4"
+                                            placeholder="PC4" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['pc4'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="ppc4">PPC4</label>
+                                        <input type="text" class="form-control upper" id="ppc4" formControlName="ppc4"
+                                            placeholder="PPC4" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['ppc4'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="pc5">PC5</label>
+                                        <input type="text" class="form-control upper" id="pc5" formControlName="pc5"
+                                            placeholder="PC5" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['pc5'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="ppc5">PPC5</label>
+                                        <input type="text" class="form-control upper" id="ppc5" formControlName="ppc5"
+                                            placeholder="PPC5" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['ppc5'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="pc6">PC6</label>
+                                        <input type="text" class="form-control upper" id="pc6" formControlName="pc6"
+                                            placeholder="PC6" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['pc6'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="ppc6">PPC6</label>
+                                        <input type="text" class="form-control upper" id="ppc6" formControlName="ppc6"
+                                            placeholder="PPC6" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['ppc6'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="pc7">PC7</label>
+                                        <input type="text" class="form-control upper" id="pc7" formControlName="pc7"
+                                            placeholder="PC7" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['pc7'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="ppc7">PPC7</label>
+                                        <input type="text" class="form-control upper" id="ppc7" formControlName="ppc7"
+                                            placeholder="PPC7" [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['ppc7'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <div class="row mt-5 text-center">
+                                <div class="col-12 col-md-6  mt-3 text-center">
+                                    <button class="btn btn-lg btn-block btn-warning" (click)="back()">Regresar</button>
+
+                                </div>
+                                <div class="col-12 col-md-6  mt-3 text-center " *ngIf="edit==='true'">
+                                    <button type="submit" class="btn btn-lg btn-block but  ">Editar</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

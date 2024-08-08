@@ -1,0 +1,383 @@
+<app-header></app-header>
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <app-message class="animated1 fadeIn" *ngIf="msnOk"></app-message>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-5" *ngIf="edit=='true'">Editar abasto</h2>
+                            <h2 class="mb-5" *ngIf="edit=='false'">Ver abasto</h2>
+                        </div>
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                                <!-- <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="tipoStock">Tipo Stock</label>
+                                        <select name="" id="tipoStock" formControlName="tipoStock" class="form-control upper">
+                                            <option value="">Selecciona un tipo de stock</option>
+                                            <option [value]="item.uid" *ngFor="let item of tipoStocks">{{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['tipoStock'].errors " class="error">Es requerido
+                                    </span>
+                                </div> -->
+
+                                <!-- <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="origen">Origen</label>
+                                        <input type="text" class="form-control upper" id="origen"
+                                            formControlName="origen" placeholder="Origen">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['origen'].errors " class="error">Es requerido
+                                    </span>
+                                </div> -->
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="origen">Origen</label>
+                                        <select name="" id="origen" formControlName="origen"   aria-label="Disabled select example" class="form-control upper" [disabled]=" form.value.viajes.length >0 || edit === 'false'">
+                                            <option value="" [disabled]=" form.value.viajes.length >0 || edit === 'false'" >Selecciona un origen</option>
+                                            <option [value]="item.uid" *ngFor="let item of origens" [disabled]=" form.value.viajes.length >0 || edit === 'false'"> {{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="destino">Destino</label>
+                                        <select name="" id="destino" formControlName="destino"
+                                            class="form-control upper" [disabled]=" form.value.viajes.length >0 || edit === 'false'">
+                                            <option value="" [disabled]=" form.value.viajes.length >0 || edit === 'false'">Selecciona un destino</option>
+                                            <option [value]="item.uid" *ngFor="let item of destinos" [disabled]=" form.value.viajes.length >0 || edit === 'false'"> {{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="proveedor">Proveedor</label>
+                                        <select name="" id="proveedor" formControlName="proveedor"
+                                            class="form-control upper" [disabled]=" form.value.viajes.length >0 || edit === 'false'">
+                                            <option value="" [disabled]=" form.value.viajes.length >0 || edit === 'false'">Selecciona un proveedor</option>
+                                            <option [value]="item.uid" *ngFor="let item of proveedors" [disabled]=" form.value.viajes.length >0 || edit === 'false'">
+                                                {{item.nombreEmpresa}} - {{item.nombreRepresentante}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="materiaPrima">MateriaPrima</label>
+                                        <select name="" id="materiaPrima" formControlName="materiaPrima"
+                                            class="form-control upper" [disabled]=" form.value.viajes.length >0 || edit === 'false'">
+                                            <option value="" [disabled]=" form.value.viajes.length >0 || edit === 'false'">Selecciona un materiaPrima</option>
+                                            <option [value]="item.uid" *ngFor="let item of materiaPrimas" [disabled]=" form.value.viajes.length >0 || edit === 'false'">
+                                                {{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="cantidadTotal">Cantitad total</label>
+                                        <input type="number" class="form-control upper" id="cantidadTotal"
+                                            formControlName="cantidadTotal" min="1" placeholder="Cantidad total" [readonly]=" form.value.viajes.length >0 || edit === 'false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['cantidadTotal'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="unidadMedida">Unidad de medida</label>
+                                        <select name="" id="unidadMedida" formControlName="unidadMedida"
+                                            class="form-control upper">
+                                            <option value="" [disabled]=" form.value.viajes.length >0 || edit === 'false'">Selecciona una unidad de medida</option>
+                                            <option [value]="item.uid" *ngFor="let item of unidadMedidas" [disabled]=" form.value.viajes.length >0 || edit === 'false'">
+                                                {{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="cantidadOrigenProceso">Cantidad origen en proceso</label>
+                                        <input type="number" class="form-control upper" id="Cantidad origen en proceso"
+                                            formControlName="cantidadOrigenProceso" placeholder="Cantidad origen en proceso" readonly>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['cantidadOrigenProceso'].errors "
+                                        class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="cantidadDestinoProceso">Cantidad destino en proceso</label>
+                                        <input type="number" class="form-control upper" id="Cantidad destino en proceso"
+                                            formControlName="cantidadDestinoProceso" placeholder="Cantidad destino en proceso" readonly>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['cantidadDestinoProceso'].errors "
+                                        class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+
+                                <div class="mt-5 text-center">
+
+                                    <button type="button" class="btn btn-sm btn-warning but  "
+                                        (click)="addViaje()" *ngIf="edit=='true'">Agregar Viaje</button>
+                                </div>
+                                <ng-container formArrayName="viajes">
+                                    <ng-container *ngFor="let viaje of viajes['controls']; let i=index">
+                                        <ng-container [formGroupName]="i">
+
+
+
+
+                                            <div class="col-12 mt-3" *ngIf="!form.value.viajes[i].viajeFinalizado">
+                                                <div class="form-group">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                    formControlName="viajeFinalizado" id="viajeFinalizado"  style="margin-right: 25px;" >
+                                                    <label for="viajeFinalizado">Viaje Finalizado</label>
+                                                
+                                                    
+
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="proveedorTransporte">Proveedor de transporte</label>
+                                                    <select name="" id="proveedorTransporte" formControlName="proveedorTransporte"
+                                                        class="form-control upper">
+                                                        <option value="" [disabled] ="form.value.viajes[i].viajeFinalizado">Selecciona Proveedor de Transporte</option>
+                                                        <option [value]="item.uid" *ngFor="let item of proveedorTransportes" [disabled] ="form.value.viajes[i].viajeFinalizado">
+                                                            {{item.nombre}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <span *ngIf="submited && errorControl['proveedorTransporte'].errors " class="error">Es
+                                                    requerido
+                                                </span>
+                                            </div>
+
+                                           
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="fechaProceso">Fecha carga</label>
+                                                    <input type="date" class="form-control upper" id="fechaProceso"
+                                                        formControlName="fechaProceso" [min]="dateToday"
+                                                        placeholder="Fecha Proceso" [readonly] ="form.value.viajes[i].viajeFinalizado">
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="fechaAbasto">Fecha entrega</label>
+                                                    <input type="date" class="form-control upper" id="fechaAbasto"
+                                                        formControlName="fechaAbasto" [min]="dateToday"
+                                                        placeholder="Fecha Proceso" [readonly] ="form.value.viajes[i].viajeFinalizado">
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="tipoTransporte">Solicitud de transporte</label>
+                                                    <select name="" id="tipoTransporte" formControlName="tipoTransporte"
+                                                        class="form-control upper" >
+                                                        <option value="" [disabled] ="form.value.viajes[i].viajeFinalizado">Seleciona tipo de tranasporte</option>
+                                                        <option value="true" [disabled] ="form.value.viajes[i].viajeFinalizado">In</option>
+                                                        <option value="false" [disabled] ="form.value.viajes[i].viajeFinalizado">Out</option>
+
+                                                    </select>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="carga">Tipo de transporte</label>
+                                                    <select name="" id="carga" formControlName="carga"
+                                                        class="form-control upper">
+                                                        <option value="" [disabled] ="form.value.viajes[i].viajeFinalizado">Selecciona modo de carga</option>
+                                                        <option [value]="item.uid" *ngFor="let item of cargas" [disabled] ="form.value.viajes[i].viajeFinalizado">
+                                                            {{item.nombre}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                             
+                                            </div>
+
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="tipoCarga">Modalidad</label>
+                                                    <select name="" id="tipoCarga" formControlName="tipoCarga"
+                                                        class="form-control upper">
+                                                        <option value="" [disabled] ="form.value.viajes[i].viajeFinalizado">Selecciona modo de tipo de Carga</option>
+                                                        <option [value]="item.uid" *ngFor="let item of tipoCargas" [disabled] ="form.value.viajes[i].viajeFinalizado">
+                                                            {{item.nombre}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="numeroTicketOrigen">Numero de ticket Origen</label>
+                                                    <input type="text" class="form-control upper" id="numeroTicketOrigen"
+                                                        formControlName="numeroTicketOrigen" [min]="dateToday"
+                                                        placeholder="Numero de ticket" [readonly] ="form.value.viajes[i].viajeFinalizado">
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="basculaOrigen1">Peso Tara Origen </label>
+                                                    <input type="number" min="1" class="form-control upper"
+                                                        id="basculaOrigen1" formControlName="basculaOrigen1"
+                                                        placeholder="Peso Tara Origen" (change)="getPesaje()" [readonly] ="form.value.viajes[i].viajeFinalizado">
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="basculaOrigen2">Peso Bruto Origen </label>
+                                                    <input type="number" class="form-control upper" id="basculaOrigen2"
+                                                        formControlName="basculaOrigen2" min="1"
+                                                        placeholder="Peso Bruto Origen" (change)="getPesaje()"   [readonly] ="form.value.viajes[i].viajeFinalizado">
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-12   mt-3 text-center">
+                                                <div class=" image-upload" class="text-center">
+                                                    
+                                                    <label for="file-inputOrigen{{i}}" class="text-center" *ngIf="abasto.viajes.length >= (i+1)">
+                                                   
+                                                        <ng-container   class="text-center" >
+                                                       
+                                                            <img *ngIf="form.value.viajes[i].fotoTicketOrigen === ''"
+                                                                [src]="url+'/upload/abastos/default.jpeg'"
+                                                                alt="Ticket origen {{form.value.viajes[i].numeroTicket}}"
+                                                                title="Ticket origen {{form.value.viajes[i].numeroTicket}}" class="img-avatar">
+                                                            <img *ngIf="form.value.viajes[i].fotoTicketOrigen !== ''"
+                                                                [src]="url+'/upload/abastos/'+form.value.viajes[i].fotoTicketOrigen"
+                                                                alt="Ticket origen {{form.value.viajes[i].numeroTicket}}"
+                                                                title="Ticket origen {{form.value.viajes[i].numeroTicket}}" class="img-avatar">
+                                                           
+                                                        </ng-container>
+                                                    </label>
+            
+                                                    <input id="file-inputOrigen{{i}}" type="file" class="ion-no-border"
+                                                    (change)="cambiarImagen($event ,'basculaOrigen' ,i )"   *ngIf="!form.value.viajes[i].viajeFinalizado">
+            
+            
+            
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="numeroTicketDestino">Numero de ticket Destino</label>
+                                                    <input type="text" class="form-control upper" id="numeroTicketDestino"
+                                                        formControlName="numeroTicketDestino" [min]="dateToday"
+                                                        placeholder="Numero de ticket" [readonly] ="form.value.viajes[i].viajeFinalizado">
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="basculaDestino1">Peso Bruto Destino </label>
+                                                    <input type="number" min="1" class="form-control upper"
+                                                        id="basculaDestino1" formControlName="basculaDestino1"
+                                                        placeholder="Peso Bruto Destino" (change)="getPesaje()"  [readonly] ="form.value.viajes[i].viajeFinalizado">
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-12 col-md-4 mt-3">
+                                                <div class="form-group">
+                                                    <label for="basculaDestino2">Peso Tara Destino </label>
+                                                    <input type="number" class="form-control upper" id="basculaDestino2"
+                                                        formControlName="basculaDestino2" min="1"
+                                                        placeholder="Peso Tara Destino" (change)="getPesaje()"  [readonly] ="form.value.viajes[i].viajeFinalizado">
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-12  mt-3 text-center">
+                                                <div class=" image-upload" class="text-center">
+            
+                                                    <label for="file-inputDestino{{i}}" class="text-center" *ngIf="abasto.viajes.length >= (i+1)">
+            
+                                                        <ng-container   class="text-center"  >
+                                                             
+                                                            <img  *ngIf="form.value.viajes[i].fotoTicketDestino ===''"
+                                                            
+                                                            [src]="url+'/upload/abastos/default.jpeg'"
+                                                          
+                                                                alt="Ticket Destino {{form.value.viajes[i].numeroTicket}}"
+                                                                title="Ticket Destino {{form.value.viajes[i].numeroTicket}}" class="img-avatar">
+                                                            <img *ngIf="form.value.viajes[i].fotoTicketDestino !==''" 
+                                                            
+                                                            [src]="url+'/upload/abastos/'+form.value.viajes[i].fotoTicketDestino"
+                                                          
+                                                                alt="Ticket Destino {{form.value.viajes[i].numeroTicket}}"
+                                                                title="Ticket Destino {{form.value.viajes[i].numeroTicket}}" class="img-avatar">
+                                                           
+                                                        </ng-container>
+                                                    </label>
+            
+                                                    <input id="file-inputDestino{{i}}" type="file" class="ion-no-border"
+                                                        (change)="cambiarImagen($event ,'basculaDestino' ,i)"  *ngIf="!form.value.viajes[i].viajeFinalizado && edit ==='true'"  />
+            
+            
+            
+                                                </div>
+                                            </div>
+                                            <div class="mt-5 text-center" *ngIf="edit ==='true'">
+                                            
+                                                <button class="btn btn-warning" (click)="removeViaje(i)" *ngIf="(i+1) === form.value.viajes.length && !form.value.viajes[i].viajeFinalizado  && functionsService.validateRol(rol,AMD)">Eliminar
+                                                    Viaje</button>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+
+                                </ng-container>
+
+
+
+
+
+
+
+
+                            </div>
+
+                            <div class="row mt-5 text-center">
+                                <div class="col-12 col-md-6  mt-3 text-center">
+                                    <button class="btn btn-lg btn-block btn-warning" (click)="back()">Regresar</button>
+
+                                </div>
+                                <div class="col-12 col-md-6  mt-3 text-center " *ngIf="edit ==='true'">
+                                    <button type="submit" class="btn btn-lg btn-block but  ">Editar</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

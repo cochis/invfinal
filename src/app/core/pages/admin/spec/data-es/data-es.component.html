@@ -1,0 +1,151 @@
+<app-header></app-header>
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="row">
+
+                        <div class="col-12 col-md-4 mt-3">
+
+                            <input type="text" class="form-control" placeholder="Buscar dataEs..."
+                                (keyup)="buscar(txtTermino.value)" #txtTermino>
+                        </div>
+                        <div class="col-12 col-md-4 mt-3" *ngIf="rol ===ADM">
+                            <select class="form-control" (change)="buscarCatalogo('usuarioAsignados',usuarioAsignado.value)" #usuarioAsignado>
+                                <option value="">Búsqueda por usuario asignado </option>
+                                <option [value]="item.uid" *ngFor="let item of usuarios">{{item.nombre}}</option>
+
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4 mt-3" *ngIf="rol ===ADM">
+                            <select class="form-control" (change)="buscarCatalogo('dataEss',tipoProducto.value)" #tipoProducto>
+                                <option value="">Búsqueda por tipo dataEs </option>
+                                <option [value]="item.uid" *ngFor="let item of tipoProductos">{{item.nombre}}</option>
+
+                            </select>
+                        </div>
+
+                    </div> -->
+                    <div class="row">
+                        <div class="row mt-5 text-center">
+                            <div class="col-12  text-center">
+                                <button class="btn but   " (click)="newUser()">Nuevo Data en español</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12 col-12 text-center">
+                    <h2 class="mb-5">DATA en epañol</h2>
+                </div>
+
+                <div class="col-12 text-center">
+                    <h5 *ngIf="dataEss.length===0">Sin información</h5>
+                    <div class="table-over">
+
+
+                        <table class="table table-striped table-bordered " *ngIf=" dataEss && dataEss.length >0">
+                            <thead class="thead-dark">
+                                <th class="upper">uid</th>
+                                <th class="upper">opciones</th>
+                                <th class="upper">#</th>
+                                <th class="upper">PRODUCTO</th>
+                                <th class="upper">fruta</th>
+                                <th class="upper">variedad</th>
+                                <th class="upper">presentacion</th>
+                                <th class="upper">tipo</th>
+                                <th class="upper">pais de origen</th>
+                                <th class="upper">duracion</th>
+                                <th class="upper">descripcion</th>
+                                <th class="upper">Imagen</th>
+                             
+                                <th class="upper">Jasu Spec</th>
+                                <th class="upper">Jasu MSDS</th>
+                                <th class="upper">MSDS URL</th>
+                                <th class="upper">ingredientes</th>
+                                <th class="upper">usuarioCreated</th>
+                                <th class="upper">dateCreated</th>
+                                <th class="upper">lastEdited</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let dataEs of dataEss; let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>
+                                        <div class="opc">
+
+                                            <i class="icon-eye text-primary" *ngIf="dataEs.activated"
+                                                (click)="viewProducto(dataEs.uid)"></i>
+                                        </div>
+                                        <div class="opc">
+
+                                            <i class="icon-ok-circled text-success" *ngIf="!dataEs.activated"
+                                                (click)="isActived(dataEs)"></i>
+                                        </div>
+                                        <div class="opc">
+
+                                            <i class="icon-trash text-danger" *ngIf="dataEs.activated"
+                                                (click)="isActived(dataEs)"></i>
+                                        </div>
+                                        <div class="opc">
+                                            <i class="icon-pencil text-primary" *ngIf="dataEs.activated"
+                                                (click)="editProducto(dataEs.uid)"></i>
+
+                                        </div>
+
+
+
+                                    </td>
+                                    <td class="upper">{{dataEs.numero}}</td>
+                                    <td class="upper">{{dataEs.producto}}</td>
+                                    <td class="upper">{{dataEs.fruta}}</td>
+                                    <td class="upper">{{dataEs.variedad}}</td>
+                                    <td class="upper">{{dataEs.presentacion}}</td>
+                                    <td class="upper">{{dataEs.tipo}}</td>
+                                    <td class="upper">{{dataEs.paisOrigen}}</td>
+                                    <td class="upper">{{dataEs.duracion}}</td>
+                                    <td class="upper">{{dataEs.descripcion}}</td>
+                                    <td class="upper"*ngIf="dataEs.img!=''">
+                                        <img [src]="url+'/upload/dataes/'+dataEs.img" alt="" class="imgTable"> </td>
+                                    <td class="upper"*ngIf="dataEs.img==''"></td>
+                            
+                                    <td class="upper">{{dataEs.jasuSpec}}</td>
+                                    <td class="upper">{{dataEs.jasuMsds}}</td>
+                                    <td class="upper">{{dataEs.msdsUrl}}</td>
+                                    <td class="upper">{{dataEs.ingredientes}}</td>
+                                    
+                                    
+                                   
+
+                                    <td class="upper" class="upper" *ngIf=" !dataEs.usuarioCreated">
+
+                                    </td>
+                                    <td class="upper" *ngIf="dataEs.usuarioCreated ">
+                                        {{dataEs.usuarioCreated.email}}
+                                    </td>
+
+
+
+                                    <td>{{dataEs.dateCreated | date:'dd/MM/YYYY'}}</td>
+                                    <td>{{dataEs.lastEdited | date:'dd/MM/YYYY'}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

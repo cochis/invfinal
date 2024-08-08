@@ -1,0 +1,218 @@
+<app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+<div class="row" *ngIf="!newFac && !loading ">
+    <div class="col-lg-12 col-12 text-center  mt-5">
+        <h2 class="mb-5">Facturas</h2>
+    </div>
+    <div class="col-12   text-center mt-2 mb-5" *ngIf="!pagado">
+        <button class="btn btn-block btn-warning" (click)="newFactura()">Nueva factura</button>
+    </div>
+    <div class="col-12 text-center">
+        <h5 *ngIf="facturas && facturas.length ==0 ">Sin información</h5>
+        <div class="table-over" *ngIf="facturas.length > 0 ">
+            <table class="table table-striped table-bordered ">
+                <thead class="thead-dark">
+                    <th class="upper">uid</th>
+                    <th class="upper">opciones</th>
+                    <th class="upper">Fecha</th>
+                    <th class="upper">Tipo factura</th>
+                    <th class="upper">Decripción</th>
+                    <th class="upper">Currency exchange</th>
+                    <th class="upper">Moneda</th>
+                    <th class="upper">Cantidad</th>
+                    <th class="upper">File</th>
+                    <th class="upper">Activado</th>
+                    <th class="upper">Fecha de creación</th>
+                    <th class="upper">Última edición</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let factura of facturas; let i=index">
+                        <td>{{i+1}}</td>
+                        <td>
+                            <div class="opc">
+                                <i class="icon-eye text-primary" *ngIf="factura.activated"
+                                    (click)="viewfactura(factura.uid)"></i>
+                            </div>
+                            <div class="opc">
+                                <i class="icon-ok-circled text-success" *ngIf="!factura.activated"
+                                    (click)="isActived(factura)"></i>
+                            </div>
+                            <div class="opc">
+                                <i class="icon-trash text-danger" *ngIf="factura.activated"
+                                    (click)="isActived(factura)"></i>
+                            </div>
+                            <div class="opc">
+                                <i class="icon-pencil text-primary" *ngIf="factura.activated"
+                                    (click)="editFactura(factura.uid)"></i>
+                            </div>
+                        </td>
+                        <td class="upper">{{factura.date | date:'dd/MM/YYYY'}}</td>
+                        <td class="upper">{{factura.tipoFactura.nombre }}</td>
+                        <td class="upper">{{factura.descripcion}}</td>
+                        <td class="upper">{{factura.currencyExchange | currency}} </td>
+                        <td class="upper">{{factura.moneda.nombre}}</td>
+                        <td class="upper">{{factura.cantidad}}</td>
+                        <td class="upper" (click)="showPdf(factura)" style="cursor: pointer;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path
+                                    d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 144-208 0c-35.3 0-64 28.7-64 64l0 144-48 0c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128zM176 352l32 0c30.9 0 56 25.1 56 56s-25.1 56-56 56l-16 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-48 0-80c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24l-16 0 0 48 16 0zm96-80l32 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-32 0c-8.8 0-16-7.2-16-16l0-128c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16l0-64c0-8.8-7.2-16-16-16l-16 0 0 96 16 0zm80-112c0-8.8 7.2-16 16-16l48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-64 0-64z" />
+                            </svg>
+                        </td>
+                        <td>
+                            <i *ngIf="factura.activated" class="icon-ok-circled text-success"></i>
+                            <i *ngIf="!factura.activated" class="icon-cancel-circled text-danger"></i>
+                        </td>
+                        <td class="upper">{{factura.dateCreated | date:'dd/MM/YYYY'}}</td>
+                        <td class="upper">{{factura.lastEdited | date:'dd/MM/YYYY'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="newFac && !loading">
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <app-message class="animated1 fadeIn" *ngIf="msnOk"></app-message>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-5" *ngIf="!isEdit">Crear Factura</h2>
+                            <h2 class="mb-5" *ngIf="isEdit">Editar Factura</h2>
+                        </div>
+                        <form [formGroup]="form">
+                            <div class="row">
+                                <div class="col-12 col-md-6 mt-4">
+                                    <div class="form-group">
+                                        <label for="date">Fecha</label>
+                                        <input type="date" class="form-control upper" id="date" formControlName="date"
+                                            required placeholder="Fecha" #date>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['date'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-4">
+                                    <div class="form-group">
+                                        <label for="tipoFactura">Tipo de factura</label>
+                                        <select class="form-control" formControlName="tipoFactura" #tipoFactura>
+                                            <option value="" selected>Selecciona tipo de factura </option>
+                                            <option [value]="item.uid" *ngFor="let item of tipoFacturas">{{item.nombre}}
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+                                    <span *ngIf="submited && errorControl['tipoFactura'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12  ">
+                                    <div class="form-group">
+                                        <label for="descripcion">Descripcion</label>
+                                        <textarea class="form-control upper" id="descripcion"
+                                            formControlName="descripcion" required placeholder="descripcion"
+                                            #descripcion>
+                                            </textarea>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['descripcion'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-4">
+                                    <div class="form-group">
+                                        <label for="moneda">Moneda</label>
+                                        <select class="form-control" formControlName="moneda" #monedaInput
+                                            (change)="setExchange(monedaInput.value)" #moneda>
+                                            <option value="" selected>Selecciona moneda </option>
+                                            <option [value]="item.uid" *ngFor="let item of monedas">{{item.nombre}}
+                                            </option>
+
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['moneda'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-4"  >
+                                    <div class="form-group">
+                                        <label for="currencyExchange">Tipo de cambio</label>
+                                        <input type="number" class="form-control upper" id="currencyExchange"
+                                            formControlName="currencyExchange" required placeholder="Tipo de cambio"
+                                            [readOnly]="!rol.includes(ADM) || !rol.includes(CTM) || !rol.includes(CTB)  ">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['currencyExchange'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-4">
+                                    <div class="form-group">
+                                        <label for="cantidad">Cantidad</label>
+                                        <input type="number" class="form-control upper" id="cantidad"
+                                            formControlName="cantidad" required placeholder="Cantidad" #cantidad>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['cantidad'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-4" *ngIf="  (date.value!='' && 
+                                                                            tipoFactura.value!='' &&
+                                                                            descripcion.value!='' &&
+                                                                            moneda.value!='' &&
+                                                                            cantidad.value!=''  && !isEdit)  
+                                                                            ">
+                                    <div class="form-group text-center">
+                                        <label for="file">
+                                            Ingresa tu archivo <br>
+                                            <img src="/assets/images/invoice.png" alt="Ingresa tu factura"
+                                                style="width: 150px; margin: auto;">
+
+                                        </label>
+                                        <input type="file" class="form-control upper" id="file" #file
+                                            formControlName="file" required placeholder="Archivo"
+                                            accept="application/pdf" (change)="setFile($event)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['file'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="row mt-5" *ngIf="isEdit">
+                                    <div class="col-6 text-center">
+
+                                        <div   (click)="showPdf(factura)" style="cursor: pointer; width: 50px;height: 50px;margin-right: auto;
+                                        margin-left: auto;
+                                        text-align: center">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                <path
+                                                    d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 144-208 0c-35.3 0-64 28.7-64 64l0 144-48 0c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128zM176 352l32 0c30.9 0 56 25.1 56 56s-25.1 56-56 56l-16 0 0 32c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-48 0-80c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24l-16 0 0 48 16 0zm96-80l32 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-32 0c-8.8 0-16-7.2-16-16l0-128c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16l0-64c0-8.8-7.2-16-16-16l-16 0 0 96 16 0zm80-112c0-8.8 7.2-16 16-16l48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 32 32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-64 0-64z"
+                                                    style="margin: auto;" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                               
+                                    <div class="col-6 text-center">
+                                        <label for="file">
+
+                                            <span for="file" class="btn btn-lg btn-block btn-warning " style="cursor: pointer;">Cambiar
+                                                archivo</span>
+                                        </label>
+                                        <input type="file" class="form-control upper" id="file" #file
+                                            formControlName="file" required placeholder="Archivo"  
+                                            accept="application/pdf" (change)="setFile($event)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-5 text-center" *ngIf="newFac">
+                                <div class="col-12 col-md-6  mt-3 text-center">
+                                    <button class="btn btn-lg btn-block btn-warning" (click)="back()">Regresar</button>
+                                </div>
+                                <div class="col-12 col-md-6  mt-3 text-center ">
+                                    <button (click)="onEdit()" class="btn btn-lg btn-block but  " *ngIf="isEdit">Editar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

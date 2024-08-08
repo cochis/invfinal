@@ -1,0 +1,339 @@
+<app-header></app-header>
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <app-message class="animated1 fadeIn" *ngIf="msnOk"></app-message>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+
+                        <form [formGroup]="form">
+                            <div class="col-lg-12 col-12 text-center" *ngIf="!isFactura">
+                                <h2 class="mb-5" *ngIf="edit=='true'">Editar solicitud de viaje</h2>
+                                <h2 class="mb-5" *ngIf="edit=='false'">Ver solicitud de viaje</h2>
+                            </div>
+                            <div class="row" *ngIf="!isFactura">
+
+                                <div class="col-6 col-md-3 mt-3">
+
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label" for="aprobado">
+                                                Aprobado
+                                            </label>
+                                            <input class="form-check-input" type="checkbox" name="aprobado"
+                                                id="aprobado" formControlName="aprobado" id="aprobado" (change)="aprobar()"  readonly>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-3 mt-3">
+
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label" for="fechaAprobacion">
+                                                Fecha de aprobación
+                                            </label>
+                                            <input type="date" class="form-control upper" id="fechaAprobacion"
+                                            formControlName="fechaAprobacion" placeholder="Fecha de aprobación"  
+                                            [readonly]="edit=='false' || (edit=='true' && !editComplete)">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="tipoSolicitudViaje">Tipo </label>
+                                        <select name="" id="tipoSolicitudViaje" formControlName="tipoSolicitudViaje"
+                                            class="form-control upper" required *ngIf="editComplete && edit =='true'">
+
+                                            <option [value]="item.uid" *ngFor="let item of tipoSolicitudViajes">
+                                                {{item.nombre}} </option>
+                                        </select>
+                                        <select name="" id="tipoSolicitudViaje" formControlName="tipoSolicitudViaje"
+                                            class="form-control upper" required *ngIf="!editComplete  && edit =='true'">
+
+                                            <option [value]="item.uid" *ngFor="let item of tipoSolicitudViajes"
+                                                disabled>{{item.nombre}} </option>
+                                        </select>
+
+                                        <input type="text" class="form-control upper" id="tipoSolicitudViaje"
+                                            formControlName="tipoSolicitudViaje" placeholder="Tipo Solicitud" required
+                                            readonly *ngIf="  edit !='true'">
+
+                                    </div>
+                                    <span *ngIf="submited && errorControl.tipoSolicitudViaje.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-6 col-md-3 mt-3">
+                                    <div class="form-group">
+                                        <label for="empleado">Empleado</label>
+                                        <input type="text" class="form-control upper" id="empleado"
+                                            formControlName="empleado" placeholder="Empleado" required readonly>
+                                    </div>
+                                    <span *ngIf="submited && errorControl.empleado.errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3  ">
+
+                                    <div class="form-group">
+
+                                        <label for="dateViaje">Fecha de viaje</label>
+                                        <input type="date" class="form-control upper" id="dateViaje"
+                                            formControlName="dateViaje" placeholder="Fecha de viaje" required
+                                            [readonly]="edit=='false' || (edit=='true' && !editComplete)" (change)="calculaDias($event)">
+                                    </div>
+
+                                    <span *ngIf="submited && errorControl.dateViaje.errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <div class="form-group">
+                                        <label for="duracion">Duración en dias</label>
+                                        <input type="number" class="form-control upper" id="duracion"
+                                            formControlName="duracion" placeholder="Duración en dias" min="1" required
+                                            [readonly]="edit=='false' || (edit=='true' && !editComplete)" (change)="calculaDias($event)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl.duracion.errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <div class="form-group">
+                                        <label for="destino">Destino</label>
+                                        <input type="text" class="form-control upper" id="destino"
+                                            formControlName="destino" placeholder="Destino" required
+                                            [readonly]="edit=='false' || (edit=='true' && !editComplete)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl.destino.errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="form-group">
+                                        <label for="moneda">Moneda </label>
+                                        <select name="" id="moneda" formControlName="moneda"
+                                            class="form-control upper" required *ngIf="editComplete && edit =='true'">
+
+                                            <option [value]="item.uid" *ngFor="let item of monedas">
+                                                {{item.nombre}} </option>
+                                        </select>
+                                        <select name="" id="moneda" formControlName="moneda"
+                                            class="form-control upper" required *ngIf="!editComplete  && edit =='true'">
+
+                                            <option [value]="item.uid" *ngFor="let item of monedas" disabled>
+                                                {{item.nombre}} </option>
+                                        </select>
+
+                                        <input type="text" class="form-control upper" id="moneda"
+                                            formControlName="moneda" placeholder="Moneda " required
+                                            readonly *ngIf="  edit !='true'">
+
+                                    </div>
+                                    <span *ngIf="submited && errorControl.moneda.errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-6  ">
+                                    <div class="form-group">
+                                        <label for="cantidadSolicitada">Cantidad solicitada</label>
+                                        <input type="number" class="form-control upper" id="cantidadSolicitada"
+                                            formControlName="cantidadSolicitada" placeholder="Cantidad solicitada"
+                                            required [readonly]="edit=='false' || (edit=='true' && !editComplete)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl.cantidadSolicitada.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-6  ">
+                                    <div class="form-group">
+                                        <label for="cantidadAprobada">Cantidad aprobada</label>
+                                        <input type="number" class="form-control upper" id="cantidadAprobada"
+                                            formControlName="cantidadAprobada" placeholder="Cantidad aprobada"
+                                              [readonly]="edit=='false' || (edit=='true' && !editComplete)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl.cantidadAprobada.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-6  ">
+                                    <div class="form-group">
+                                        <label for="cantidadJustifico">Cantidad justifico en pesos</label>
+                                        <input type="number" class="form-control upper"     id="cantidadJustifico"
+                                            formControlName="cantidadJustifico" placeholder="Cantidad justifico en pesos"
+                                              [readonly]="edit=='false' || (edit=='true' && !editComplete)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl.cantidadJustifico.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-6  ">
+                                    <div class="form-group">
+                                        <label for="cantidadRegreso">Cantidad regreso</label>
+                                        <input type="number" class="form-control upper" id="cantidadRegreso"
+                                            formControlName="cantidadRegreso" placeholder="Cantidad regreso"
+                                              [readonly]="edit=='false' || (edit=='true' && !editComplete)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl.cantidadRegreso.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                              
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="proposito">Proposito</label>
+                                        <textarea type="text" class="form-control upper" id="proposito"
+                                            formControlName="proposito" placeholder="Proposito" required
+                                            [readonly]="edit=='false' || (edit=='true' && !editComplete)"> </textarea>
+
+                                    </div>
+                                    <span *ngIf="submited && errorControl.proposito.errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="dateSalida">Fecha de salida</label>
+                                        <input type="date" class="form-control upper" id="dateSalida"
+                                            formControlName="dateSalida" placeholder="Fecha de salida" min="todayT"
+                                            required  readonly >
+                                    </div>
+                                    <span *ngIf="submited && errorControl.dateSalida.errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="dateRegreso">Fecha de regreso</label>
+                                        <input type="date" class="form-control upper" id="dateRegreso"
+                                            formControlName="dateRegreso" placeholder="Fecha de regreso" required
+                                            readonly>
+                                    </div>
+                                    <span *ngIf="submited && errorControl.dateRegreso.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 ">
+                                    <div class="form-group">
+                                        <label for="tipoTransporte">Tipo de transporte </label>
+                                        <select name="" id="tipoTransporte" formControlName="tipoTransporte"
+                                            class="form-control upper" required *ngIf="editComplete && edit =='true'">
+
+                                            <option [value]="item.uid" *ngFor="let item of tipoTransportes">
+                                                {{item.nombre}} </option>
+                                        </select>
+                                        <select name="" id="tipoTransporte" formControlName="tipoTransporte"
+                                            class="form-control upper" required *ngIf="!editComplete  && edit =='true'">
+
+                                            <option [value]="item.uid" *ngFor="let item of tipoTransportes" disabled>
+                                                {{item.nombre}} </option>
+                                        </select>
+
+                                        <input type="text" class="form-control upper" id="tipoTransporte"
+                                            formControlName="tipoTransporte" placeholder="Tipo de transporte " required
+                                            readonly *ngIf="  edit !='true'">
+
+                                    </div>
+
+
+                                    <span *ngIf="submited && errorControl.tipoTransporte.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="medioTransporte">Medio de transporte</label>
+                                        <input type="text" class="form-control upper" id="medioTransporte"
+                                            formControlName="medioTransporte" placeholder="Medio de transporte" required
+                                            [readonly]="edit=='false' || (edit=='true' && !editComplete)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl.medioTransporte.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="numeroTransporte">Numero de transporte</label>
+                                        <input type="text" class="form-control upper" id="numeroTransporte"
+                                            formControlName="numeroTransporte" placeholder="Numero de transporte"
+                                            [readonly]="edit=='false' || (edit=='true' && !editComplete)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl.numeroTransporte.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="detalleTransporte">Detalle Transporte</label>
+                                        <textarea class="form-control upper" id="detalleTransporte"
+                                            formControlName="detalleTransporte" placeholder="Detalle Transporte"
+                                            required
+                                            [readonly]="edit=='false' || (edit=='true' && !editComplete)"> </textarea>
+
+                                    </div>
+                                    <span *ngIf="submited && errorControl.detalleTransporte.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-md-6 mt-4 text-center">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label" for="pagado">
+                                                Pagado
+                                            </label>
+                                            <input class="form-check-input" type="checkbox" name="pagado"
+                                                id="pagado" formControlName="pagado" id="pagado"   readonly (click)="pagar($event)">
+                                        </div>
+
+                                    </div>
+                                    <span *ngIf="submited && errorControl.pagado.errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-6 ">
+
+                                    <div class="form-group">
+
+                                        <label for="fechaPagado">Fecha pagado</label>
+                                        <input type="date" class="form-control upper" id="datePagado"
+                                            formControlName="fechaPagado" placeholder="Fecha pagado"  
+                                            [readonly]="edit=='false' || (edit=='true' && !editComplete)">
+                                    </div>
+
+                                    <span *ngIf="submited && errorControl.fechaPagado.errors " class="error">Es requerido
+                                    </span>
+                                </div>
+
+
+                            </div>
+                            <ng-container *ngIf="solicitudViaje && edit =='true'">
+
+                                <app-facturas (isFacturaNew)="newFactura( $event )" [idSolicitud]="solicitudViaje.uid"
+                                    [cantidadSolicitada]="solicitudViaje.cantidadSolicitada" [pagado]="this.form.value.pagado"></app-facturas>
+                            </ng-container>
+
+                            <div class="row mt-5 text-center" *ngIf="!isFactura">
+                                <div class="col-12 col-md-6  mt-3 text-center">
+                                    <button class="btn btn-lg btn-block btn-warning" (click)="back()">Regresar</button>
+
+                                </div>
+                                <div class="col-12 col-md-6  mt-3 text-center ">
+                                    <button type="submit" class="btn btn-lg btn-block but"
+                                        *ngIf="edit=='true' || (edit=='true' && !editComplete)"
+                                        (click)="onSubmit()">Editar</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

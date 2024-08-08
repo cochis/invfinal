@@ -1,0 +1,58 @@
+<app-header></app-header>
+
+
+<section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-8 col-12 mx-auto">
+                <h1 class="text-white text-center">
+                     Sistemas   
+                </h1>
+
+                <h6 class="text-center">Levanta un ticket</h6>
+
+
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="featured-section">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-lg-4 col-12 mb-4 mb-lg-0">
+                <div class="custom-block bg-white shadow-lg">
+                    <div class="d-flex">
+                        <div class="justify-content-center text-center">
+                            <h5 class=" mb-2">Ingresa tu correo</h5>
+
+                        </div>
+
+                    </div>
+                    <!-- <a   (click)="scan()" >
+                  
+                        <img  src="/assets/images/qr.jpeg" class="custom-block-image img-fluid img-scan"
+                             alt="" *ngIf="!scannerActive">
+                    </a> -->
+                    <form  class="text-center"  [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <p>
+                           
+                            <input  class="form-control" type="text"  formControlName="email" id="email" name="email">
+                        </p>
+                        <p>
+                            <input type="button" class="btn btn-lg btn-block but"  (click)="onSubmit()" value="Iniciar">
+                        </p>
+                    </form>
+                    <!-- <app-scanner *ngIf="scannerActive" (qr)="showQr($event)"></app-scanner> -->
+                    
+                </div>
+            </div>
+
+
+
+        </div> 
+    </div>
+</section>
+<app-footer></app-footer>

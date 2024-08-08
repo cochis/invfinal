@@ -1,0 +1,293 @@
+<app-header></app-header>
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <app-message class="animated1 fadeIn" *ngIf="msnOk"></app-message>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-5">Crear pago programado</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+
+
+                            <div class="row">
+                                <div class="col-12 col-md-4  text-center">
+                                    <div class="form-check mt-3">
+                                        <input class="form-check-input" type="checkbox" formControlName="urgente"
+                                            #urgente>
+                                        <label for="moneda">Urgente</label>
+
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 ">
+
+                                    <div class="form-group">
+                                        <label for="empresa">Empresa</label>
+                                        <select name="" id="empresa" formControlName="empresa" #empresa
+                                            class="form-control upper" (change)="selectEmpresa(empresa.value)">
+                                            <option value="">Empresa</option>
+                                            <option [value]="empresa.uid" *ngFor="let empresa of empresas">
+                                                {{empresa.nombre}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 ">
+ 
+                                    <div class="form-group">
+                                        <label for="tipoFactura">Tipo de factura</label>
+                                        <select name="" id="tipoFactura" formControlName="tipoFactura" #tipoFactura
+                                            class="form-control upper" (change)="selectTipoFactura(tipoFactura.value)">
+                                            <option value="" selected>Selecciona tipo de factura</option>
+                                            <option value="prefactura">Pre-Factura</option>
+                                            <option value="factura">Factura</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="empresa.value !='' && tipoFactura.value !=''">
+
+                                <div class="col-12 col-md-4 ">
+                                    <div class="form-group" *ngIf="subsidiarias">
+                                        <label for="subsidiaria">Subsidiaria</label>
+                                        <select name="" id="subsidiaria" formControlName="subsidiaria" #subsidiaria
+                                            class="form-control upper" disabled="true">
+                                            <option value="">Selecciona una subsidiaria</option>
+                                            <option [value]="item.uid" *ngFor="let item of subsidiarias">
+                                                {{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4  ">
+                                    <div class="form-group">
+                                        <label for="tipoGasto">Tipo de gasto</label>
+                                        <select name="" id="tipoGasto" formControlName="tipoGasto"
+                                            class="form-control upper">
+                                            <option value="">Selecciona una tipoGasto</option>
+                                            <option [value]="item.uid" *ngFor="let item of tipoGastos"> {{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4  ">
+                                    <div class="form-group">
+                                        <label for="terminoPago">Termino de pago</label>
+                                        <select name="" id="terminoPago" formControlName="terminoPago"
+                                            class="form-control upper">
+                                            <option value="">Selecciona una terminoPago</option>
+                                            <option [value]="item.uid" *ngFor="let item of terminoPagos">
+                                                {{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-3  " *ngIf="!isLoop">
+
+                                    <div class="form-group">
+                                        <label for="proveedor">Proveedor</label>
+                                        <input type="text" class="form-control upper" id="proveedor"
+                                            formControlName="proveedor" placeholder="Proveedor">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3  " *ngIf="isLoop">
+                                    
+                                    <div class="form-group">
+                                        <label for="proveedor">Proveedor loop</label>
+                                        <select name="" id="proveedorLoop" formControlName="proveedorLoop" #proveedorLoop
+                                            class="form-control upper" >
+                                            <option value="">Selecciona una proveedorLoop</option>
+                                            <option [value]="item.uid" *ngFor="let item of proveedorLoops">
+                                                {{item.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3  " *ngIf="isLoop">
+                                    
+                                    <div class="form-group">
+                                        <label for="clienteLoop">Cliente loop</label>
+                                        <select name="" id="clienteLoop" formControlName="clienteLoop" #clienteLoop
+                                            class="form-control upper" >
+                                            <option value="">Selecciona una clienteLoop</option>
+                                            <option [value]="item.uid" *ngFor="let item of clienteLoops">
+                                                {{item.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3  " *ngIf="isLoop">
+                                    
+                                    <div class="form-group">
+                                        <label for="impExpLoop">Importación o Exportación</label>
+                                        <select name="" id="impExpLoop" formControlName="impExpLoop" #impExpLoop
+                                            class="form-control upper" >
+                                            <option value="">Selecciona </option>
+                                            <option value="importacion">Importación</option>
+                                            <option value="exportacion">Exportación</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3  " *ngIf="isLoop">
+                                    
+                                    <div class="form-group">
+                                        <label for="quote">Quote</label>
+                                        <input type="text" class="form-control upper" id="quote"
+                                        formControlName="quote" placeholder="Quote">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-3  ">
+
+                                    <div class="form-group">
+                                        <label for="concepto">Concepto</label>
+                                        <input type="text" class="form-control upper" id="concepto"
+                                            formControlName="concepto" placeholder="Concepto">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3  ">
+
+                                    <div class="form-group">
+                                        <label for="cantidad">Cantidad</label>
+                                        <input type="number" class="form-control upper" id="cantidad"
+                                            formControlName="cantidad" placeholder="Cantidad" min="1">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3 ">
+                                    <div class="form-group">
+                                        <label for="moneda">Moneda</label>
+                                        <select name="" id="moneda" formControlName="moneda" class="form-control upper">
+                                            <option value="">Selecciona una moneda</option>
+                                            <option [value]="item.uid" *ngFor="let item of monedas"> {{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 col-md-4 ">
+
+                                    <div class="form-group">
+                                        <label for="dateCreated">Fecha de creacion</label>
+                                        <input type="date" class="form-control upper" id="dateCreated"
+                                            formControlName="dateCreated" placeholder="Fecha de solicitud">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4  ">
+
+                                    <div class="form-group">
+                                        <label for="fechaSolicitud">Fecha de pago solicitada
+
+
+                                        </label>
+                                        <input type="date" class="form-control upper" id="fechaSolicitud"
+                                            formControlName="fechaSolicitud" [min]="dateMinT"
+                                            placeholder="Fecha de pago" #fechaSolicitud
+                                            (change)="isDateValid(fechaSolicitud.value)">
+                                    </div>
+                                </div>
+
+                                <div class="col-12  text-center mt-5" *ngIf="(
+                                form.value.tipoFactura =='factura'  &&
+                                form.value.subsidiaria!=''  &&
+                                form.value.tipoGasto!=''  &&
+                                form.value.terminoPago!=''  &&
+                                form.value.concepto!=''  &&
+                               ( form.value.cantidad!='' ||  form.value.cantidad!=0)  &&
+                                form.value.fechaSolicitud!=''  &&
+                                form.value.moneda!=''  &&
+                          
+                                validDate
+                                 
+                             )  
+                             ">
+                                    <div class="form-group text-center">
+                                        <label for="factura">
+
+                                            Ingresa tu factura <br>
+                                            <img src="/assets/images/invoice.png" alt="Ingresa tu factura"
+                                                style="width: 150px; margin: auto;">
+
+                                        </label>
+                                        <input type="file" class="form-control upper" id="factura" #factura
+                                            formControlName="factura" required placeholder="Archivo"
+                                            accept="application/pdf" (change)="setFile($event)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['factura'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+
+                                <div class="col-12  text-center mt-5" *ngIf="(
+                                form.value.tipoFactura =='prefactura'  &&
+                                form.value.subsidiaria!=''  &&
+                                form.value.tipoGasto!=''  &&
+                                form.value.terminoPago!=''  &&
+                                form.value.concepto!=''  &&
+                               ( form.value.cantidad!='' ||  form.value.cantidad!=0)  &&
+                                form.value.fechaSolicitud!=''  &&
+                                form.value.moneda!=''  &&
+                            
+                                validDate
+                                 
+                             )  
+                             ">
+                                    <div class="form-group text-center">
+                                        <label for="factura">
+
+                                            Ingresa tu cotización <br>
+                                            <img src="/assets/images/invoice.png" alt="Ingresa tu cotizacion"
+                                                style="width: 150px; margin: auto;">
+
+                                        </label>
+                                        <input type="file" class="form-control upper" id="cotizacion" #cotizacion
+                                            formControlName="cotizacion" required placeholder="Archivo"
+                                            accept="application/pdf" (change)="setFile($event)">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['cotizacion'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <!-- <div class="col-12 col-md-4  ">
+
+                                    <div class="form-group">
+                                        <label for="clave">Aprobado por:</label>
+                                        <select name="" id="aprobacionPor" formControlName="aprobacionPor" class="form-control upper">
+                                            <option value="">Selecciona un usuario</option>
+                                            <option [value]="item.uid" *ngFor="let item of usuarios">{{item.email}} - {{item.nombre}} {{item.apellidoPaterno}}  {{item.apellidoMaterno}} 
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div> -->
+
+
+                            </div>
+
+                            <div class="row mt-5 text-center">
+
+                                <button class="btn btn-lg btn-block btn-warning text-center" (click)="back()"
+                                    style="margin:auto">Regresar</button>
+
+
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

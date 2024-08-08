@@ -1,0 +1,207 @@
+<app-header></app-header>
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <app-message class="animated1 fadeIn" *ngIf="msnOk"></app-message>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-5">Crear Proveedor</h2>
+                        </div>
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                           
+
+                               <div class="col-12 col-md-4 mt-2">
+                                    <div class="form-group">
+                                        <label for="clave">Clave</label>
+                                        <input type="text" class="form-control upper" id="clave"
+                                            formControlName="clave"   placeholder="Clave">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['clave'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+
+                               <div class="col-12 col-md-4 mt-2">
+                                    <div class="form-group">
+                                        <label for="nombreEmpresa">Nombre empresa</label>
+                                        <input type="text" class="form-control upper" id="nombreEmpresa"
+                                            formControlName="nombreEmpresa"   placeholder="Nombre empresa">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['nombreEmpresa'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                               <div class="col-12 col-md-4 mt-2">
+                                    <div class="form-group">
+                                        <label for="nombreRepresentante">Nombre representante</label>
+                                        <input type="text" class="form-control upper" id="nombreRepresentante"
+                                            formControlName="nombreRepresentante"   placeholder="Nombre representante">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['nombreRepresentante'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                
+                                <div class="col-12  mt-2">
+                                    <div class="form-group">
+                                        <label for="materiaPrima">Materia primas</label>
+                                        <select name="" id="materiaPrima" formControlName="materiaPrimas" multiple class="form-control upper">
+                                            <option value="">Selecciona las materia primas</option>
+                                            <option [value]="item.uid" *ngFor="let item of materiaPrimas">
+                                                {{item.nombre}} - {{item.descripcion}} 
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['materiaPrimas'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+
+                                <div class="col-12 col-md-4 mt-2">
+                                    <div class="form-group">
+                                        <label for="estado">Estado</label>
+                                        <input type="text" class="form-control upper" id="estado"
+                                            formControlName="estado"   placeholder="Estado">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['estado'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-2">
+                                    <div class="form-group">
+                                        <label for="municipio">Municipio</label>
+                                        <input type="text" class="form-control upper" id="municipio"
+                                            formControlName="municipio"   placeholder="Municipio">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['municipio'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-2">
+                                    <div class="form-group">
+                                        <label for="codigoPostal">Código postal</label>
+                                        <input type="number" class="form-control upper" id="codigoPostal"
+                                            formControlName="codigoPostal"   placeholder="Código postal">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['codigoPostal'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-2">
+                                    <div class="form-group">
+                                        <label for="actividadEconomica">Actividad economica</label>
+                                        <input type="text" class="form-control upper" id="actividadEconomica"
+                                            formControlName="actividadEconomica"   placeholder="Actividad economica">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['actividadEconomica'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-2">
+                                    <div class="form-group">
+                                        <label for="rfc">RFC</label>
+                                        <input type="text" class="form-control upper" id="rfc"
+                                            formControlName="rfc"   placeholder="RFC">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['rfc'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12   mt-2">
+                                    <div class="form-group">
+                                        <label for="direccionFiscal">Dirección fiscal</label>
+                                        <textarea type="text" class="form-control upper" id="direccionFiscal"
+                                            formControlName="direccionFiscal"   placeholder="Dirección fiscal"> </textarea>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['direccionFiscal'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+
+
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <div class="form-group">
+                                        <label for="incoterm">Incoterms</label>
+                                        <select name="" id="incoterm" formControlName="incoterm"   class="form-control upper">
+                                            <option value="">Selecciona las incoterms</option>
+                                            <option [value]="item.uid" *ngFor="let item of incoterms">{{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['incoterm'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+
+                                <div class="col-6 col-md-3 mt-2">
+                                    <div class="form-group">
+                                        <label for="telefono">Teléfono</label>
+                                        <input type="number" class="form-control upper" id="telefono"
+                                            formControlName="telefono"   placeholder="Teléfono">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['telefono'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-6 col-md-3 mt-2">
+                                    <div class="form-group">
+                                        <label for="correo">Correo</label>
+                                        <input type="mail" class="form-control upper" id="correo"
+                                            formControlName="correo"   placeholder="Correo">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['correo'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+
+                                 <!-- 
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="modelo">Número Código</label>
+                                        <input type="text" class="form-control upper" id="modelo"
+                                            formControlName="modelo" placeholder="Número Código">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['modelo'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="serie">Product Code</label>
+                                        <input type="text" class="form-control upper" id="serie"
+                                            placeholder="Product Code" formControlName="serie">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="serie">Asignacion</label>
+                                        <select name="" id="usuarioAsignado" formControlName="usuarioAsignado" class="form-control upper">
+                                            <option value="">Selecciona un usuario</option>
+                                            <option [value]="item.uid" *ngFor="let item of usuarios">{{item.email}} - {{item.nombre}} {{item.apellidoPaterno}}  {{item.apellidoMaterno}} 
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div> -->
+                            
+                               
+
+                            </div>
+
+                            <div class="row mt-5 text-center">
+                                <div class="col-12 col-md-6  mt-3 text-center">
+                                    <button class="btn btn-lg btn-block btn-warning" (click)="back()">Regresar</button>
+
+                                </div>
+                                <div class="col-12 col-md-6  mt-3 text-center ">
+                                    <button type="submit" class="btn btn-lg btn-block but  ">Crear</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

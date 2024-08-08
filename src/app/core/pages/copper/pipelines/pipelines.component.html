@@ -1,0 +1,136 @@
+<app-header></app-header>
+
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="row">
+
+                        <div class="col-12 col-md-4 mt-3">
+
+                            <input type="text" class="form-control" placeholder="Buscar usuario..."
+                                (keyup)="buscar(txtTermino.value)" #txtTermino>
+                        </div>
+                        <div class="col-12 col-md-4 mt-3" *ngIf="rol ===ADM">
+                            <select class="form-control" (change)="buscarCatalogo('pipelines',rol.value)" #rol>
+                                <option value="">Búsqueda por rol </option>
+                                <option [value]="item.uid" *ngFor="let item of roles">{{item.name}}</option>
+
+                            </select>
+                        </div>
+
+                    </div> -->
+                    <div class="row">
+                        <div class="row mt-5 text-center">
+                            <div class="col-12  text-center">
+                                <button class="btn but   " (click)="newPipeline()">Nueva Pipeline</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12 col-12 text-center">
+                    <h2 class="mb-5">Pipelines</h2>
+                </div>
+
+                <div class="col-12 text-center">
+                    <h5 *ngIf="pipelines.length===0">Sin información</h5>
+                    <div class="table-over">
+
+
+                        <table class="table table-striped table-bordered " *ngIf=" pipelines && pipelines.length >0">
+                            <thead class="thead-dark">
+
+                                <th class="upper">uid</th>
+                                <th class="upper">opciones</th>
+                                <th class="upper">name</th>
+                                <th class="upper">ID</th>
+                                <th class="upper">Stages</th>
+
+                                <th class="upper">CREADOR</th>
+                                <th class="upper">activated</th>
+                                <th class="upper">Creación</th>
+                                <th class="upper">edición</th>
+
+
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let company of pipelines; let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>
+                                        <div class="opc">
+
+                                            <i class="icon-eye text-primary" *ngIf="company.activated"
+                                                (click)="viewPipeline(company.uid)"></i>
+                                        </div>
+                                        <div class="opc">
+
+                                            <i class="icon-ok-circled text-success" *ngIf="!company.activated"
+                                                (click)="isActived(company)"></i>
+                                        </div>
+                                        <div class="opc">
+
+                                            <i class="icon-trash text-danger" *ngIf="company.activated"
+                                                (click)="isActived(company)"></i>
+                                        </div>
+                                        <div class="opc">
+                                            <i class="icon-pencil text-primary" *ngIf="company.activated"
+                                                (click)="editPipeline(company.uid)"></i>
+
+                                        </div>
+
+
+
+                                    </td>
+                                    <td class="upper">{{company.name}}</td>
+                                    <td class="upper">
+                                        {{company.id}}
+                                    </td>
+
+                                    <td class="upper">
+                                        <ul style="list-style: none;" *ngFor="let stage of company.stages">
+                                            <li style="left: 0;">
+
+                                                {{stage.name}}
+                                            </li>
+                                        </ul>
+
+                                    </td>
+
+
+                                    <td class="upper">{{company.usuarioCreated.email}}</td>
+
+
+
+                                    <td>
+                                        <i *ngIf="company.activated" class="icon-ok-circled text-success"></i>
+                                        <i *ngIf="!company.activated" class="icon-cancel-circled text-danger"></i>
+                                    </td>
+
+
+
+
+                                    <td>{{company.dateCreated | date:'dd/MM/YYYY'}}</td>
+                                    <td>{{company.lastEdited | date:'dd/MM/YYYY'}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

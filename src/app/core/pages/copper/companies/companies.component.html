@@ -1,0 +1,225 @@
+<app-header></app-header>
+
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="row">
+
+                        <div class="col-12 col-md-4 mt-3">
+
+                            <input type="text" class="form-control" placeholder="Buscar usuario..."
+                                (keyup)="buscar(txtTermino.value)" #txtTermino>
+                        </div>
+                        <div class="col-12 col-md-4 mt-3" *ngIf="rol ===ADM">
+                            <select class="form-control" (change)="buscarCatalogo('companies',rol.value)" #rol>
+                                <option value="">Búsqueda por rol </option>
+                                <option [value]="item.uid" *ngFor="let item of roles">{{item.name}}</option>
+
+                            </select>
+                        </div>
+
+                    </div> -->
+                    <div class="row">
+                        <div class="row mt-5 text-center">
+                            <div class="col-12  text-center">
+                                <button class="btn but   " (click)="newCompany()">Nueva Compañia</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12 col-12 text-center">
+                    <h2 class="mb-5">Compañias</h2>
+                </div>
+
+                <div class="col-12 text-center">
+                    <h5 *ngIf="companies.length===0">Sin información</h5>
+                    <div class="table-over">
+
+
+                        <table class="table table-striped table-bordered " *ngIf=" companies && companies.length >0">
+                            <thead class="thead-dark">
+
+                                <th class="upper">uid</th>
+                                <th class="upper">opciones</th>
+                                <th class="upper">name</th>
+                                <th class="upper">Dirección</th>
+                                <th class="upper">Asignado a</th>
+                                <th class="upper">tipo de contacto</th>
+                                <th class="upper">detalles</th>
+
+                                <th class="upper">dominio de correo</th>
+                                <th class="upper" style="width: 250px;">telefonos</th>
+                                <th class="upper">sociales</th>
+                                <th class="upper">tags</th>
+                                <th class="upper">Sitios web</th>
+                                <th class="upper">custom_fields</th>
+
+                                <th class="upper">Interaccion</th>
+                                <th class="upper">dateCreated</th>
+                                <th class="upper">dateModified</th>
+                                <th class="upper">activated</th>
+
+
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let company of companies; let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>
+                                        <div class="opc">
+
+                                            <i class="icon-eye text-primary" *ngIf="company.activated"
+                                                (click)="viewUsuario(company.uid)"></i>
+                                        </div>
+                                        <div class="opc">
+
+                                            <i class="icon-ok-circled text-success" *ngIf="!company.activated"
+                                                (click)="isActived(company)"></i>
+                                        </div>
+                                        <div class="opc">
+
+                                            <i class="icon-trash text-danger" *ngIf="company.activated"
+                                                (click)="isActived(company)"></i>
+                                        </div>
+                                        <div class="opc">
+                                            <i class="icon-pencil text-primary" *ngIf="company.activated"
+                                                (click)="editUsuario(company.uid)"></i>
+
+                                        </div>
+
+
+
+                                    </td>
+                                    <td class="upper">{{company.name}}</td>
+                                    <td class="upper">
+                                        {{company.address.street}} {{company.address.city}}
+                                        {{company.address.state}}{{company.address.postal_code}}
+                                        {{company.address.country}}
+                                    </td>
+                                    <td class="upper">{{asignatedBy('assignee_id',company.assignee_id)}}</td>
+                                    <td class="upper">{{asignatedBy('contact_type_id',company.contact_type_id)}}</td>
+                                    <td class="upper"> {{ company.details | slice:0:20 }} ... </td>
+                                    <td class="upper">{{company.email_domain}} </td>
+                                    <td class="upper">
+                                        <ul style="list-style: none;">
+
+                                            <ng-container *ngFor="let number of company.phone_numbers">
+                                                <li style="color: black;font-size: 15px;">
+
+                                                    {{number.category}} <br> {{number.number}}
+                                                </li>
+                                            </ng-container>
+                                        </ul>
+
+                                    </td>
+                                    <td class="upper">
+
+                                        <ng-container *ngFor="let social of company.socials ">
+                                            <a [href]="social.url">
+                                                <img src="assets/images/icon/icon_twitter.png" alt=""
+                                                    *ngIf="social.category ==='twitter'"
+                                                    style="width: 15px;height: 15px;">
+                                                <img src="assets/images/icon/icon_facebook.png" alt=""
+                                                    *ngIf="social.category ==='facebook'"
+                                                    style="width: 15px;height: 15px;">
+                                                <img src="assets/images/icon/icon_linkedin.png" alt=""
+                                                    *ngIf="social.category ==='linkedin'"
+                                                    style="width: 15px;height: 15px;">
+                                                <img src="assets/images/icon/icon_youtube.png" alt=""
+                                                    *ngIf="social.category ==='youtube'"
+                                                    style="width: 15px;height: 15px;">
+                                                <img src="assets/images/logo.png" alt="" *ngIf="social.category !=='twitter' &&
+                                                social.category !=='facebook' &&
+                                                social.category !=='linkedin' &&
+                                                social.category !=='youtube' " style="width: 15px;height: 15px;">
+                                                {{social.category }}
+
+                                            </a>
+                                        </ng-container>
+
+
+                                    </td>
+                                    <td class="upper">{{company.tags}}</td>
+                                    <td class="upper">
+                                        <ul style="list-style: none;">
+
+                                            <ng-container *ngFor="let website of company.websites">
+                                                <li>
+
+                                                    <img src="assets/images/icon/link_icon.png"
+                                                        style="width: 15px;height: 15px;" alt="website.url">
+                                                    {{website.url | slice:0:10}}...
+                                                </li>
+                                            </ng-container>
+                                        </ul>
+
+
+
+                                    </td>
+                                    <td>
+
+                                        <ng-container *ngFor="let customf of company.custom_fields">
+                                            {{company.id}}
+                                            <button
+                                                (click)="openModal('custom-modal-1' ,getCustom(customf.custom_field_definition_id,customf.value,company.id  ),arrays)" class="btn "  >
+
+                                                {{ getCustom( customf.custom_field_definition_id,customf.value).name}}
+
+                                            </button>
+
+
+
+                                        </ng-container>
+
+
+
+
+                                        <pre>{{ closeResult }}</pre>
+                                    </td>
+                                    <td class="upper">{{company.interaction_count}}</td>
+
+
+
+
+
+
+
+                                    <td>
+                                        <i *ngIf="company.activated" class="icon-ok-circled text-success"></i>
+                                        <i *ngIf="!company.activated" class="icon-cancel-circled text-danger"></i>
+                                    </td>
+                                    <td>{{company.date_created | date:'dd/MM/YYYY'}}</td>
+                                    <td>{{company.date_modified | date:'dd/MM/YYYY'}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <jw-modal id="custom-modal-1">
+        <ng-container *ngIf="customSelected">
+            <h1>See {{customSelected.name}}</h1>
+            <ul>
+                <li *ngFor="let item of customSelected.options">
+                    {{item.name}}
+                </li>
+            </ul>
+        </ng-container>
+        <button (click)="closeModal('custom-modal-1');">Close</button>
+    </jw-modal>
+
+</main>
+<app-footer></app-footer>

@@ -1,0 +1,70 @@
+<app-header></app-header>
+
+
+<section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-8 col-12 mx-auto">
+                <h1 class="text-white text-center">
+                     Carga masiva de información   
+                </h1>
+
+                <h6 class="text-center">Ingresa el archivo</h6>
+
+
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="featured-section">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-lg-4 col-12 mb-4 mb-lg-0">
+                <div class="custom-block bg-white shadow-lg">
+                    <div class="d-flex">
+                       
+
+                    </div>
+                    <!-- <a   (click)="scan()" >
+                  
+                        <img  src="/assets/images/qr.jpeg" class="custom-block-image img-fluid img-scan"
+                             alt="" *ngIf="!scannerActive">
+                    </a> -->
+                    <form  class="text-center"  [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <p>
+                            <label for="tabla">Tabla</label>
+                            <select name="tabla" id="tabla" formControlName="tabla" #tabla (change)="selected(tabla.value)">
+                                <option value="" selected>Selecciona una tabla</option>
+                                <option value="company">Compañias</option>
+                                <option value="customFields">Custom fields</option>
+                                <option value="productoJasu">Productos Jasu</option>
+                            </select>
+                        </p>
+                        <p  *ngIf="form.value.tabla !==''"> 
+                            <label for="file">
+                                <i class="fa fa-upload" aria-hidden="true"></i>
+                            </label>
+                            <input  class="form-control" type="file"  formControlName="file" id="file" name="file" #file (change)="upload($event)" >
+                        </p>
+                        
+                         
+                    </form>
+                    <!-- <app-scanner *ngIf="scannerActive" (qr)="showQr($event)"></app-scanner> -->
+                        <ng-container *ngIf="convertedJson">
+                            <pre>
+                                {{convertedJson}}
+                            </pre>
+                        </ng-container>
+                        
+                </div>
+            </div>
+
+
+
+        </div> 
+    </div>
+</section>
+<app-footer></app-footer>

@@ -1,0 +1,159 @@
+<app-header></app-header>
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <app-message class="animated1 fadeIn" *ngIf="msnOk"></app-message>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-5">Asignación</h2>
+                        </div>
+                        <app-cam (picture)="showPicture($event)" *ngIf="cameraOK"></app-cam>
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!cameraOK">
+                            <div class="row">
+
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="stock">Stock</label>
+                                        <select name="" id="stock" formControlName="stock" class="form-control upper">
+                                            <option value="">Selecciona un stock</option>
+                                            <option [value]="item.uid" *ngFor="let item of stocks">{{item.clave}}-{{item.serie}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['stock'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="usuario">Usuario</label>
+                                        <select name="" id="usuario" formControlName="usuario" class="form-control upper">
+                                            <option value="">Selecciona un usuario</option>
+                                            <option [value]="item.uid" *ngFor="let item of usuarios">{{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['usuario'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+
+
+                                <div class="col-12 ">
+                                    <div class="form-group">
+                                        <label for="estadoEntrega">Estado de entrega</label>
+
+                                        <textarea name="estadoEntrega"  class="form-control upper" id="estadoEntrega"
+                                        formControlName="estadoEntrega" required  ></textarea>
+                                         
+                                    </div>
+                                    <span *ngIf="submited && errorControl['estadoEntrega'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 ">
+                                    <div class="form-group">
+                                         <i class="icon-user" (click)="takePicture()"></i>
+
+                                         
+                                    </div>
+                                    <span *ngIf="submited && errorControl['estadoEntrega'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="quienEntrego">Quien entrego</label>
+                                        <select name="" id="quienEntrego" formControlName="quienEntrego" class="form-control upper">
+                                            <option value="">Selecciona un usuario</option>
+                                            <option [value]="item.uid" *ngFor="let item of usuarios">{{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['quienEntrego'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="aceptacion">Aceptacion</label>
+                                        <select name="aceptacion" id="aceptacion" formControlName="aceptacion" class="form-control upper">
+                                            <option value="true">Aceptada por empleado</option>
+                                            <option value="false">No aceptada por empleado</option>
+                                            
+                                            
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['aceptacion'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                               
+                              
+                                <div class="col-12 ">
+                                    <div class="form-group">
+                                        <label for="estadoRegreso">Estado de regreso</label>
+
+                                        <textarea name="estadoRegreso" class="form-control upper" id="estadoRegreso"
+                                        formControlName="estadoRegreso" required ></textarea>
+                                         
+                                    </div>
+                                    <span *ngIf="submited && errorControl['estadoRegreso'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="quienRecibio">Quien recibio</label>
+                                        <select name="" id="quienRecibio" formControlName="quienRecibio" class="form-control upper">
+                                            <option value="">Selecciona un usuario</option>
+                                            <option [value]="item.uid" *ngFor="let item of usuarios">{{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['quienRecibio'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="aceptacionRegreso">Aceptacion regreso</label>
+                                        <select name="aceptacionRegreso" id="aceptacionRegreso" formControlName="aceptacionRegreso" class="form-control upper">
+                                            <option value="true">Aceptada por empleado</option>
+                                            <option value="false">No aceptada por empleado</option>
+                                            
+                                            
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['aceptacionRegreso'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                               
+
+                            </div>
+
+                            <div class="row mt-5 text-center">
+                                <div class="col-12 col-md-6  mt-3 text-center">
+                                    <button class="btn btn-lg btn-block btn-warning" (click)="back()">Regresar</button>
+
+                                </div>
+                                <div class="col-12 col-md-6  mt-3 text-center ">
+                                    <button type="submit" class="btn btn-lg btn-block but  ">Crear</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

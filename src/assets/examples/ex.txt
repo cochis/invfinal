@@ -1,0 +1,231 @@
+sudo chown -R www-data:www-data /var/www/inventarioServer
+
+sudo ln -s sites-available/infra sites-enabled/
+
+
+sudo certbot --nginx -d infra.jasu.us
+
+
+server {
+        server_name infra.jasu.us www.infra.jasu.us;
+        location / {
+        proxy_pass http://localhost:3010;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+
+
+db.usuarios.updateOne({ email: "oramirez@jasu.us" }, { $set: {  nombre:"Oscar ",apellidoPaterno:"Ramirez",apellidoMaterno:"Rosas",email:"oramirez@jasu.us",password:"$2a$10$tOSaexTv6Hf7hBThAg59l.4eY/V2x5AtaR0wlYzP6E/rXMMWaAkgy",activated:true } })
+db.roles.updateOne({ clave: "SUP_ROLE" }, { $set: {  usuarioCreated:usuarioCreated: ObjectId('655ce08bb6a09f471d52c5d9')} })
+db.usuarios.updateMany({ activated: true }, { $set: { usuarioCreated:"651b16eabeaf8d29de52780e" } })
+
+puesto 
+departamento 
+supervisor 
+ 
+
+
+
+
+
+nombre:"Oscar ",
+apellidoPaterno:"Ramirez",
+apellidoMaterno:"Rosas",
+email:"oramirez@jasu.us",
+password:"$2a$10$tOSaexTv6Hf7hBThAg59l.4eY/V2x5AtaR0wlYzP6E/rXMMWaAkgy",
+activated:true
+
+
+
+db.fiestas.updateMany({ nombre: "REUNION SEP 2023" }, { $set: { realizada: false } })
+db.usuarios.updateMany({ nombre: "Oscar" }, { $set: { role: '651705dc04e4f314ed482462' } })
+
+db.pagosprogramados.updateMany({ concepto: 'ANTICIPO CONSTRUCCION STAND TFT' }, { $set: {factura: undefined } })
+db.roles.deleteOne({   _id: ObjectId('655ce118b6a09f471d52c5e0') })
+db.roles.pagosprogramados({   _id: ObjectId('66632416d3f798ed2798905f') })
+db.usuarios.deleteOne({ email: "fray@fray.com" })
+db.tickets.deleteOne({  _id: ObjectId('6667977ed3f798ed2798923a') })
+db.tickets.deleteOne({  _id: ObjectId('6679aa8de25547567663edfb') })
+db.roles.deleteOne({   _id: ObjectId('655ce118b6a09f471d52c5e0') })
+db.boletos.drop()
+db.eventos.drop()
+db.fiestas.drop()
+db.grupos.drop()
+db.roles.drop()
+db.salons.drop()
+db.tickets.drop()
+db.tipoeventos.drop()
+db.tipogrupos.drop()
+
+
+db.roles.insertMany([{ "nombre": "ADMIN", "clave": "ADMROL", "usuarioCreated": "650232e1b8649a713fce811d", "activated": true, "dateCreated": 1694453393809, "lastEdited": 1694457953313 }, { "nombre": "USUARIO", "clave": "USRROL", "usuarioCreated": "650232e1b8649a713fce811d", "activated": true, "dateCreated": 1694453393809, "lastEdited": 1694457953313 }, { "nombre": "SALON", "clave": "SLNROL", "usuarioCreated": "650232e1b8649a713fce811d", "activated": true, "dateCreated": 1694453393809, "lastEdited": 1694457953313 }, { "nombre": "ANFITRION", "clave": "ANFROL", "usuarioCreated": "650232e1b8649a713fce811d", "activated": true, "dateCreated": 1694453393809, "lastEdited": 1694457953313 }, { "nombre": "CHECADOR", "clave": "CHCROL", "usuarioCreated": "650232e1b8649a713fce811d", "activated": true, "dateCreated": 1694453393809, "lastEdited": 1694457953313 }])
+
+
+db.createUser(
+    {
+      user: "cochis20",
+      pwd: ".Garcia20.",   
+      roles:
+        [
+          { role: "readWrite", db: "config" },
+          "clusterAdmin"
+        ]
+    }
+ )
+
+
+
+ db.usuarios.insertMany([{"nombre": "Oscar","apellidoPaterno": "Ramirez","apellidoMaterno": "Rosas","email": "oramirez@jasu.us","password": "$2a$10$PagjKvSDQhZ4vJRHj79Ub.df7MTt.bShKX9rNw9sbsdweauiM7dda","img": "","role":"6516fedf68826c2cb91cf04c","usuarioCreated": "","activated": true,"dateCreated": 1695244839399,"lastEdited": 1695244839399,  "usuario": "oramirez"}])
+
+ 
+  "nombre": "Oscar","apellidoPaterno": "Ramirez","apellidoMaterno": "Rosas","email": "oramirez@jasu.us","password": "$2a$10$PagjKvSDQhZ4vJRHj79Ub.df7MTt.bShKX9rNw9sbsdweauiM7dda","img": "","role":"650b2614a45ac2ca7520f782","usuarioCreated": "","activated": true,"dateCreated": 1695244839399,"lastEdited": 1695244839399,  "usuario": "oramirez"
+db.roles.insertMany([{
+  "nombre": "ADMINISTRADOR",
+  "clave": "ADM_ROLE",
+  "usuarioCreated":  "6511be29311fc09ce841f0eb",
+  "activated": true,
+  "dateCreated": 1695247040741,
+  "lastEdited": 1695247040741
+
+},
+{
+ 
+  "nombre": "EMPLEADO JASU",
+  "clave": "EMPJ_ROL",
+  "usuarioCreated":  "6511be29311fc09ce841f0eb",
+  "activated": true,
+  "dateCreated": 1695247040741,
+  "lastEdited": 1695247040741
+
+},
+{
+ 
+  "nombre": "EMPLEADO LOOP",
+  "clave": "EMPL_ROL",
+  "usuarioCreated":  "6511be29311fc09ce841f0eb",
+  "activated": true,
+  "dateCreated": 1695247040741,
+  "lastEdited": 1695247040741
+
+},
+{
+ 
+  "nombre": "RECURSOS HUMANOS",
+  "clave": "RECH_ROL",
+  "usuarioCreated":  "6511be29311fc09ce841f0eb",
+  "activated": true,
+  "dateCreated": 1695247040741,
+  "lastEdited": 1695247040741
+
+}])
+
+db.roles.insertMany([{
+  "nombre": "ADMINISTRADOR",
+  "clave": "ADM_ROLE",
+  "usuarioCreated":  "6516ff6868826c2cb91cf050",
+  "activated": true,
+  "dateCreated": 1695247040741,
+  "lastEdited": 1695247040741
+
+},
+{
+ 
+  "nombre": "EMPLEADO JASU",
+  "clave": "EMPJ_ROL",
+  "usuarioCreated":  "6516ff6868826c2cb91cf050",
+  "activated": true,
+  "dateCreated": 1695247040741,
+  "lastEdited": 1695247040741
+
+},
+{
+ 
+  "nombre": "EMPLEADO LOOP",
+  "clave": "EMPL_ROL",
+  "usuarioCreated":  "6516ff6868826c2cb91cf050",
+  "activated": true,
+  "dateCreated": 1695247040741,
+  "lastEdited": 1695247040741
+
+},
+{
+ 
+  "nombre": "RECURSOS HUMANOS",
+  "clave": "RECH_ROL",
+  "usuarioCreated":  "6516ff6868826c2cb91cf050",
+  "activated": true,
+  "dateCreated": 1695247040741,
+  "lastEdited": 1695247040741
+
+}])
+
+db.pagosprogramados.deleteOne( { "_id" : ObjectId("666717dcd3f798ed27989135") } );
+db.pagosprogramados.deleteOne( { "_id" : ObjectId("666717dbd3f798ed27989133") } );
+
+
+
+db.usuarios.update(
+    { role: 
+      { $in: 
+        [ ObjectId("650b6ad4c74defa872ea820c") 
+        ] 
+      } 
+    },
+   { $inc:
+      {
+        empresa: ObjectId("66a7cf9d8e30740fa7670bca")
+      }
+   }
+)
+
+
+  {
+}
+  
+  
+ 
+
+{{{role:{$in:[ObjectId("650b6ad4c74defa872ea820c")]}},{$set:{empresa: ObjectId("66a7cf9d8e30740fa7670bca")}}}
+
+
+db.usuarios.updateMany(
+  { role: { $in: [ObjectId("650b6ad4c74defa872ea820c")] } },
+  { $set: [] }
+) 
+db.usuarios.updateMany(
+  { role: { $in: [ObjectId("650b6ad4c74defa872ea820c")] } },
+  { $push: {empresa: ObjectId("66a7cf9d8e30740fa7670bca")} }
+) 
+
+
+Empresas
+jasu ObjectId("66a90b3850ddd12f55056f27")
+loop ObjectId("66a90b4350ddd12f55056f2e")
+
+
+Roles
+jasu ObjectId("655ce117b6a09f471d52c5db")
+loop ObjectId("655ce117b6a09f471d52c5dc")
+
+
+db.usuarios.updateMany({ role: { $in: [ObjectId("655ce117b6a09f471d52c5db")] } },{ $set: [empresa:  [] ] }) 
+db.usuarios.updateMany({ role: { $in: [ObjectId("655ce117b6a09f471d52c5db")] } },{ $push: [empresa:  ObjectId("66a90b3850ddd12f55056f27") ] }) 
+
+db.usuarios.updateMany({ role: { $in: [ObjectId("655ce117b6a09f471d52c5db")] } },{ $push:{ empresa:   ObjectId("66a90b3850ddd12f55056f27") } }) 
+ 
+
+db.usuarios.updateMany({ role: { $in: [ObjectId("655ce117b6a09f471d52c5dc")] } },{ $set: {empresa:  [] } }) 
+db.usuarios.updateMany({ role: { $in: [ObjectId("655ce117b6a09f471d52c5db")] } },{ $push: [empresa:  ObjectId("66a90b3850ddd12f55056f27") ] }) 
+
+db.usuarios.updateMany({ role: { $in: [ObjectId("655ce117b6a09f471d52c5dc")] } },{ $push:{ empresa:   ObjectId("66a90b4350ddd12f55056f2e") } }) 
+db.pagosprogramados.updateMany( {},{ $push:{ empresa:   ObjectId("66a90b3850ddd12f55056f27") } }) 
+ 
+
+db.usuarios.updateMany({ supervisor:ObjectId('65ca719a29b6637b637d6d3f')  },{ $set:{ supervisor:   ObjectId("66a2a6c7a654df1f85cdc202") } }) 
+ db.usuarios.updateOne({ email:"pnava@loopintermodal.com"  },{ $set:{ password:   "$2a$10$b5Dt5eTOiRLGyWgvZqWPvOxTxCKbcLLF59Z.rVjNQ7PQgzvWUWXna" } }) 
+ 655f63ba1d8b3316e01a16a0

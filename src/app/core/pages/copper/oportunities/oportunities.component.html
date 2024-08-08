@@ -1,0 +1,163 @@
+<app-header></app-header>
+
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="row">
+
+                        <div class="col-12 col-md-4 mt-3">
+
+                            <input type="text" class="form-control" placeholder="Buscar usuario..."
+                                (keyup)="buscar(txtTermino.value)" #txtTermino>
+                        </div>
+                        <div class="col-12 col-md-4 mt-3" *ngIf="rol ===ADM">
+                            <select class="form-control" (change)="buscarCatalogo('oportunities',rol.value)" #rol>
+                                <option value="">Búsqueda por rol </option>
+                                <option [value]="item.uid" *ngFor="let item of roles">{{item.name}}</option>
+
+                            </select>
+                        </div>
+
+                    </div> -->
+                    <div class="row">
+                        <div class="row mt-5 text-center">
+                            <div class="col-12  text-center">
+                                <button class="btn but   " (click)="newCompany()">Nueva oportunidad</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12 col-12 text-center">
+                    <h2 class="mb-5">Oportunidades</h2>
+                </div>
+
+                <div class="col-12 text-center">
+                    <h5 *ngIf="oportunities.length===0">Sin información</h5>
+                    <div class="table-over">
+                        <table class="table table-striped table-bordered " *ngIf=" oportunities && oportunities.length >0">
+                            <thead class="thead-dark">
+                                <th class="upper">uid</th>
+                                <th class="upper">opciones</th>
+                                <th class="upper">name</th>
+                                <th class="upper">Fecha de cierre</th>
+                                <th class="upper">Pipeline</th>
+                                <th class="upper">Pipeline stage</th>
+                                <th class="upper">priority</th>
+                                <th class="upper">estatus</th>
+                                <th class="upper">tags</th>
+                                <th class="upper">interaction_count</th>
+                                <th class="upper">converted_unit</th>
+                                <th class="upper">converted_value</th>
+                                <th class="upper">date_stage_changed</th>
+                                <th class="upper">leads_converted_from</th>
+                                <th class="upper">date_lead_created</th>
+                                <th class="upper">date_created</th>
+                                <th class="upper">date_modified</th>
+                                <!-- <th class="upper">custom_fields</th> -->
+                                <th class="upper">usuarioCreated</th>
+                                <th class="upper">activated</th>
+                                <th class="upper">dateCreated</th>
+                                <th class="upper">lastEdited</th>
+                                <th class="upper">assignee_id</th>
+                                <th class="upper">company_id</th>
+                                <th class="upper">company_name</th>
+                                <th class="upper">customer_source_id</th>
+                                <th class="upper">details</th>
+                                <th class="upper">loss_reason_id</th>
+                                <th class="upper">primary_contact_id</th>
+                                <th class="upper">monetary_unit</th>
+                                <th class="upper">monetary_value</th>
+                                <th class="upper">win_probability</th>
+                                <th class="upper">date_last_contacted</th>
+                                 
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let company of oportunities; let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>
+                                        <div class="opc">
+
+                                            <i class="icon-eye text-primary" *ngIf="company.activated"
+                                                (click)="viewUsuario(company.uid)"></i>
+                                        </div>
+                                        <div class="opc">
+
+                                            <i class="icon-ok-circled text-success" *ngIf="!company.activated"
+                                                (click)="isActived(company)"></i>
+                                        </div>
+                                        <div class="opc">
+
+                                            <i class="icon-trash text-danger" *ngIf="company.activated"
+                                                (click)="isActived(company)"></i>
+                                        </div>
+                                        <div class="opc">
+                                            <i class="icon-pencil text-primary" *ngIf="company.activated"
+                                                (click)="editUsuario(company.uid)"></i>
+
+                                        </div>
+
+
+
+                                    </td>
+                                    <td class="upper">{{company.name}}</td>
+                                    <td class="upper">
+                                        {{company.close_date}}  
+                                    </td>
+                                    <td class="upper"> {{getCatalog('pipelines',company.pipeline_id)}}</td>
+                                    <td class="upper"> {{getCatalogStage('stages',company.pipeline_id,company.pipeline_stage_id)}}</td>
+                                    <td class="upper"> {{company.priority}}</td>
+                                    <td class="upper"> {{company.status}}</td>
+                                    <td class="upper"> {{company.tags}}</td>
+                                    <td class="upper"> {{company.interaction_count}}</td>
+                                    <td class="upper"> {{company.converted_unit}}</td>
+                                    <td class="upper"> {{company.converted_value}}</td>
+                                    <td class="upper"> {{company.date_stage_changed | date:'short'}}</td>
+                                    <td class="upper"> {{company.leads_converted_from}}</td>
+                                    <td class="upper"> {{company.date_lead_created | date:'short'}}</td>
+                                    <td class="upper"> {{company.date_created | date:'short'}}</td>
+                                    <td class="upper"> {{company.date_modified | date:'short'}}</td>
+                                    <!-- <td class="upper"> {{company.custom_fields}}</td> -->
+                                    <td class="upper"> {{company.usuarioCreated.email}}</td>
+                                    
+                                    <td>
+                                        <i *ngIf="company.activated" class="icon-ok-circled text-success"></i>
+                                        <i *ngIf="!company.activated" class="icon-cancel-circled text-danger"></i>
+                                    </td>
+                                    <td>{{company.date_created | date:'dd/MM/YYYY'}}</td>
+                                    <td>{{company.date_modified | date:'dd/MM/YYYY'}}</td>
+                                  
+                                    <td class="upper"> {{getCatalog('pipelines',company.assignee_id)}}</td>
+                                    <td>{{company.company_id}}</td>
+                                    <td>{{company.company_name}}</td>
+                                    <td>{{company.customer_source_id}}</td>
+                                    <td>{{company.details  | slice:0:18 }}<b *ngIf="company.details && company.details.length>18">...</b></td>
+                                    <td>{{company.loss_reason_id}}</td>
+                                    <td>{{company.primary_contact_id}}</td>
+                                    <td>{{company.monetary_unit}}</td>
+                                    <td>{{company.monetary_value}}</td>
+                                    <td>{{company.win_probability}}</td>
+                                    <td>{{company.date_last_contacted}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

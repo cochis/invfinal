@@ -1,0 +1,119 @@
+<app-header></app-header>
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="row text-center">
+
+                        <div class="col-12 col-md-6 mt-3 m-center">
+
+                            <input type="text" class="form-contmateriaPrima" placeholder="Buscar materiaPrima ..."
+                                (keyup)="buscar(txtTermino.value)" #txtTermino>
+                        </div>
+
+                    </div> -->
+                    <div class="row">
+                        <div class="row mt-5 text-center">
+                            <div class="col-12  text-center">
+                                <button class="btn but   " (click)="newMateriaPrima()">Nuevo MateriaPrima</button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12 col-12 text-center">
+                    <h2 class="mb-5">MateriaPrimas</h2>
+                </div>
+
+                <div class="col-12 text-center">
+
+                    <h5 *ngIf="materiaPrimas.length==0">Sin información</h5>
+                    <div class="table-over" *ngIf="materiaPrimas.length >0">
+
+
+                        <table class="table table-striped table-bordered ">
+                            <thead class="thead-dark">
+                                <th class="upper">ID</th>
+                                <th class="upper">Opciones</th>
+                                <th class="upper">nombre</th>
+                                <th class="upper">Clave</th>
+                                <th class="upper">Descripción</th>
+                                <th class="upper">Tipo material</th>
+                                <th class="upper">Unidad de medida</th>
+                                <th class="upper">Preció estándar</th>
+                                <th class="upper">Moneda</th>
+                                <th class="upper">Variedad</th>
+                                <th class="upper">Area</th>
+                                <th class="upper">Tipo</th>
+                                <th class="upper">Creador</th>
+                                <th class="upper">Activado</th>
+                                <th class="upper">Creación</th>
+                                <th class="upper">Edición</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let materiaPrima of materiaPrimas; let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>
+                                        <div class="opc">
+
+                                            <i class="icon-eye text-primary" *ngIf="materiaPrima.activated"
+                                                (click)="viewMateriaPrima(materiaPrima.uid)"></i>
+                                        </div>
+                                        <div class="opc">
+
+                                            <i class="icon-ok-circled text-success" *ngIf="!materiaPrima.activated"
+                                                (click)="isActived(materiaPrima)"></i>
+                                        </div>
+                                        <div class="opc">
+
+                                            <i class="icon-trash text-danger" *ngIf="materiaPrima.activated"
+                                                (click)="isActived(materiaPrima)"></i>
+                                        </div>
+                                        <div class="opc">
+                                            <i class="icon-pencil text-primary" *ngIf="materiaPrima.activated"
+                                                (click)="editMateriaPrima(materiaPrima.uid)"></i>
+
+                                        </div>
+
+
+
+                                    </td>
+                                    <td class="upper">{{materiaPrima.nombre}}</td>
+                                    <td class="upper">{{materiaPrima.clave}}</td>
+                                    <td class="upper">{{materiaPrima.descripcion}}</td>
+                                    <td class="upper">{{getCatalog('tipoMaterial',materiaPrima.tipoMaterial)}}</td>
+                                    <td class="upper">{{getCatalog('unidadMedida',materiaPrima.unidadMedida)}}</td>
+                                    <td class="upper">{{materiaPrima.precioStd}}</td>
+                                    <td class="upper">{{getCatalog('moneda',materiaPrima.moneda)}}</td>
+                                    <td class="upper">{{materiaPrima.variedad}}</td>
+                                    <td class="upper">{{materiaPrima.area}}</td>
+                                    <td class="upper">{{materiaPrima.tipo}}</td>
+                                    <td class="upper">{{materiaPrima.usuarioCreated.email}}</td>
+                                    <td>
+                                        <i *ngIf="materiaPrima.activated" class="icon-ok-circled text-success"></i>
+                                        <i *ngIf="!materiaPrima.activated" class="icon-cancel-circled text-danger"></i>
+                                    </td>
+                                    <td>{{materiaPrima.dateCreated | date:'dd/MM/YYYY'}}</td>
+                                    <td>{{materiaPrima.lastEdited | date:'dd/MM/YYYY'}}</td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

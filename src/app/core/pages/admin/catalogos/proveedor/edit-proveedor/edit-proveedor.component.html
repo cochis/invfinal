@@ -1,0 +1,313 @@
+<app-header></app-header>
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <app-message class="animated1 fadeIn" *ngIf="msnOk"></app-message>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-5" *ngIf="edit=='true'">Editar proveedor</h2>
+                            <h2 class="mb-5" *ngIf="edit=='false'">Ver proveedor</h2>
+                        </div>
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="row">
+
+
+                                <!-- <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group" *ngIf="edit ==='true'">
+                                        <label for="tipoProveedor">Tipo de proveedor</label>
+                                        <select name="" id="tipoProveedor" formControlName="tipoProveedor" class="form-control upper">
+                                            <option value="">Selecciona un tipo de proveedor</option>
+                                            <option [value]="item.uid" *ngFor="let item of tipoProveedors">{{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['tipoProveedor'].errors " class="error">Es requerido
+                                    </span>
+                                    <div class="form-group" *ngIf="edit ==='false'">
+
+                                        <div class="form-group">
+                                            <label for="tipoProveedor">Tipo de proveedor</label>
+                                            <input type="text" class="form-control upper" id="tipoProveedor" placeholder="Rol"
+                                                formControlName="tipoProveedor" [readonly]="edit==='false'">
+                                        </div>
+                                    </div>
+                                </div> -->
+                                 
+                                <div class="col-12 col-md-4 mt-3">
+                                    <div class="form-group">
+                                        <label for="clave">Clave</label>
+                                        <input type="text" class="form-control upper" id="clave"
+                                            formControlName="clave"   placeholder="Nombre"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['clave'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="nombreEmpresa">Nombre empresa</label>
+                                        <input type="text" class="form-control upper" id="nombreEmpresa"
+                                            formControlName="nombreEmpresa" placeholder="Nombre empresa"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['nombreEmpresa'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="nombreRepresentante">Nombre representante</label>
+                                        <input type="text" class="form-control upper" id="nombreRepresentante"
+                                            formControlName="nombreRepresentante" placeholder="Nombre representante"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['nombreRepresentante'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12  mt-3">
+
+                                    <div class="form-group" *ngIf=" edit =='true'">
+                                        <label for="materiaPrimas">Materia Prima</label>
+                                        <select name="" id="materiaPrimas" formControlName="materiaPrimas" multiple class="form-control upper">
+                                            <option value="">Selecciona un materia primas</option>
+                                            <option [value]="item.uid" *ngFor="let item of materiaPrimas"> {{item.nombre}}  
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" *ngIf=" edit =='false'" >
+                                        <label for="materiaPrimas">Materias Primas</label>
+                                        <input name="" type="text" id="materiaPrimas" formControlName="materiaPrimas"
+                                            class="form-control upper" readonly disabled />
+                                           
+                                      
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="estado">Estado</label>
+                                        <input type="text" class="form-control upper" id="estado"
+                                            formControlName="estado" placeholder="Estado"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['estado'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="municipio">Municipio</label>
+                                        <input type="text" class="form-control upper" id="municipio"
+                                            formControlName="municipio" placeholder="Municipio"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['municipio'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="codigoPostal">Código postal</label>
+                                        <input type="text" class="form-control upper" id="codigoPostal"
+                                            formControlName="codigoPostal" placeholder="Código postal"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['codigoPostal'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="actividadEconomica">Actividad economica</label>
+                                        <input type="text" class="form-control upper" id="actividadEconomica"
+                                            formControlName="actividadEconomica" placeholder="Actividad economica"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['actividadEconomica'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="rfc">RFC</label>
+                                        <input type="text" class="form-control upper" id="rfc"
+                                            formControlName="rfc" placeholder="RFC"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['rfc'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12   mt-3">
+
+                                    <div class="form-group">
+                                        <label for="direccionFiscal">Dirección fiscal</label>
+                                        <textarea type="text" class="form-control upper" id="direccionFiscal"
+                                            formControlName="direccionFiscal" placeholder="Dirección fiscal"
+                                            [readonly]="edit==='false'"></textarea>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['direccionFiscal'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group" *ngIf=" edit =='true'">
+                                        <label for="incoterm">incoterm</label>
+                                        <select name="" id="incoterm" formControlName="incoterm"   class="form-control upper">
+                                            <option value="">Selecciona un incoterm</option>
+                                            <option [value]="item.uid" *ngFor="let item of incoterms"> {{item.nombre}}  
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" *ngIf=" edit =='false'" >
+                                        <label for="incoterm">incoterm</label>
+                                        <input name="" type="text" id="incoterm" formControlName="incoterm"
+                                            class="form-control upper" readonly disabled />
+                                           
+                                      
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="telefono">Teléfono</label>
+                                        <input type="text" class="form-control upper" id="telefono"
+                                            formControlName="telefono" placeholder="Teléfono"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['telefono'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-3 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="correo">Correo electrónico</label>
+                                        <input type="text" class="form-control upper" id="correo"
+                                            formControlName="correo" placeholder="Correo electrónico"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['correo'].errors " class="error">Es
+                                        requerido
+                                    </span>
+                                </div>
+                                <!-- <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group">
+                                        <label for="serie">Serie</label>
+                                        <input type="text" class="form-control upper" id="serie"
+                                            placeholder="Serie" formControlName="serie"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+
+                                    <div class="form-group" *ngIf=" edit =='true'">
+                                        <label for="serie">Asignacion</label>
+                                        <select name="" id="usuarioAsignado" formControlName="usuarioAsignado" class="form-control upper">
+                                            <option value="">Selecciona un usuario</option>
+                                            <option [value]="item.uid" *ngFor="let item of usuarios">{{item.email}} - {{item.nombre}} {{item.apellidoPaterno}}  {{item.apellidoMaterno}} 
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" *ngIf=" edit =='false'" >
+                                        <label for="usuarioAsignado">Asignación</label>
+                                        <input name="" type="text" id="usuarioAsignado" formControlName="usuarioAsignado"
+                                            class="form-control upper" readonly disabled />
+                                           
+                                      
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mt-3 text-center">
+                                    <div class=" image-upload" class="text-center">
+
+                                        <label for="file-input" class="text-center">
+
+                                            <ng-container *ngIf="proveedor" class="text-center">
+                                                <img *ngIf="proveedor.img ==='' && !imgTemp   "
+                                                    [src]="url+'/upload/proveedors/default.jpg'+proveedor.img"
+                                                    alt="Click aquí para subir tu foto"
+                                                    title="Click aquí para subir tu foto" class="img-avatar">
+                                                <img *ngIf="proveedor.img !=='' && !imgTemp   "
+                                                    [src]="url+'/upload/proveedors/'+proveedor.img"
+                                                    alt="Click aquí para subir tu foto"
+                                                    title="Click aquí para subir tu foto" class="img-avatar">
+                                                <img *ngIf="proveedor.img !=='' && imgTemp  " [src]="imgTemp"
+                                                    [alt]="proveedor.nombre" class="img-avatar">
+                                            </ng-container>
+                                        </label>
+
+                                        <input id="file-input" type="file" class="ion-no-border"
+                                            (change)="cambiarImagen($event )" *ngIf="edit ==='true'" />
+
+
+
+                                    </div>
+                                </div> -->
+
+                         
+                               
+                                <div class="col-12 col-md-6 mt-3 text-center" *ngIf="img">
+                                    <div class=" image-upload" class="text-center">
+
+                                        <label for="file-input" class="text-center">
+
+                                            <ng-container *ngIf="usuario" class="text-center">
+                                                <img *ngIf="usuario.img ==='' && !imgTemp   "
+                                                    [src]="url+'/upload/usuarios/default.jpg'+usuario.img"
+                                                    alt="Click aquí para subir tu foto"
+                                                    title="Click aquí para subir tu foto" class="img-avatar">
+                                                <img *ngIf="usuario.img !=='' && !imgTemp   "
+                                                    [src]="url+'/upload/usuarios/'+usuario.img"
+                                                    alt="Click aquí para subir tu foto"
+                                                    title="Click aquí para subir tu foto" class="img-avatar">
+                                                <img *ngIf="usuario.img !=='' && imgTemp  " [src]="imgTemp"
+                                                    [alt]="usuario.nombre" class="img-avatar">
+                                            </ng-container>
+                                        </label>
+
+                                        <input id="file-input" type="file" class="ion-no-border"
+                                            (change)="cambiarImagen($event )" *ngIf="edit ==='true'" />
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row mt-5 text-center">
+                                <div class="col-12 col-md-6  mt-3 text-center">
+                                    <button class="btn btn-lg btn-block btn-warning" (click)="back()">Regresar</button>
+
+                                </div>
+                                <div class="col-12 col-md-6  mt-3 text-center " *ngIf="edit==='true'">
+                                    <button type="submit" class="btn btn-lg btn-block but  ">Editar</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

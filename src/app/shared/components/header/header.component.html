@@ -1,0 +1,202 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/">
+            <img class="logo-header" src="assets/images/logo.png" alt="">
+            <span class="">Sistemas TI</span>
+
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" routerLink="/core">Inicio</a>
+                </li>
+                <li class="nav-item" *ngIf="!rol">
+                    <a class="nav-link active" aria-current="page" routerLink="/">Ingresa</a>
+                </li>
+                <li class="nav-item" *ngIf="functionsService.validateRol(rol,ADM)">
+                    <!-- <li class="nav-item" *ngIf="rol === ADM || rol === REHU"> -->
+                    <a class="nav-link" routerLink="/core/users">Usuario</a>
+                </li>
+                <li class="nav-item" *ngIf="functionsService.validateRol(rol,ADM)">
+                    <a class="nav-link" routerLink="/core/stock">Stock</a>
+                </li>
+
+                <!-- <li class="nav-item" *ngIf="functionsService.validateRol(rol,ADM)">
+                    <a class="nav-link" routerLink="/core/tickets">Tickets</a>
+                </li>
+                <li class="nav-item" *ngIf="
+                functionsService.validateRol(rol,ADM) || 
+                functionsService.validateRol(rol,CTB) || 
+                functionsService.validateRol(rol,CTM) || 
+                functionsService.validateRol(rol,PGP) ">
+                    <a class="nav-link" routerLink="/core/pagos-programados">Pagos programados</a>
+                </li> -->
+                <li class="nav-item" *ngIf="rol">
+                    <!-- <li class="nav-item" *ngIf="rol === ADM || rol === REHU || rol === MAQ">
+                    <a class="nav-link" routerLink="/core/abasto">Abasto</a>
+                </li> -->
+               
+                <li class="nav-item dropdown" *ngIf="rol">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Mantenimiento
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- <li><a class="dropdown-item" routerLink="/core/catalogos/compania" *ngIf="rol">Compañia</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/planta" *ngIf="rol">Planta</a></li>
+                       
+                        <hr> -->
+
+                        <li *ngIf="functionsService.validateRol(rol,ADM)">
+                            <a class="dropdown-item" routerLink="/core/tickets">Tickets</a>
+                        </li>
+                        <li   *ngIf="rol">
+                            <a class="dropdown-item" routerLink="/core/mis-tickets/{{uid}}"> Mis Tickets</a>
+                        </li>
+                        <li *ngIf="
+                        functionsService.validateRol(rol,ADM) || 
+                        functionsService.validateRol(rol,CTB) || 
+                        functionsService.validateRol(rol,CTM) || 
+                        functionsService.validateRol(rol,EMJ) || 
+                        functionsService.validateRol(rol,EML) || 
+                        functionsService.validateRol(rol,SUP) || 
+                        functionsService.validateRol(rol,PGP) ">
+                            <a class="dropdown-item" routerLink="/core/pagos-programados">Pagos programados</a>
+                        </li>
+                        <li *ngIf="     functionsService.validateRol(rol,ADM) || 
+                        functionsService.validateRol(rol,CTB) || 
+                        functionsService.validateRol(rol,CTM) || 
+                        functionsService.validateRol(rol,EMJ) || 
+                        functionsService.validateRol(rol,EML) || 
+                        functionsService.validateRol(rol,SUP) || 
+                        functionsService.validateRol(rol,PGP)">
+                            <a class="dropdown-item" routerLink="/core/viajes">Solicitud de viaje</a>
+                        </li>
+
+
+                    </ul>
+                </li>
+                <!-- <li class="nav-item"  *ngIf="functionsService.validateRol(rol,ADM)">
+                    <a class="nav-link" routerLink="/core/data">Data</a>
+                </li>
+                <li class="nav-item dropdown" *ngIf="functionsService.validateRol(rol,ADM)">
+                    <a class="nav-link dropdown-toggle" routerLink="/core/copper" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Copper
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" routerLink="/core/copper/companies" *ngIf="rol">Compañias</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/copper/oportunities" *ngIf="rol">Oportunidades</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/copper/pipelines" *ngIf="rol">Pipelines</a></li>
+                         
+                    </ul>
+                </li> -->
+                <li class="nav-item dropdown" *ngIf="functionsService.validateRol(rol,ADM)">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Catalogos
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- <li><a class="dropdown-item" routerLink="/core/catalogos/compania" *ngIf="rol">Compañia</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/planta" *ngIf="rol">Planta</a></li>
+                       
+                        <hr> -->
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/empresas" *ngIf="rol">Empresas</a></li>
+                   
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/puestos" *ngIf="rol">Puestos</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/departamentos"
+                                *ngIf="rol">Departamentos</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/moneda" *ngIf="rol">Moneda</a></li>
+                        <hr>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/roles" *ngIf="rol">Roles</a></li>
+                        <hr>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/tipoStock" *ngIf="rol">Tipo Stock</a>
+                        </li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/tipoTicket" *ngIf="rol">Tipo Ticket</a>
+                        </li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/tipo-gasto" *ngIf="rol">Tipo gasto</a>
+                        </li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/tipo-factura" *ngIf="rol">Tipo factura</a>
+                        </li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/tipo-transporte" *ngIf="rol">Tipo transporte</a>
+                        </li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/tipo-solicitud-viaje" *ngIf="rol">Tipo solicitud de viaje</a>
+                        </li>
+                        <hr>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/proveedor-loop" *ngIf="rol">Proveedores loop</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/cliente-loop" *ngIf="rol">Clientes loop</a></li>
+                        <hr>
+                        
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/estadoTicket" *ngIf="rol">Estado de
+                                Ticket</a></li>
+                        <hr>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/subsidiaria"
+                                *ngIf="rol">Subsidiaria</a></li>
+                        
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/termino-pago" *ngIf="rol">Términos
+                                pago</a></li>
+                    </ul>
+                </li>
+
+                <!-- <li class="nav-item dropdown" *ngIf="functionsService.validateRol(rol,MAQ)">
+                    <a class="nav-link dropdown-toggle" routerLink="/core/abasto" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Abastos
+                    </a>
+                    <ul class="dropdown-menu" *ngIf="functionsService.validateRol(rol,ADM)">
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/origen" *ngIf="rol">Origen</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/materiaPrima" *ngIf="rol">Materia
+                                Prima</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/unidadMedida" *ngIf="rol">Unidad
+                                Medida</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/destino" *ngIf="rol">Destino</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/moneda" *ngIf="rol">Moneda</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/tipoMaterial" *ngIf="rol">Tipo
+                                Material</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/proveedor" *ngIf="rol">Proveedor</a>
+                        </li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/proveedorTransporte" *ngIf="rol">Proveedor Transporte</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/tipoProveedor" *ngIf="rol">Tipo
+                                Proveedor</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/zona" *ngIf="rol">Zona</a></li> 
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/incoterm" *ngIf="rol">Incoterm</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/carga" *ngIf="rol">Carga</a></li>
+                        <li><a class="dropdown-item" routerLink="/core/catalogos/tipoCarga" *ngIf="rol">Tipo Carga</a>
+                        </li>
+                    </ul>
+                </li> -->
+                <li class="nav-item dropdown" *ngIf="rol">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Cuenta
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" routerLink="/auth/login" *ngIf="!rol ">Ingresar</a></li>
+                        <li><a class="dropdown-item" routerLink="/auth/register" *ngIf="!rol ">Registrar</a></li>
+                        <li><a class="dropdown-item" routerLink="/auth/perfil" *ngIf="rol && rol!== ''">Perfil</a></li>
+                        <li><a class="dropdown-item" (click)="logout()" *ngIf="rol && rol!== ''">Salir</a></li>
+
+
+                    </ul>
+                </li>
+
+
+            </ul>
+
+
+
+
+            <!-- <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form> -->
+        </div>
+    </div>
+</nav>
+
+
+<!-- aqi¿ui -->

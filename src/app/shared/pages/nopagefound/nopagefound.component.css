@@ -1,0 +1,16 @@
+.imgTop{
+    top: 0;
+    left: 0;
+    height: 100px;
+    position: absolute;
+}
+.imgBot{
+    right: 0;
+    bottom: 0;
+    height: 100px;
+    position: absolute;
+}
+
+section{
+    min-height: 550px;
+}
