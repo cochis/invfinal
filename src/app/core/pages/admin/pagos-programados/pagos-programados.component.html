@@ -60,7 +60,13 @@
                                 <th class="upper">uid</th>
                                 <th class="upper">opciones</th>
                                 <th class="upper">Empresa</th>
+                                <th class="upper">Tipo de factura</th>
+                                <th class="upper">Cotización</th>
                                 <th class="upper">Factura</th>
+                                <th class="upper">Comprobante de pago</th>
+                                <th class="upper">Proveedor Jasu</th>
+                                <th class="upper">Proveedor Loop</th>
+                                <th class="upper">Cliente Loop</th>
                                 <th class="upper">Pagado</th>
                                 <th class="upper">Fecha de Pago</th>
                                 <th class="upper">Concepto</th>
@@ -83,7 +89,7 @@
                                     *ngFor="let pagoProgramado of pagoProgramados  | paginate: { itemsPerPage: 10, currentPage: p }  ; let i=index ">
 
                                     <ng-container *ngIf="usuario.empresa.includes(pagoProgramado.empresa._id)">
-                                        <td>{{i+1}}</td>
+                                        <td>{{pagoProgramado.consecutivo}}</td>
                                         <td>
                                             <div class="opc">
 
@@ -113,7 +119,43 @@
 
                                         </td>
                                         <td class="upper">{{pagoProgramado.empresa.nombre}}</td>
-                                        <td class="upper" *ngIf="pagoProgramado.factura"
+                                        <td class="upper">{{pagoProgramado.tipoFactura}}</td>
+                                        <td class="upper">
+                                           <ng-container *ngIf="!pagoProgramado.cotizacion">
+
+                                               {{pagoProgramado.cotizacion}}
+                                           </ng-container>
+                                           <ng-container *ngIf="pagoProgramado.cotizacion">
+                                            <img (click)="showPdf(pagoProgramado)" src="/assets/images/invoice.png"
+                                            style="width: 35px;" alt="">
+                                                
+                                           </ng-container>
+                                           
+                                        </td>
+                                        <td class="upper">
+                                            <ng-container *ngIf="!pagoProgramado.factura">
+
+                                                {{pagoProgramado.factura}}
+                                            </ng-container>
+                                            <ng-container *ngIf="pagoProgramado.factura">
+                                             <img (click)="showPdf(pagoProgramado)" src="/assets/images/invoice.png"
+                                             style="width: 35px;" alt="">
+                                                 
+                                            </ng-container>
+                                            
+                                            </td>
+                                        <td class="upper">
+                                            <ng-container *ngIf="!pagoProgramado.comprobante">
+
+                                                {{pagoProgramado.comprobante}}
+                                            </ng-container>
+                                            <ng-container *ngIf="pagoProgramado.comprobante">
+                                             <img (click)="showPdf(pagoProgramado)" src="/assets/images/invoice.png"
+                                             style="width: 35px;" alt="">
+                                                 
+                                            </ng-container>
+                                           </td>
+                                        <!-- <td class="upper" *ngIf="pagoProgramado.factura"
                                             (click)="showPdf(pagoProgramado)"> <img src="/assets/images/invoice.png"
                                                 style="width: 35px;" alt=""></td>
                                         <td class="upper" *ngIf="!pagoProgramado.factura">
@@ -125,7 +167,10 @@
                                             </label>
                                             <input type="file" name="pdf" id="pdf" #factura accept="application/pdf"
                                                 (change)="subirFactura($event,pagoProgramado)">
-                                        </td>
+                                        </td> -->
+                                        <td class="upper">{{pagoProgramado.proveedor?pagoProgramado.proveedor:''}}</td>
+                                        <td class="upper">{{pagoProgramado.proveedorLoop?pagoProgramado.proveedorLoop.name:''}}</td>
+                                        <td class="upper">{{pagoProgramado.clienteLoop?pagoProgramado.clienteLoop.name:''}}</td>
                                         <td class="upper">
                                             <i class="icon-ok-circled text-success" *ngIf="pagoProgramado.pagado"></i>
                                             <i class="icon-cancel-circled text-danger "

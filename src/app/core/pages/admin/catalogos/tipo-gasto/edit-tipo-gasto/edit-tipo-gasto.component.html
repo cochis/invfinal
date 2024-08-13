@@ -44,7 +44,7 @@
                                     <div class="form-group">
                                         <label for="clave">Aprobado por:</label>
                                         <select name="" id="aprobacionPor" formControlName="aprobacionPor"
-                                            class="form-control upper" [enabled]="!edit">
+                                            class="form-control upper" [enabled]="!edit" multiple>
                                             <option value="">Selecciona un usuario</option>
                                             <option [value]="item.uid" *ngFor="let item of usuarios">{{item.email}} -
                                                 {{item.nombre}} {{item.apellidoPaterno}} {{item.apellidoMaterno}}

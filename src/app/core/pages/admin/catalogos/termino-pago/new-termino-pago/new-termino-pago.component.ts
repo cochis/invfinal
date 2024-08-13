@@ -32,7 +32,7 @@ export class NewTerminoPagoComponent {
     this.loading = true
     this.empresasService.cargarEmpresasAll().subscribe((resp: CargarEmpresas) => {
       this.empresas = resp.empresas
-      console.log('this.empresas::: ', this.empresas);
+      // console.log('this.empresas::: ', this.empresas);
     })
     this.createForm()
     setTimeout(() => {

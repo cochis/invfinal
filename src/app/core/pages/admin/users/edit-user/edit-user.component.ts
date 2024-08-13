@@ -76,7 +76,7 @@ export class EditUserComponent {
     this.usuariosService.cargarUsuarioById(id).subscribe((resp: CargarUsuario) => {
 
       this.usuario = resp.usuario
-      console.log('this.usuario', this.usuario)
+      // console.log('this.usuario', this.usuario)
       setTimeout(() => {
 
         this.setForm(this.usuario)
@@ -204,11 +204,11 @@ export class EditUserComponent {
 
     let empresas = []
     usuario.empresa.forEach(empresa => {
-      console.log('empresa', empresa)
+      // console.log('empresa', empresa)
       empresas.push(empresa)
       
     });
-    console.log('usuario.empres', empresas)
+    // console.log('usuario.empres', empresas)
 
 
     setTimeout(() => {

@@ -107,7 +107,7 @@ export class NewProveedorLoopComponent {
         ...this.form.value,
         usuarioCreated: this.functionsService.getLocal('uid')
       }
-      console.log('obj', obj)
+      // console.log('obj', obj)
       this.proveedorLoopsService.crearProveedorLoop(obj).subscribe((resp: any) => {
 
         //Message

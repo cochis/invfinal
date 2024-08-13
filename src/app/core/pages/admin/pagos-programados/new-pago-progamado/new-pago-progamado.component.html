@@ -44,7 +44,7 @@
                                     <div class="form-group">
                                         <label for="tipoFactura">Tipo de factura</label>
                                         <select name="" id="tipoFactura" formControlName="tipoFactura" #tipoFactura
-                                            class="form-control upper" (change)="selectTipoFactura(tipoFactura.value)">
+                                            class="form-control upper" disabled="true" (change)="selectTipoFactura(tipoFactura.value)">
                                             <option value="" selected>Selecciona tipo de factura</option>
                                             <option value="prefactura">Pre-Factura</option>
                                             <option value="factura">Factura</option>
@@ -96,7 +96,7 @@
                                     <div class="form-group">
                                         <label for="proveedor">Proveedor</label>
                                         <input type="text" class="form-control upper" id="proveedor"
-                                            formControlName="proveedor" placeholder="Proveedor">
+                                            formControlName="proveedor" placeholder="Proveedor" disabled="true">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-3  " *ngIf="isLoop">
@@ -104,7 +104,7 @@
                                     <div class="form-group">
                                         <label for="proveedor">Proveedor loop</label>
                                         <select name="" id="proveedorLoop" formControlName="proveedorLoop" #proveedorLoop
-                                            class="form-control upper" >
+                                            class="form-control upper" disabled="true">
                                             <option value="">Selecciona una proveedorLoop</option>
                                             <option [value]="item.uid" *ngFor="let item of proveedorLoops">
                                                 {{item.name}}
@@ -117,7 +117,7 @@
                                     <div class="form-group">
                                         <label for="clienteLoop">Cliente loop</label>
                                         <select name="" id="clienteLoop" formControlName="clienteLoop" #clienteLoop
-                                            class="form-control upper" >
+                                            class="form-control upper" disabled="true">
                                             <option value="">Selecciona una clienteLoop</option>
                                             <option [value]="item.uid" *ngFor="let item of clienteLoops">
                                                 {{item.name}}
@@ -186,6 +186,19 @@
                                 <div class="col-12 col-md-4  ">
 
                                     <div class="form-group">
+                                        <label for="fechaVencimiento">Fecha de vencimiento
+
+
+                                        </label>
+                                        <input type="date" class="form-control upper" id="fechaVencimiento"
+                                            formControlName="fechaVencimiento" 
+                                            placeholder="Fecha de pago" #fechaVencimiento >
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-4  ">
+
+                                    <div class="form-group">
                                         <label for="fechaSolicitud">Fecha de pago solicitada
 
 
@@ -196,7 +209,7 @@
                                             (change)="isDateValid(fechaSolicitud.value)">
                                     </div>
                                 </div>
-
+                              
                                 <div class="col-12  text-center mt-5" *ngIf="(
                                 form.value.tipoFactura =='factura'  &&
                                 form.value.subsidiaria!=''  &&
@@ -206,6 +219,7 @@
                                ( form.value.cantidad!='' ||  form.value.cantidad!=0)  &&
                                 form.value.fechaSolicitud!=''  &&
                                 form.value.moneda!=''  &&
+                                form.value.fechaVencimiento!=''  &&
                           
                                 validDate
                                  
@@ -221,7 +235,7 @@
                                         </label>
                                         <input type="file" class="form-control upper" id="factura" #factura
                                             formControlName="factura" required placeholder="Archivo"
-                                            accept="application/pdf" (change)="setFile($event)">
+                                            accept="application/pdf" (change)="setFile($event,'factura')">
                                     </div>
                                     <span *ngIf="submited && errorControl['factura'].errors " class="error">Es requerido
                                     </span>
@@ -236,22 +250,22 @@
                                ( form.value.cantidad!='' ||  form.value.cantidad!=0)  &&
                                 form.value.fechaSolicitud!=''  &&
                                 form.value.moneda!=''  &&
+                                form.value.fechaVencimiento!=''  &&
                             
                                 validDate
                                  
                              )  
                              ">
                                     <div class="form-group text-center">
-                                        <label for="factura">
-
-                                            Ingresa tu cotización <br>
+                                        <label for="cotizacion"> Para generar el registro sube el PDF 
+                                            Ingresa tu cotizacion <br>
                                             <img src="/assets/images/invoice.png" alt="Ingresa tu cotizacion"
                                                 style="width: 150px; margin: auto;">
 
                                         </label>
                                         <input type="file" class="form-control upper" id="cotizacion" #cotizacion
                                             formControlName="cotizacion" required placeholder="Archivo"
-                                            accept="application/pdf" (change)="setFile($event)">
+                                            accept="application/pdf" (change)="setFile($event ,'cotizacion')">
                                     </div>
                                     <span *ngIf="submited && errorControl['cotizacion'].errors " class="error">Es requerido
                                     </span>

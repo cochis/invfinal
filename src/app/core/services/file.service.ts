@@ -38,6 +38,36 @@ export class FileService {
       return false
     }
   }
+  async actualizarPago(
+    archivo: File, 
+    id: string,   
+    tipoArchivo:string
+  ) {
+    try {
+      const url = `${base_url}/upload/pago-programado/${tipoArchivo}/${id}`
+     
+     
+      const formData = new FormData()
+      formData.append('imagen', archivo)
+      const resp = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'x-token': localStorage.getItem('token') || '',
+        },
+        body: formData,
+      })
+
+      const data = await resp.json()
+      if (data.ok) {
+        return data.nombreArchivo
+      } else {
+        return false
+      }
+    } catch (error) {
+      this.functionsService.alertError(error,'File')
+      return false
+    }
+  }
   async actualizarAbasto(
     archivo: File,
     tipo: 'abastos',

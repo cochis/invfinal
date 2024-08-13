@@ -79,7 +79,7 @@ export class ProveedorLoopComponent {
   getProveedorLoop() {
     this.loading = true
     this.proveedorLoopsService.cargarProveedorLoopsAll().subscribe((resp: CargarProveedorLoops) => {
-      console.log('resp', resp)
+      // console.log('resp', resp)
       this.proveedorLoops = resp.proveedorLoops
       this.proveedorLoopsTemp = resp.proveedorLoops
       setTimeout(() => {

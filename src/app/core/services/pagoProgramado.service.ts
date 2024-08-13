@@ -78,7 +78,7 @@ export class PagoProgramadoService {
   }
   cargarPagoProgramadosByCreated(user) {
     const url = `${base_url}/pagoProgramado/user/${user}`
-    console.log('url', url)
+    // console.log('url', url)
     return this.http.get<CargarPagoProgramados>(url, this.headers).pipe(
       map((resp) => {
 
@@ -178,7 +178,7 @@ export class PagoProgramadoService {
   }
 
   crearPagoProgramado(formData: any) {
-    console.log('formData', formData)
+    // console.log('formData', formData)
     return this.http.post(`${base_url}/pagoProgramado`, formData, this.headers)
   }
 

@@ -142,6 +142,9 @@ import { EditProveedorLoopComponent } from './pages/admin/catalogos/proveedor-lo
 import { EditClienteLoopComponent } from './pages/admin/catalogos/cliente-loop/edit-cliente-loop/edit-cliente-loop.component';
 import { NewClienteLoopComponent } from './pages/admin/catalogos/cliente-loop/new-cliente-loop/new-cliente-loop.component';
 import { ClienteLoopComponent } from './pages/admin/catalogos/cliente-loop/cliente-loop.component'
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { QRCodeModule } from 'angularx-qrcode';
+import { WebcamModule } from 'ngx-webcam';
   
 
 @NgModule({
@@ -288,7 +291,11 @@ import { ClienteLoopComponent } from './pages/admin/catalogos/cliente-loop/clien
         FormsModule,
         SharedModule,
         ModalModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        ZXingScannerModule,
+        QRCodeModule,
+        WebcamModule,
+        FormsModule,
     ]
 })
 export class CoreModule { }

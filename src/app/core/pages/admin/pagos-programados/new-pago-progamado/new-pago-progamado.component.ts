@@ -39,6 +39,7 @@ export class NewPagoProgamadoComponent {
   EMJ = environment.EMJ
   EML = environment.EML
   ADM = environment.ADM
+  LOOP = environment.LOOP
   pdfSubir: any
   pdfTemp: any
   usr = this.functionsService.getLocal('uid')
@@ -105,21 +106,21 @@ export class NewPagoProgamadoComponent {
       concepto: ['', [Validators.required]],
       cantidad: ['', [Validators.required]],
       fechaSolicitud: ['', [Validators.required]],
-      fechaPago: [''  ],
-      pagado: [false  ],
-      fechaProgramada: [''  ],
-      fechaVencimiento: [''  ],
-      quote: [''  ],
-      aprobacion: [false  ],
-      tipoServicio: [''  ],
-      observaciones: [''  ],
+      fechaPago: [''],
+      pagado: [false],
+      fechaProgramada: [''],
+      fechaVencimiento: [''],
+      quote: [''],
+      aprobacion: [false],
+      tipoServicio: [''],
+      observaciones: [''],
       factura: ['', [Validators.required]],
       tipoFactura: ['', [Validators.required]],
       cotizacion: [''],
       comprobante: [''],
       empresa: ['', [Validators.required]],
       moneda: ['', [Validators.required]],
-       usuarioCreated: [this.usr],
+      usuarioCreated: [this.usr],
       dateCreated: [{ value: this.functionsService.numberToDate(this.today), disabled: true }],
       activated: [true],
       lastEdited: [this.today]
@@ -149,23 +150,41 @@ export class NewPagoProgamadoComponent {
       this.form.value.dateCreated = this.today
 
       let pagoProgramado = {
-        activated: this.form.value.activated,
-        cantidad: this.form.value.cantidad,
-        concepto: this.form.value.concepto,
-        dateCreated: this.today,
-        fechaSolicitud: (new Date(this.form.value.fechaSolicitud).getTime()) + 100000000,
-        lastEdited: this.form.value.lastEdited,
-        proveedor: this.form.value.proveedor,
+        consecutivo: this.form.value.consecutivo,
+        urgente: this.form.value.urgente,
         subsidiaria: this.form.value.subsidiaria,
-        terminoPago: this.form.value.terminoPago,
         tipoGasto: this.form.value.tipoGasto,
+        terminoPago: this.form.value.terminoPago,
+        proveedor: this.form.value.proveedor,
+        proveedorLoop: this.form.value.proveedorLoop,
+        clienteLoop: this.form.value.clienteLoop,
+        impExpLoop: this.form.value.impExpLoop,
+        concepto: this.form.value.concepto,
+        cantidad: this.form.value.cantidad,
+        fechaSolicitud: (new Date(this.form.value.fechaSolicitud).getTime()) + 100000000,
+        fechaPago: this.form.value.fechaPago,
+        pagado: this.form.value.pagado,
+        fechaProgramada: (new Date(this.form.value.fechaProgramada).getTime()) + 100000000,
+        fechaVencimiento: (new Date(this.form.value.fechaVencimiento).getTime()) + 100000000,
+        quote: this.form.value.quote,
+        aprobacion: this.form.value.aprobacion,
+        tipoServicio: this.form.value.tipoServicio,
+        observaciones: this.form.value.observaciones,
+        factura: this.form.value.factura,
+        tipoFactura: this.form.value.tipoFactura,
+        cotizacion: this.form.value.cotizacion,
+        comprobante: this.form.value.comprobante,
+        empresa: this.form.value.empresa,
         moneda: this.form.value.moneda,
-        usuarioCreated: this.usr,
+        usuarioCreated: this.form.value.usuarioCreated,
+        dateCreated: this.form.value.dateCreated,
+        activated: this.form.value.activated,
+        lastEdited: this.form.value.lastEdited,
         url: this.url
 
       }
-
-
+      // console.log('pagoProgramado', pagoProgramado)
+      return
       this.pagoProgramadoService.crearPagoProgramado(pagoProgramado).subscribe((resp: any) => {
         this.pagoProgramado = resp.pagoProgramado
         this.functionsService.alert('Pago Programado', 'creado', 'success')
@@ -205,8 +224,8 @@ export class NewPagoProgamadoComponent {
   getCatalogos() {
     this.loading = true
     this.pagoProgramadoService.cargarPagoProgramadosAll().subscribe((resp: CargarPagoProgramados) => {
-      this.consecutivo = resp.total +1
-      console.log('this.consecutivo', this.consecutivo)
+      this.consecutivo = resp.total + 1
+      // console.log('this.consecutivo', this.consecutivo)
     },
       (error: any) => {
         this.functionsService.alertError(error, 'terminoPagos')
@@ -257,29 +276,29 @@ export class NewPagoProgamadoComponent {
         this.functionsService.alertError(error, 'Monedas')
         this.loading = false
       })
-      this.proveedorLoopsService.cargarProveedorLoopsAll().subscribe((resp: CargarProveedorLoops) => {
-        this.proveedorLoops = resp.proveedorLoops
-        console.log('this.proveedorLoops', this.proveedorLoops)
-        this.loading = false
-      },
-        (error) => {
-          this.functionsService.alertError(error, 'PagoProgramado')
-  
-        });
-      this.clienteLoopsService.cargarClienteLoopsAll().subscribe((resp: CargarClienteLoops) => {
-        this.clienteLoops = resp.clienteLoops
-        console.log('this.clienteLoops', this.clienteLoops)
-        this.loading = false
-      },
-        (error) => {
-          this.functionsService.alertError(error, 'PagoProgramado')
-  
-        });
-  
+    this.proveedorLoopsService.cargarProveedorLoopsAll().subscribe((resp: CargarProveedorLoops) => {
+      this.proveedorLoops = resp.proveedorLoops
+      // console.log('this.proveedorLoops', this.proveedorLoops)
+      this.loading = false
+    },
+      (error) => {
+        this.functionsService.alertError(error, 'PagoProgramado')
+
+      });
+    this.clienteLoopsService.cargarClienteLoopsAll().subscribe((resp: CargarClienteLoops) => {
+      this.clienteLoops = resp.clienteLoops
+      // console.log('this.clienteLoops', this.clienteLoops)
+      this.loading = false
+    },
+      (error) => {
+        this.functionsService.alertError(error, 'PagoProgramado')
+
+      });
+
 
   }
 
-  setFile(file: any) {
+  setFile(file: any, tipo: string) {
     this.loading = true
     this.pdfSubir = file.target.files[0]
 
@@ -300,7 +319,7 @@ export class NewPagoProgamadoComponent {
           this.pdfTemp = reader.result
 
         }
-        this.subirImagen()
+        this.subirImagen(tipo)
         setTimeout(() => {
 
           this.setPagoProgramado(this.pagoProgramado)
@@ -312,25 +331,43 @@ export class NewPagoProgamadoComponent {
 
       this.form.value.date = this.functionsService.DateToNumber(this.form.value.date)
 
+
       let pagoProgramado = {
         consecutivo: this.consecutivo,
-        activated: this.form.value.activated,
-        cantidad: this.form.value.cantidad,
         urgente: this.form.value.urgente,
-        concepto: this.form.value.concepto,
-        dateCreated: this.today,
-        fechaSolicitud: (new Date(this.form.value.fechaSolicitud).getTime()) + 100000000,
-        lastEdited: this.form.value.lastEdited,
-        proveedor: this.form.value.proveedor,
-        empresa: this.form.value.empresa,
         subsidiaria: this.form.value.subsidiaria,
-        terminoPago: this.form.value.terminoPago,
         tipoGasto: this.form.value.tipoGasto,
+        terminoPago: this.form.value.terminoPago,
+        proveedor: this.form.value.proveedor,
+        proveedorLoop: this.form.value.proveedorLoop,
+        clienteLoop: this.form.value.clienteLoop,
+        impExpLoop: this.form.value.impExpLoop,
+        concepto: this.form.value.concepto,
+        cantidad: this.form.value.cantidad,
+        fechaSolicitud: (new Date(this.form.value.fechaSolicitud).getTime()) + 100000000,
+        fechaPago: this.form.value.fechaPago,
+        pagado: this.form.value.pagado,
+        fechaProgramada: '',
+        fechaVencimiento: (new Date(this.form.value.fechaVencimiento).getTime()) + 100000000,
+        quote: this.form.value.quote,
+        aprobacion: this.form.value.aprobacion,
+        tipoServicio: this.form.value.tipoServicio,
+        observaciones: this.form.value.observaciones,
+        factura: this.form.value.factura,
+        tipoFactura: this.form.value.tipoFactura,
+        cotizacion: this.form.value.cotizacion,
+        comprobante: this.form.value.comprobante,
+        empresa: this.form.value.empresa,
         moneda: this.form.value.moneda,
-        usuarioCreated: this.usr,
+        usuarioCreated: this.form.value.usuarioCreated,
+        dateCreated: this.today,
+        activated: this.form.value.activated,
+        lastEdited: this.form.value.lastEdited,
         url: this.url
 
       }
+      // console.log('pagoProgramado', pagoProgramado)
+
       this.pagoProgramadoService.crearPagoProgramado(pagoProgramado).subscribe((resp: any) => {
 
         this.pagoProgramado = resp.pagoProgramado
@@ -348,7 +385,7 @@ export class NewPagoProgamadoComponent {
             reader.onloadend = () => {
               this.pdfTemp = reader.result
             }
-            this.subirImagen()
+            this.subirImagen(tipo)
             this.setPagoProgramado(this.pagoProgramado)
             this.functionsService.alert('Pago Programado', 'creado', 'success')
             this.functionsService.navigateTo('core/pagos-programados')
@@ -365,18 +402,10 @@ export class NewPagoProgamadoComponent {
         })
     }
   }
-  isDateValid(date) {
-    let dt = this.functionsService.DateToNumber(date)
-    if (dt >= this.dateMin) {
-      this.validDate = true
-    } else {
-      this.validDate = false
-    }
-  }
-  subirImagen() {
+  subirImagen(tipo) {
     this.loading = true
     this.fileService
-      .actualizarFoto(this.pdfSubir, 'pagoProgramado', this.pagoProgramado.uid)
+      .actualizarPago(this.pdfSubir, this.pagoProgramado.uid, tipo)
       .then(
         async (file) => {
           this.pagoProgramado.factura = file
@@ -389,59 +418,89 @@ export class NewPagoProgamadoComponent {
         },
       )
   }
+  isDateValid(date) {
+    let dt = this.functionsService.DateToNumber(date)
+    if (dt >= this.dateMin) {
+      this.validDate = true
+    } else {
+      this.validDate = false
+    }
+  }
+
 
   setPagoProgramado(pagoProgramado: any) {
     this.form = this.fb.group({
-      activated: [pagoProgramado.activated],
-      cantidad: [pagoProgramado.cantidad],
-      concepto: [pagoProgramado.concepto],
-      dateCreated: [pagoProgramado.dateCreated],
-      fechaSolicitud: [pagoProgramado.fechaSolicitud],
-      lastEdited: [pagoProgramado.lastEdited],
-      proveedor: [pagoProgramado.proveedor],
+
+      consecutivo: [pagoProgramado.consecutivo],
+      urgente: [pagoProgramado.urgente],
       subsidiaria: [pagoProgramado.subsidiaria],
-      terminoPago: [pagoProgramado.terminoPago],
       tipoGasto: [pagoProgramado.tipoGasto],
+      terminoPago: [pagoProgramado.terminoPago],
+      proveedor: [pagoProgramado.proveedor],
+      proveedorLoop: [pagoProgramado.proveedorLoop],
+      clienteLoop: [pagoProgramado.clienteLoop],
+      impExpLoop: [pagoProgramado.impExpLoop],
+      concepto: [pagoProgramado.concepto],
+      cantidad: [pagoProgramado.cantidad],
+      fechaSolicitud: [pagoProgramado.fechaSolicitud],
+      fechaPago: [pagoProgramado.fechaPago],
+      pagado: [pagoProgramado.pagado],
+      fechaProgramada: [pagoProgramado.fechaProgramada],
+      fechaVencimiento: [pagoProgramado.fechaVencimiento],
+      quote: [pagoProgramado.quote],
+      aprobacion: [pagoProgramado.aprobacion],
+      tipoServicio: [pagoProgramado.tipoServicio],
+      observaciones: [pagoProgramado.observaciones],
+      factura: [pagoProgramado.factura],
+      tipoFactura: [pagoProgramado.tipoFactura],
+      cotizacion: [pagoProgramado.cotizacion],
+      comprobante: [pagoProgramado.comprobante],
+      empresa: [pagoProgramado.empresa],
       moneda: [pagoProgramado.moneda],
       usuarioCreated: [pagoProgramado.usuarioCreated],
+      dateCreated: [pagoProgramado.dateCreated],
+      activated: [pagoProgramado.activated],
+      lastEdited: [pagoProgramado.lastEdited],
+
+
     })
   }
 
   selectEmpresa(empresa) {
-    console.log('empresa::: ', empresa);
+    // console.log('empresa::: ', empresa);
 
     this.subsidiarias = this.subsidiariasTemp
-    // console.log(' this.subsidiarias::: ', this.subsidiarias);
+    // // console.log(' this.subsidiarias::: ', this.subsidiarias);
     this.tipoGastos = this.tipoGastosTemp
     this.terminoPagos = this.terminoPagosTemp
 
 
     this.subsidiarias = this.subsidiarias.filter((sub: any) => {
-     
-      this.form.patchValue({fechaSolicitada:''})
+
+      this.form.patchValue({ fechaSolicitada: '' })
       if (sub.empresa._id == empresa) {
         return sub
       }
     })
-    // console.log('this.subsidiarias::: ', this.subsidiarias);
+    // // console.log('this.subsidiarias::: ', this.subsidiarias);
     this.tipoGastos = this.tipoGastos.filter((tg: any) => { return tg.empresa._id == empresa })
     this.terminoPagos = this.terminoPagos.filter((tp: any) => { return tp.empresa._id == empresa })
-    if (empresa == '66a7d0898e30740fa7670bf4') {
+    if (empresa == this.LOOP) {
       this.isLoop = true
       this.dateMin = this.functionsService.getToday() + 345600000
 
 
     } else {
-      
+
       this.isLoop = false
       this.dateMin = this.functionsService.getToday() + 1209600000
- 
+
     }
-   
+
 
   }
-  selectTipoFactura(factura){
-    console.log('factura', factura)
+  selectTipoFactura(factura) {
+    // console.log('factura', factura)
 
   }
 

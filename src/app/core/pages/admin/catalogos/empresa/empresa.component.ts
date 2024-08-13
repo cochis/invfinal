@@ -77,7 +77,7 @@ export class EmpresaComponent {
   getEmpresas() {
     this.loading = true
     this.empresaService.cargarEmpresasAll().subscribe((resp: CargarEmpresas) => {
-      console.log('resp', resp)
+      // console.log('resp', resp)
       this.empresas = resp.empresas
       this.empresasTemp = resp.empresas
       setTimeout(() => {
@@ -86,7 +86,7 @@ export class EmpresaComponent {
       }, 1500);
     },
       (error) => {
-        console.log('error', error)
+        console.error('error', error)
         this.loading = false
         this.functionsService.errorInfo()
       });

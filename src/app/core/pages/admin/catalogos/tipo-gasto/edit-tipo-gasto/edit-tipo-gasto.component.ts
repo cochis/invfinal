@@ -53,7 +53,7 @@ export class EditTipoGastoComponent {
   ) {
     this.empresasService.cargarEmpresasAll().subscribe((resp: CargarEmpresas) => {
       this.empresas = resp.empresas
-      console.log('this.empresas::: ', this.empresas);
+      // console.log('this.empresas::: ', this.empresas);
     })
     this.createForm()
     this.getCatalogos()
@@ -113,6 +113,7 @@ export class EditTipoGastoComponent {
     this.loading = true
     this.form.value.nombre = this.form.value.nombre.toUpperCase().trim()
     this.form.value.clave = this.form.value.clave.toUpperCase().trim()
+  
 
     if (this.form.value.nombre === '' || this.form.value.clave === '') {
       this.functionsService.alertForm('Roles')
@@ -130,6 +131,7 @@ export class EditTipoGastoComponent {
 
       }
 
+      // console.log('this.tipoGasto', this.tipoGasto)
       this.tipoGastosService.actualizarTipoGasto(this.tipoGasto).subscribe((resp: any) => {
         this.functionsService.alertUpdate('TipoGasto')
         this.functionsService.navigateTo('core/catalogos/tipo-gasto')

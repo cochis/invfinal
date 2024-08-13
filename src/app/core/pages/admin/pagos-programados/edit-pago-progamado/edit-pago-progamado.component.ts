@@ -1,16 +1,21 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CargarEmpresas, CargarMonedas, CargarPagoProgramado, CargarPagoProgramados, CargarSubsidiarias, CargarTerminoPagos, CargarTipoGastos, CargarTipoProveedor } from 'src/app/core/interfaces/cargar-interfaces.interfaces';
+import { CargarClienteLoops, CargarEmpresas, CargarMonedas, CargarPagoProgramado, CargarPagoProgramados, CargarProveedorLoops, CargarSubsidiarias, CargarTerminoPagos, CargarTipoGastos, CargarTipoProveedor } from 'src/app/core/interfaces/cargar-interfaces.interfaces';
+import { ClienteLoop } from 'src/app/core/models/clienteLoop.model';
 import { Empresa } from 'src/app/core/models/Empresa';
 import { Moneda } from 'src/app/core/models/moneda.model';
 import { PagoProgramado } from 'src/app/core/models/pagoProgramado.model';
+import { ProveedorLoop } from 'src/app/core/models/proveedorLoop.model';
 import { Subsidiaria } from 'src/app/core/models/subsidiaria.model';
 import { TerminoPago } from 'src/app/core/models/terminoPago.model';
 import { TipoGasto } from 'src/app/core/models/tipoGasto.model';
 import { TipoProveedor } from 'src/app/core/models/tipoProveedor.model';
+import { ClienteLoopsService } from 'src/app/core/services/clienteLoops.service';
+import { FileService } from 'src/app/core/services/file.service';
 import { MonedasService } from 'src/app/core/services/monedas.service';
 import { PagoProgramadoService } from 'src/app/core/services/pagoProgramado.service';
+import { ProveedorLoopsService } from 'src/app/core/services/proveedorLoops.service';
 import { EmpresasService } from 'src/app/core/services/puesto.service copy';
 import { RolesService } from 'src/app/core/services/roles.service';
 import { SubsidiariaService } from 'src/app/core/services/subsidiaria.service';
@@ -29,7 +34,7 @@ export class EditPagoProgamadoComponent {
   loading = false
   public imagenSubir!: File
   public imgTemp: any = undefined
-  pagoProgramado: PagoProgramado
+  pagoProgramado: any
   public form!: FormGroup
   today: Number = this.functionsService.getToday()
   formSubmitted: boolean = false
@@ -37,6 +42,12 @@ export class EditPagoProgamadoComponent {
   msnOk: boolean = false
   id!: string
   edit!: string
+  pdfSubir: any
+  pdfTemp: any
+  LOOP=environment.LOOP
+  JASU=environment.JASU
+  proveedorLoops: ProveedorLoop[]
+  clienteLoops: ClienteLoop[]
   terminoPagos: TerminoPago[]
   subsidiarias: Subsidiaria[]
   empresas: Empresa[]
@@ -54,6 +65,9 @@ export class EditPagoProgamadoComponent {
     private terminoPagoService: TerminoPagoService,
     private subsidiariaService: SubsidiariaService,
     private empresaService: EmpresasService,
+    private proveedorLoopsService: ProveedorLoopsService,
+    private clienteLoopsService: ClienteLoopsService,
+    private fileService: FileService
   ) {
     this.id = this.route.snapshot.params['id']
 
@@ -74,47 +88,90 @@ export class EditPagoProgamadoComponent {
     this.loading = true
     this.pagoProgramadoService.cargarPagoProgramadoById(id).subscribe((resp: CargarPagoProgramado) => {
       this.pagoProgramado = resp.pagoProgramado
-      console.log('resp.pagoProgramado', resp.pagoProgramado)
+      // console.log('resp.pagoProgramado', resp.pagoProgramado)
       setTimeout(() => {
         this.setForm(this.pagoProgramado)
       }, 500);
     },
       (error: any) => {
         this.loading = false
-        this.functionsService.alertError(error, 'Tipo stock')
+        this.functionsService.alertError(error, 'Pago programado')
       })
   }
 createForm() {
     this.form = this.fb.group({
+
+      consecutivo: [''],
+      urgente: [''],
       subsidiaria: [''],
       tipoGasto: [''],
       terminoPago: [''],
       proveedor: [''],
+      proveedorLoop: [''],
+      clienteLoop: [''],
+      impExpLoop: [''],
       concepto: [''],
       cantidad: [''],
       fechaSolicitud: [''],
-      dateCreated: [''],
-      lastEdited: [''],
-      usuarioCreated: [''],
       fechaPago: [''],
-      fechaProgramada: [''],
-      aprobacion: [''],
-      moneda: [''],
       pagado: [''],
-      empresa: [''],
+      fechaProgramada: [''],
+      fechaVencimiento: [''],
+      quote: [''],
+      aprobacion: [''],
+      tipoServicio: [''],
       observaciones: [''],
+      factura: [''],
+      tipoFactura: [''],
+      cotizacion: [''],
+      comprobante: [''],
+      empresa: [''],
+      moneda: [''],
+      usuarioCreated: [''],
+      dateCreated: [''],
       activated: [''],
+      lastEdited: [''],
     })
   }
-  setForm(pagoProgramado: any) {
-    console.log('pagoProgramado', pagoProgramado.empresa)
-    
-    console.log('typeof(pagoProgramado.empresa)', typeof(pagoProgramado.empresa))
-    var ok = false
-    if (this.usr == pagoProgramado.tipoGasto.aprobacionPor ) {
-      ok = true
+
+  aprobacion(){
+     // console.log('aprobacion',this.form.value.aprobacion)
+    this.pagoProgramado={
+      
+      ...this.pagoProgramado,
+      aprobacion:(this.form.value.aprobacion=='true')?true:false
     }
+   
+    this.setForm(this.pagoProgramado)
+  }
+  setForm(pagoProgramado: any) {
+    // console.log('pagoProgramado', pagoProgramado)
+     
+  
+     
+    var ok = false
+    if ( this.pagoProgramado.tipoGasto.aprobacionPor.includes(this.usr)  ) {
+      ok = true
+    }else {
+      
+      ok = false
+    }
+
     this.form = this.fb.group({
+      consecutivo: [pagoProgramado.consecutivo],
+      urgente: [pagoProgramado.urgente],
+      proveedorLoop: [pagoProgramado.proveedorLoop],
+      clienteLoop: [pagoProgramado.clienteLoop],
+      impExpLoop: [pagoProgramado.impExpLoop],
+      fechaVencimiento:[pagoProgramado.aprobacion ?
+        { value: pagoProgramado.fechaVencimiento ? this.functionsService.numberToDate(pagoProgramado.fechaVencimiento) : '', disabled: false } :
+        { value: pagoProgramado.fechaVencimiento ? this.functionsService.numberToDate(pagoProgramado.fechaVencimiento) : '', disabled: true }],
+      quote: [pagoProgramado.quote],
+      tipoServicio: [pagoProgramado.tipoServicio],
+      tipoFactura: [pagoProgramado.tipoFactura],
+      factura: [pagoProgramado.factura],
+      cotizacion: [pagoProgramado.cotizacion],
+      comprobante: [pagoProgramado.comprobante],
       subsidiaria: [pagoProgramado.subsidiaria._id],
       tipoGasto: [pagoProgramado.tipoGasto._id],
       terminoPago: [pagoProgramado.terminoPago._id],
@@ -131,10 +188,6 @@ createForm() {
         ok? ((pagoProgramado.aprobacion==true) ? { value: 'true', disabled: false } : { value: 'false', disabled: false })
         : 
         ((pagoProgramado.aprobacion==true) ? { value: 'true', disabled: true } : { value: 'false', disabled: true })
-        
-        
-      
-      
       ],
       fechaPago: [pagoProgramado.aprobacion ?
         { value: pagoProgramado.fechaPago ? this.functionsService.numberToDate(pagoProgramado.fechaPago) : '', disabled: false } :
@@ -145,30 +198,25 @@ createForm() {
       pagado: [pagoProgramado.aprobacion ?
         { value: pagoProgramado.pagado ? 'true' : 'false', disabled: false } :
         { value: pagoProgramado.pagado ? 'true' : 'false', disabled: true }
-
       ],
       observaciones: [pagoProgramado.aprobacion ?
         { value: pagoProgramado.observaciones, disabled: false } :
         { value: pagoProgramado.observaciones, disabled: true }
-
       ],
       activated: [pagoProgramado.activated],
-
-
     })
- 
-
   }
   onSubmit() {
     this.loading = true
+    // console.log('this.form', this.form)
+    // console.log('this.form.value', this.form.value)
     this.form.value.dateCreated = new Date(this.form.value.dateCreated).getTime() + 100000000
     this.form.value.aprobacion = (this.form.value.aprobacion == 'false' || this.form.value.aprobacion == false) ? false : true,
       this.form.value.fechaPago = (this.form.value.fechaPago !== '') ? new Date(this.form.value.fechaPago).getTime() : ''
     this.form.value.fechaProgramada = (this.form.value.fechaProgramada !== '') ? new Date(this.form.value.fechaProgramada).getTime() : ''
+    this.form.value.fechaVencimiento = (this.form.value.fechaVencimiento !== '') ? new Date(this.form.value.fechaVencimiento).getTime() : ''
     this.form.value.usuarioCreated = this.form.value.usuarioCreated._id
-    // this.loading = false
-    //   return
-
+ 
 
     this.form.value.pagado = (this.form.value.pagado == 'true') ? true : false
     if (this.form.valid) {
@@ -194,7 +242,7 @@ createForm() {
 
         })
     } else {
-      this.functionsService.alertForm('Tipo stock')
+      this.functionsService.alertForm('Pago programado')
       this.loading = false
 
       return
@@ -245,10 +293,133 @@ createForm() {
         this.functionsService.alertError(error, 'tipoGastos')
         this.loading = false
       })
+      this.proveedorLoopsService.cargarProveedorLoopsAll().subscribe((resp: CargarProveedorLoops) => {
+        this.proveedorLoops = resp.proveedorLoops
+        // console.log('this.proveedorLoops', this.proveedorLoops)
+        this.loading = false
+      },
+        (error) => {
+          this.functionsService.alertError(error, 'PagoProgramado')
+  
+        });
+      this.clienteLoopsService.cargarClienteLoopsAll().subscribe((resp: CargarClienteLoops) => {
+        this.clienteLoops = resp.clienteLoops
+        // console.log('this.clienteLoops', this.clienteLoops)
+        this.loading = false
+      },
+        (error) => {
+          this.functionsService.alertError(error, 'PagoProgramado')
+  
+        });
   }
+  setFile(file: any,tipo:string) {
+    this.loading = true
+    this.pdfSubir = file.target.files[0]
 
-  updateForm(event) {
+
+    if (this.pagoProgramado) {
+      if (!file.target.files[0]) {
+        this.pdfTemp = null
+        this.functionsService.alert('Factura', 'No se encontró PDF', 'error')
+        this.loading = false
+
+      } else {
 
 
+        const reader = new FileReader()
+        const url64 = reader.readAsDataURL(file.target.files[0])
+
+        reader.onloadend = () => {
+          this.pdfTemp = reader.result
+
+        }
+        this.subirImagen(tipo)
+        setTimeout(() => {
+
+          this.setPagoProgramado(this.pagoProgramado)
+          this.loading = false
+        }, 550);
+
+      }
+    }  
+
+  }
+  subirImagen(tipo) {
+    this.loading = true
+    this.fileService
+      .actualizarPago(this.pdfSubir, this.pagoProgramado.uid,tipo)
+      .then(
+        async (file) => {
+          this.pagoProgramado.factura = file
+
+
+        },
+        (err) => {
+          this.loading = false
+          this.functionsService.alert('Usuarios', 'Error al subir la imagen', 'error')
+        },
+      )
+  }
+ 
+  setPagoProgramado(pagoProgramado: any) {
+        
+    var ok = false
+    if ( this.pagoProgramado.tipoGasto.aprobacionPor.includes(this.usr)  ) {
+      ok = true
+    }else {
+      
+      ok = false
+    }
+    this.form = this.fb.group({
+
+      consecutivo: [pagoProgramado.consecutivo],
+      urgente: [pagoProgramado.urgente],
+      proveedorLoop: [pagoProgramado.proveedorLoop],
+      clienteLoop: [pagoProgramado.clienteLoop],
+      impExpLoop: [pagoProgramado.impExpLoop],
+      fechaVencimiento:[pagoProgramado.aprobacion ?
+        { value: pagoProgramado.fechaVencimiento ? this.functionsService.numberToDate(pagoProgramado.fechaVencimiento) : '', disabled: false } :
+        { value: pagoProgramado.fechaVencimiento ? this.functionsService.numberToDate(pagoProgramado.fechaVencimiento) : '', disabled: true }],
+      quote: [pagoProgramado.quote],
+      tipoServicio: [pagoProgramado.tipoServicio],
+      tipoFactura: [pagoProgramado.tipoFactura],
+      factura: [pagoProgramado.factura],
+      cotizacion: [pagoProgramado.cotizacion],
+      comprobante: [pagoProgramado.comprobante],
+      subsidiaria: [pagoProgramado.subsidiaria._id],
+      tipoGasto: [pagoProgramado.tipoGasto._id],
+      terminoPago: [pagoProgramado.terminoPago._id],
+      moneda: [pagoProgramado.moneda._id],
+      proveedor: [pagoProgramado.proveedor],
+      concepto: [pagoProgramado.concepto],
+      cantidad: [pagoProgramado.cantidad],
+      empresa: [(typeof(pagoProgramado.empresa)=='string')?pagoProgramado.empresa:(this.edit =='true')?pagoProgramado.empresa._id:pagoProgramado.empresa.nombre],
+      fechaSolicitud: [{ value: this.functionsService.numberToDate(pagoProgramado.fechaSolicitud) ? this.functionsService.numberToDate(pagoProgramado.fechaSolicitud) : '', disabled: true }],
+      dateCreated: [this.functionsService.numberToDate(pagoProgramado.dateCreated)],
+      lastEdited: [this.today],
+      usuarioCreated: [pagoProgramado.usuarioCreated],
+      aprobacion: [
+        ok? ((pagoProgramado.aprobacion==true) ? { value: 'true', disabled: false } : { value: 'false', disabled: false })
+        : 
+        ((pagoProgramado.aprobacion==true) ? { value: 'true', disabled: true } : { value: 'false', disabled: true })
+      ],
+      fechaPago: [pagoProgramado.aprobacion ?
+        { value: pagoProgramado.fechaPago ? this.functionsService.numberToDate(pagoProgramado.fechaPago) : '', disabled: false } :
+        { value: pagoProgramado.fechaPago ? this.functionsService.numberToDate(pagoProgramado.fechaPago) : '', disabled: true }],
+      fechaProgramada: [pagoProgramado.aprobacion ?
+        { value: pagoProgramado.fechaProgramada ? this.functionsService.numberToDate(pagoProgramado.fechaProgramada + 100000000) : '', disabled: false } :
+        { value: pagoProgramado.fechaProgramada ? this.functionsService.numberToDate(pagoProgramado.fechaProgramada + 100000000) : '', disabled: true }],
+      pagado: [pagoProgramado.aprobacion ?
+        { value: pagoProgramado.pagado ? 'true' : 'false', disabled: false } :
+        { value: pagoProgramado.pagado ? 'true' : 'false', disabled: true }
+      ],
+      observaciones: [pagoProgramado.aprobacion ?
+        { value: pagoProgramado.observaciones, disabled: false } :
+        { value: pagoProgramado.observaciones, disabled: true }
+      ],
+      activated: [pagoProgramado.activated],
+    
+ 
+    })
   }
 }

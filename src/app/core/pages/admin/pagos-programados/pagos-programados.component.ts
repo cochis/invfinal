@@ -59,7 +59,7 @@ export class PagosProgramadosComponent {
       }
       this.busquedasService.buscar('pagoProgramados', termino, this.functionsService.isAdmin()).subscribe((resp) => {
         this.pagoProgramados = resp
-        console.log('this.pagoProgramados', this.pagoProgramados)
+        // console.log('this.pagoProgramados', this.pagoProgramados)
 
 
       })
@@ -105,29 +105,30 @@ export class PagosProgramadosComponent {
     this.usuariosService.cargarUsuarioById(this.uid).subscribe((resp: CargarUsuario) => {
 
       this.usuario = resp.usuario
-      console.log('this.usuario', this.usuario)
+    
       if (this.rol.includes(this.ADM) || this.rol.includes(this.CTB) || this.rol.includes(this.CTM)) {
         this.pagoProgramadoService.cargarPagoProgramadosAll().subscribe((resp: any) => {
           this.pagoProgramados = resp.pagoProgramados.filter((pago) => {
             return this.usuario.empresa.includes(pago.empresa._id)
           })
           this.pagoProgramadosTemp = this.pagoProgramados
+          // console.log('this.pagoProgramados', this.pagoProgramados)
           this.loading = false
         },
           (error) => {
-            console.log('error', error)
+            console.error('error', error)
             this.loading = false
             this.functionsService.alertError(error, 'Pagos programados')
           });
       } else {
         this.pagoProgramadoService.cargarPagoProgramadosByCreated(this.uid).subscribe((resp: any) => {
-          console.log('resp', resp)
+          // console.log('resp', resp)
           this.pagoProgramados = resp.pagoProgramados
           this.pagoProgramadosTemp = resp.pagoProgramados
           this.loading = false
         },
           (error) => {
-            console.log('error', error)
+            console.error('error', error)
             this.loading = false
             this.functionsService.alertError(error, 'Pagos programados')
           });
@@ -142,7 +143,7 @@ export class PagosProgramadosComponent {
 
     this.proveedorLoopsService.cargarProveedorLoopsAll().subscribe((resp: CargarProveedorLoops) => {
       this.proveedorLoops = resp.proveedorLoops
-      console.log('this.proveedorLoops', this.proveedorLoops)
+      // console.log('this.proveedorLoops', this.proveedorLoops)
       this.loading = false
     },
       (error) => {

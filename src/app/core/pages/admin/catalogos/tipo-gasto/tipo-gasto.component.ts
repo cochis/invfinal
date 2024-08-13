@@ -33,7 +33,7 @@ export class TipoGastoComponent {
   ) {
     this.empresasService.cargarEmpresasAll().subscribe((resp: CargarEmpresas) => {
       this.empresas = resp.empresas
-      console.log('this.empresas::: ', this.empresas);
+    
     })
     this.getTipoGastos()
 
@@ -77,6 +77,7 @@ export class TipoGastoComponent {
     this.loading = true
     this.tipoGastosServices.cargarTipoGastosAll().subscribe((resp: CargarTipoGastos) => {
       this.tipoGastos = resp.tipoGastos
+      // console.log('this.tipoGastos', this.tipoGastos)
       this.tipoGastosTemp = resp.tipoGastos
       setTimeout(() => {
         this.loading = false

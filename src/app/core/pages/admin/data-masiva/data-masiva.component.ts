@@ -192,44 +192,44 @@ export class DataMasivaComponent {
                     }
                 });
             });
-            // this.productoJasusServices.dropProductoJasu().subscribe((resp) => {
-            //     console.log('resp', resp)
+            this.productoJasusServices.dropProductoJasu().subscribe((resp) => {
+                // console.log('resp', resp)
 
-            //     this.convertedJson[0].forEach(element => {
-            //         switch (this.tableSelected) {
-            //             case 'productoJasu':
+                this.convertedJson[0].forEach(element => {
+                    switch (this.tableSelected) {
+                        case 'productoJasu':
 
-            //                 this.productoJasusServices.crearProductoJasu(element).subscribe((resp) => {
-            //                     console.log('resp', resp)
+                            this.productoJasusServices.crearProductoJasu(element).subscribe((resp) => {
+                                // console.log('resp', resp)
 
-            //                 },
-            //                     (error) => {
-            //                         console.log('error', error)
+                            },
+                                (error) => {
+                                    console.error('error', error)
 
-            //                     })
-            //                 break;
+                                })
+                            break;
 
-            //             default:
-            //                 break;
-            //         }
-            //         console.log('element', element)
+                        default:
+                            break;
+                    }
+                    // console.log('element', element)
 
-            //     });
+                });
 
-            // },
-            //     (error) => {
-            //         console.log('error', error)
+            },
+                (error) => {
+                    console.error('error', error)
 
-            //     })
-            //   this.dt.forEach((cf:any) => {
-            //     cf.activated = true
-            //     this.copperServices.crearCompany(cf).subscribe((resp:any)=>{
-            //       console.log('resp', resp)
+                })
+              this.dt.forEach((cf:any) => {
+                cf.activated = true
+                this.copperServices.crearCompany(cf).subscribe((resp:any)=>{
+                  // console.log('resp', resp)
 
-            //     })
+                })
 
 
-            //   });
+              });
         }
 
     }

@@ -82,8 +82,17 @@
                                     <td class="upper">{{tipoGasto.empresa.nombre}}</td>
                                     <td class="upper">{{tipoGasto.nombre}}</td>
                                     <td class="upper">{{tipoGasto.clave}}</td>
-                                    <td class="upper">{{tipoGasto.aprobacionPor.nombre}}
-                                        {{tipoGasto.aprobacionPor.apellidoPaterno}}</td>
+                                    <td class="upper">
+
+                                        <ng-container *ngFor="let item of tipoGasto.aprobacionPor">
+
+                                            {{item.email}}
+                                            
+                                        </ng-container>
+                                        
+                                    
+                                    
+                                    </td>
                                     <td class="upper">{{tipoGasto.usuarioCreated.email}}</td>
                                     <td>
                                         <i *ngIf="tipoGasto.activated" class="icon-ok-circled text-success"></i>

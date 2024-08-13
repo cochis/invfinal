@@ -79,7 +79,7 @@ export class ClienteLoopComponent {
   getClienteLoop() {
     this.loading = true
     this.clienteLoopsService.cargarClienteLoopsAll().subscribe((resp: CargarClienteLoops) => {
-      console.log('resp', resp)
+      // console.log('resp', resp)
       this.clienteLoops = resp.clienteLoops
       this.clienteLoopsTemp = resp.clienteLoops
       setTimeout(() => {

@@ -107,7 +107,7 @@ export class NewClienteLoopComponent{
         ...this.form.value,
         usuarioCreated: this.functionsService.getLocal('uid')
       }
-      console.log('obj', obj)
+      // console.log('obj', obj)
       this.clienteLoopsService.crearClienteLoop(obj).subscribe((resp: any) => {
 
         //Message

@@ -47,14 +47,16 @@ import { BrowserModule } from '@angular/platform-browser';
     CamComponent,
   ],
   imports: [
-    BrowserModule ,
     CommonModule,
+    BrowserModule ,
     RouterModule,
     ReactiveFormsModule,
     ZXingScannerModule,
     QRCodeModule,
     WebcamModule,
-    FormsModule
+    FormsModule,
+    
+
   ]
 })
 export class SharedModule { }

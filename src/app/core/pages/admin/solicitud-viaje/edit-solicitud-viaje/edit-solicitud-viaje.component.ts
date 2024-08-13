@@ -399,7 +399,7 @@ export class EditSolicitudViajeComponent {
         dateRegreso: fechaF
       })
     } catch (error) {
-      console.log('error', error)
+      console.error('error', error)
 
     }
   }
@@ -424,7 +424,7 @@ export class EditSolicitudViajeComponent {
       this.loading = false
     },
       (error) => {
-        console.log('error', error)
+        console.error('error', error)
 
       })
   }

@@ -13,36 +13,100 @@
                         </div>
                         <form [formGroup]="form" (ngSubmit)="onSubmit()">
                             <div class="row">
-                                <div class="col-12 col-md-3">
+                                <div class="col-12 col-md-4" style="margin-top: 24px;">
+                                    <div class="form-group" *ngIf="edit=='true'">
+                                        <label for="empresa">Empresa</label>
+                                        <select name="" id="empresa" formControlName="empresa"
+                                            class="form-control upper">
+                                            <option value="">Empresa</option>
+                                            <option [value]="empresa.uid" *ngFor="let empresa of empresas">
+                                                {{empresa.nombre}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" *ngIf="edit=='false'">
+                                        <label for="empresa">Empresa</label>
+                                        <input type="string" class="form-control upper" id="empresa"
+                                            formControlName="empresa" placeholder="Fecha Programada"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6" style="margin-top: 24px;">
+                                    <div class="form-group">
+                                        <label for="tipoFactura">Tipo de factura</label>
+                                        <input type="text" class="form-control upper" id="tipoFactura"
+                                            formControlName="tipoFactura" placeholder="Tipo de factura" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3" style="margin-top: 24px;">
                                     <div class="form-group">
                                         <label for="concepto">Concepto</label>
                                         <input type="text" class="form-control upper" id="concepto"
-                                            formControlName="concepto" required placeholder="Concepto"
-                                             readonly  >
+                                            formControlName="concepto" placeholder="Concepto" readonly>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-3">
+                                <div class="col-12 col-md-3" style="margin-top: 24px;">
                                     <div class="form-group">
                                         <label for="cantidad">Cantidad</label>
                                         <input type="number" class="form-control upper" id="cantidad"
-                                            formControlName="cantidad" required placeholder="Cantidad"
-                                            readonly >
+                                            formControlName="cantidad" placeholder="Cantidad" readonly>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-3">
+                                <div class="col-12 col-md-3" *ngIf="form.value.empresa !==LOOP"
+                                    style="margin-top: 24px;">
                                     <div class="form-group">
                                         <label for="proveedor">Proveedor</label>
                                         <input type="text" class="form-control upper" id="proveedor"
-                                            formControlName="proveedor" required placeholder="Proveedor"
-                                            readonly >
+                                            formControlName="proveedor" placeholder="Proveedor" readonly>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-3">
+                                <div class="col-12 col-md-3" *ngIf="form.value.empresa ==LOOP"
+                                    style="margin-top: 24px;">
+                                    <div class="form-group">
+                                        <label for="proveedorLoop">Proveedor Loop</label>
+                                        <select name="" id="proveedorLoop" formControlName="proveedorLoop"
+                                            #proveedorLoop class="form-control upper">
+                                            <option value="">Selecciona una proveedorLoop</option>
+                                            <option [value]="item.uid" *ngFor="let item of proveedorLoops">
+                                                {{item.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3" *ngIf="form.value.empresa ==LOOP"
+                                    style="margin-top: 24px;">
+                                    <div class="form-group">
+                                        <label for="clienteLoop">Cliente Loop</label>
+                                        <select name="" id="clienteLoop" formControlName="clienteLoop" #clienteLoop
+                                            class="form-control upper">
+                                            <option value="">Selecciona una clienteLoop</option>
+                                            <option [value]="item.uid" *ngFor="let item of clienteLoops">
+                                                {{item.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3" *ngIf="form.value.empresa ==LOOP"
+                                    style="margin-top: 24px;">
+                                    <div class="form-group">
+                                        <label for="quote">Quote</label>
+                                        <input type="text" class="form-control upper" id="quote" formControlName="quote"
+                                            placeholder="Quote" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3" *ngIf="form.value.empresa ==LOOP"
+                                    style="margin-top: 24px;">
+                                    <div class="form-group">
+                                        <label for="impExpLoop">Importación o Exportación</label>
+                                        <input type="text" class="form-control upper" id="impExpLoop"
+                                            formControlName="impExpLoop" placeholder="Importacion o Exportación"
+                                            readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3" style="margin-top: 24px;">
                                     <div class="form-group">
                                         <label for="fechaSolicitud">Fecha solicitada</label>
                                         <input type="date" class="form-control upper" id="fechaSolicitud"
-                                            formControlName="fechaSolicitud" required placeholder="Fecha pago"
-                                            readonly >
+                                            formControlName="fechaSolicitud" placeholder="Fecha pago" readonly>
                                     </div>
                                 </div>
 
@@ -52,7 +116,7 @@
                                         <select name="" id="subsidiaria" formControlName="subsidiaria"
                                             class="form-control upper" readonly>
                                             <option [value]="item.uid" *ngFor="let item of subsidiarias" disabled>
-                                                {{item.nombre}} 
+                                                {{item.nombre}}
                                             </option>
                                         </select>
                                     </div>
@@ -62,8 +126,9 @@
                                         <label for="tipoGasto">Tipo de gasto</label>
                                         <select name="" id="tipoGasto" formControlName="tipoGasto"
                                             class="form-control upper">
-                                       
-                                            <option [value]="item.uid" *ngFor="let item of tipoGastos" disabled> {{item.nombre}}
+
+                                            <option [value]="item.uid" *ngFor="let item of tipoGastos" disabled>
+                                                {{item.nombre}}
                                             </option>
                                         </select>
                                     </div>
@@ -73,7 +138,7 @@
                                         <label for="terminoPago">Termino de pago</label>
                                         <select name="" id="terminoPago" formControlName="terminoPago"
                                             class="form-control upper">
-                                
+
                                             <option [value]="item.uid" *ngFor="let item of terminoPagos" disabled>
                                                 {{item.nombre}}
                                             </option>
@@ -83,37 +148,21 @@
                                 <div class="col-12 col-md-3  " style="margin-top: 24px;">
                                     <div class="form-group">
                                         <label for="moneda">Moneda</label>
-                                        <select name="" id="moneda" formControlName="moneda"
-                                            class="form-control upper">
-                                
+                                        <select name="" id="moneda" formControlName="moneda" class="form-control upper">
+
                                             <option [value]="item.uid" *ngFor="let item of monedas" disabled>
                                                 {{item.nombre}}
                                             </option>
                                         </select>
                                     </div>
                                 </div>
-                            
-                                <div class="col-12 col-md-4" style="margin-top: 24px;">
-                                    <div class="form-group" *ngIf="edit=='true'">
-                                        <label for="empresa">Empresa</label>
-                                        <select name="" id="empresa" formControlName="empresa"
-                                            class="form-control upper">
-                                            <option value="">Empresa</option>
-                                            <option [value]="empresa.uid" *ngFor="let empresa of empresas">{{empresa.nombre}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group" *ngIf="edit=='false'">
-                                        <label for="empresa">Empresa</label>
-                                        <input type="string" class="form-control upper" id="empresa"
-                                        formControlName="empresa"   placeholder="Fecha Programada"
-                                        [readonly]="edit==='false'">
-                                    </div>
-                                </div>
+
+
                                 <div class="col-12 col-md-4" style="margin-top: 24px;">
                                     <div class="form-group">
                                         <label for="aprobacion">Aprobación</label>
                                         <select name="" id="aprobacion" formControlName="aprobacion"
-                                            class="form-control upper">
+                                            class="form-control upper" (change)="aprobacion()">
                                             <option value="">---------</option>
                                             <option value="true">Si</option>
                                             <option value="false">No</option>
@@ -122,12 +171,20 @@
                                         </select>
                                     </div>
                                 </div>
-                              
+
+                                <div class="col-12 col-md-4" style="margin-top: 24px;">
+                                    <div class="form-group">
+                                        <label for="fechaVencimiento">Fecha vencimiento</label>
+                                        <input type="date" class="form-control upper" id="fechaVencimiento"
+                                            formControlName="fechaVencimiento" placeholder="Fecha vencimiento"
+                                            [readonly]="edit==='false'">
+                                    </div>
+                                </div>
                                 <div class="col-12 col-md-4" style="margin-top: 24px;">
                                     <div class="form-group">
                                         <label for="fechaProgramada">Fecha Programada</label>
                                         <input type="date" class="form-control upper" id="fechaProgramada"
-                                            formControlName="fechaProgramada"   placeholder="Fecha Programada"
+                                            formControlName="fechaProgramada" placeholder="Fecha Programada"
                                             [readonly]="edit==='false'">
                                     </div>
                                 </div>
@@ -136,15 +193,14 @@
                                     <div class="form-group">
                                         <label for="fechaPago">Fecha pago</label>
                                         <input type="date" class="form-control upper" id="fechaPago"
-                                            formControlName="fechaPago"   placeholder="Fecha pago"
+                                            formControlName="fechaPago" placeholder="Fecha pago"
                                             [readonly]="edit==='false'">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6" style="margin-top: 24px;">
                                     <div class="form-group">
                                         <label for="pagado">Pagado</label>
-                                        <select name="" id="pagado" formControlName="pagado"
-                                            class="form-control upper">
+                                        <select name="" id="pagado" formControlName="pagado" class="form-control upper">
                                             <option value="">---------</option>
                                             <option value="true">Si</option>
                                             <option value="false">No</option>
@@ -153,11 +209,69 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="row text-center">
+                                    <div class="col-4  text-center mt-5 ma" *ngIf="form.value.cotizacion ==''">
+                                        <div class="form-group text-center">
+                                            <label for="cotizacion"> Para generar el registro sube el PDF
+                                                Ingresa tu cotizacion <br>
+                                                <img src="/assets/images/invoice.png" alt="Ingresa tu cotizacion"
+                                                    style="width: 80px; margin: auto;">
+
+                                            </label>
+                                            <input type="file" class="form-control upper" id="cotizacion" #cotizacion
+                                                formControlName="cotizacion"   placeholder="Archivo"
+                                                accept="application/pdf" (change)="setFile($event ,'cotizacion')">
+                                        </div>
+                                        <span *ngIf="submited && errorControl['cotizacion'].errors " class="error">Es
+                                            requerido
+                                        </span>
+                                    </div>
+
+                                    <div class="col-4  text-center mt-5 ma"  *ngIf="form.value.factura ==''" >
+                                        <div class="form-group text-center">
+                                            <label for="factura"> Para generar el registro sube el PDF
+                                                Ingresa tu factura <br>
+                                                <img src="/assets/images/invoice.png" alt="Ingresa tu factura"
+                                                    style="width: 80px; margin: auto;">
+
+                                            </label>
+                                            <input type="file" class="form-control upper" id="factura" #factura
+                                                formControlName="factura"   placeholder="Archivo"
+                                                accept="application/pdf" (change)="setFile($event ,'factura')">
+                                        </div>
+                                        <span *ngIf="submited && errorControl['factura'].errors " class="error">Es
+                                            requerido
+                                        </span>
+                                    </div>
+                                    <div class="col-4  text-center mt-5 ma" *ngIf="form.value.comprobante ==''" >
+                                        <div class="form-group text-center">
+                                            <label for="comprobante"> Para generar el registro sube el PDF
+                                                Ingresa tu comprobante <br>
+                                                <img src="/assets/images/invoice.png" alt="Ingresa tu comprobante"
+                                                    style="width: 80px; margin: auto;">
+
+                                            </label>
+                                            <input type="file" class="form-control upper" id="comprobante" #comprobante
+                                                formControlName="comprobante"   placeholder="Archivo"
+                                                accept="application/pdf" (change)="setFile($event ,'comprobante')">
+                                        </div>
+                                        <span *ngIf="submited && errorControl['comprobante'].errors " class="error">Es
+                                            requerido
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
                                 <div class="col-12 " style="margin-top: 24px;">
                                     <div class="form-group">
                                         <label for="observaciones">Observaciones</label>
                                         <textarea class="form-control upper" id="observaciones"
-                                            formControlName="observaciones"  placeholder="Observaciones"
+                                            formControlName="observaciones" placeholder="Observaciones"
                                             [readonly]="edit==='false'"> </textarea>
 
                                     </div>
