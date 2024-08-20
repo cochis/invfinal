@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   app: 'Inventario Stock JASU',
-  version: "1.3.0",
+  version: "1.4.1",
   ADM: 'ADM_ROLE',
   CTB: 'CTB_ROLE',
   CTM: 'CTM_ROLE',
@@ -32,7 +32,7 @@ export const environment = {
   MXN:"6661f125416a9440845722eb",
   LOOP:'66a90b4350ddd12f55056f2e',
   JASU:"66a90b3850ddd12f55056f27",
-  OTCONCEPTO:'66c3b775e55598a85ebbb59c',
+  OTCONCEPTO:'66c4c70c73174d20599a9855',
 
   ///////////////////////////////////////////////
   // base_url: "https://qa-infra.jasu.us/api"

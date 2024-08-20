@@ -69,6 +69,7 @@ export class NewPagoProgamadoComponent {
   isLoop: boolean = undefined
   consecutivo = 0
   otrConcepto=false
+  OTCONCEPTO = environment.OTCONCEPTO
   constructor(
     private fb: FormBuilder,
     private functionsService: FunctionsService,
@@ -527,15 +528,14 @@ export class NewPagoProgamadoComponent {
   }
   validateConcepto(otro: string) {
     console.log('otro', otro)
-    this.conceptoLoops.forEach(concepto => {
-      if(concepto.uid === otro){
-        this.otrConcepto= true
-      }else{
-        this.otrConcepto= false
-        this.form.patchValue({otroConcepto :''})
-        
-      }
-    });
+    if(otro ==this.OTCONCEPTO){
+      this.otrConcepto= true
+    }else{
+      this.otrConcepto= false
+      this.form.patchValue({otroConcepto :''})
+      
+    }
+    
 
   }
 
