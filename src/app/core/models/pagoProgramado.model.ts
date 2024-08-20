@@ -12,6 +12,8 @@ export class PagoProgramado {
         public clienteLoop: string,
         public impExpLoop: string,
         public concepto: string,
+        public conceptoLoop: string,
+        public otroConcepto: string,
         public cantidad: number,
         public fechaSolicitud: number,
         public fechaPago: number,

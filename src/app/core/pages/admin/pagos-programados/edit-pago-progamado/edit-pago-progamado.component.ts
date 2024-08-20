@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CargarClienteLoops, CargarEmpresas, CargarMonedas, CargarPagoProgramado, CargarPagoProgramados, CargarProveedorLoops, CargarSubsidiarias, CargarTerminoPagos, CargarTipoGastos, CargarTipoProveedor } from 'src/app/core/interfaces/cargar-interfaces.interfaces';
+import { CargarClienteLoops, CargarConceptoLoops, CargarEmpresas, CargarMonedas, CargarPagoProgramado, CargarPagoProgramados, CargarProveedorLoops, CargarSubsidiarias, CargarTerminoPagos, CargarTipoGastos, CargarTipoProveedor } from 'src/app/core/interfaces/cargar-interfaces.interfaces';
 import { ClienteLoop } from 'src/app/core/models/clienteLoop.model';
+import { ConceptoLoop } from 'src/app/core/models/conceptoLoop.model';
 import { Empresa } from 'src/app/core/models/Empresa';
 import { Moneda } from 'src/app/core/models/moneda.model';
 import { PagoProgramado } from 'src/app/core/models/pagoProgramado.model';
@@ -12,6 +13,7 @@ import { TerminoPago } from 'src/app/core/models/terminoPago.model';
 import { TipoGasto } from 'src/app/core/models/tipoGasto.model';
 import { TipoProveedor } from 'src/app/core/models/tipoProveedor.model';
 import { ClienteLoopsService } from 'src/app/core/services/clienteLoops.service';
+import { ConceptoLoopsService } from 'src/app/core/services/conceptoLoops.service';
 import { FileService } from 'src/app/core/services/file.service';
 import { MonedasService } from 'src/app/core/services/monedas.service';
 import { PagoProgramadoService } from 'src/app/core/services/pagoProgramado.service';
@@ -47,6 +49,7 @@ export class EditPagoProgamadoComponent {
   LOOP=environment.LOOP
   JASU=environment.JASU
   proveedorLoops: ProveedorLoop[]
+  conceptoLoops: ConceptoLoop[]
   clienteLoops: ClienteLoop[]
   terminoPagos: TerminoPago[]
   subsidiarias: Subsidiaria[]
@@ -55,6 +58,7 @@ export class EditPagoProgamadoComponent {
   monedas: Moneda[]
   url = environment.base_url
   usr = this.functionsService.getLocal('uid')
+  OTCONCEPTO = environment.OTCONCEPTO
   constructor(
     private fb: FormBuilder,
     private functionsService: FunctionsService,
@@ -64,6 +68,7 @@ export class EditPagoProgamadoComponent {
     private monedaService: MonedasService,
     private terminoPagoService: TerminoPagoService,
     private subsidiariaService: SubsidiariaService,
+    private conceptoLoopsService: ConceptoLoopsService,
     private empresaService: EmpresasService,
     private proveedorLoopsService: ProveedorLoopsService,
     private clienteLoopsService: ClienteLoopsService,
@@ -88,7 +93,7 @@ export class EditPagoProgamadoComponent {
     this.loading = true
     this.pagoProgramadoService.cargarPagoProgramadoById(id).subscribe((resp: CargarPagoProgramado) => {
       this.pagoProgramado = resp.pagoProgramado
-      // console.log('resp.pagoProgramado', resp.pagoProgramado)
+      console.log('resp.pagoProgramado', resp.pagoProgramado)
       setTimeout(() => {
         this.setForm(this.pagoProgramado)
       }, 500);
@@ -111,6 +116,8 @@ createForm() {
       clienteLoop: [''],
       impExpLoop: [''],
       concepto: [''],
+      conceptoLoop: [''],
+      otroConcepto: [''],
       cantidad: [''],
       fechaSolicitud: [''],
       fechaPago: [''],
@@ -145,7 +152,9 @@ createForm() {
     this.setForm(this.pagoProgramado)
   }
   setForm(pagoProgramado: any) {
-    // console.log('pagoProgramado', pagoProgramado)
+     console.log('pagoProgramado', pagoProgramado.conceptoLoop)
+     console.log(this.conceptoLoops);
+     
      
   
      
@@ -160,8 +169,8 @@ createForm() {
     this.form = this.fb.group({
       consecutivo: [pagoProgramado.consecutivo],
       urgente: [pagoProgramado.urgente],
-      proveedorLoop: [pagoProgramado.proveedorLoop],
-      clienteLoop: [pagoProgramado.clienteLoop],
+      proveedorLoop: [pagoProgramado.proveedorLoop?pagoProgramado.proveedorLoop._id:null],
+      clienteLoop: [pagoProgramado.clienteLoop?pagoProgramado.clienteLoop._id:null],
       impExpLoop: [pagoProgramado.impExpLoop],
       fechaVencimiento:[pagoProgramado.aprobacion ?
         { value: pagoProgramado.fechaVencimiento ? this.functionsService.numberToDate(pagoProgramado.fechaVencimiento) : '', disabled: false } :
@@ -172,12 +181,14 @@ createForm() {
       factura: [pagoProgramado.factura],
       cotizacion: [pagoProgramado.cotizacion],
       comprobante: [pagoProgramado.comprobante],
-      subsidiaria: [pagoProgramado.subsidiaria._id],
-      tipoGasto: [pagoProgramado.tipoGasto._id],
-      terminoPago: [pagoProgramado.terminoPago._id],
-      moneda: [pagoProgramado.moneda._id],
+      subsidiaria: [pagoProgramado.subsidiaria?pagoProgramado.subsidiaria._id:null],
+      tipoGasto: [pagoProgramado.tipoGasto?pagoProgramado.tipoGasto._id:null],
+      terminoPago: [pagoProgramado.terminoPago?pagoProgramado.terminoPago._id:null],
+      moneda: [pagoProgramado.moneda?pagoProgramado.moneda._id:null],
       proveedor: [pagoProgramado.proveedor],
       concepto: [pagoProgramado.concepto],
+      conceptoLoop: [pagoProgramado.conceptoLoop?pagoProgramado.conceptoLoop._id:null],
+      otroConcepto: [pagoProgramado.otroConcepto],
       cantidad: [pagoProgramado.cantidad],
       empresa: [(typeof(pagoProgramado.empresa)=='string')?pagoProgramado.empresa:(this.edit =='true')?pagoProgramado.empresa._id:pagoProgramado.empresa.nombre],
       fechaSolicitud: [{ value: this.functionsService.numberToDate(pagoProgramado.fechaSolicitud) ? this.functionsService.numberToDate(pagoProgramado.fechaSolicitud) : '', disabled: true }],
@@ -286,6 +297,14 @@ createForm() {
         this.functionsService.alertError(error, 'tipoGastos')
         this.loading = false
       })
+    this.conceptoLoopsService.cargarConceptoLoopsAll().subscribe((resp: CargarConceptoLoops) => {
+      this.conceptoLoops = this.functionsService.getActives(resp.conceptoLoops)
+      console.log('this.conceptoLoops', this.conceptoLoops)
+    },
+      (error: any) => {
+        this.functionsService.alertError(error, 'ConceptoLoop')
+        this.loading = false
+      })
     this.monedaService.cargarMonedasAll().subscribe((resp: CargarMonedas) => {
       this.monedas = this.functionsService.getActives(resp.monedas)
     },
@@ -362,6 +381,7 @@ createForm() {
   }
  
   setPagoProgramado(pagoProgramado: any) {
+    console.log('pagoProgramado', pagoProgramado)
         
     var ok = false
     if ( this.pagoProgramado.tipoGasto.aprobacionPor.includes(this.usr)  ) {
@@ -392,6 +412,8 @@ createForm() {
       moneda: [pagoProgramado.moneda._id],
       proveedor: [pagoProgramado.proveedor],
       concepto: [pagoProgramado.concepto],
+      conceptoLoop: [pagoProgramado.conceptoLoop._id],
+      otroConcepto: [pagoProgramado.otroConcepto],
       cantidad: [pagoProgramado.cantidad],
       empresa: [(typeof(pagoProgramado.empresa)=='string')?pagoProgramado.empresa:(this.edit =='true')?pagoProgramado.empresa._id:pagoProgramado.empresa.nombre],
       fechaSolicitud: [{ value: this.functionsService.numberToDate(pagoProgramado.fechaSolicitud) ? this.functionsService.numberToDate(pagoProgramado.fechaSolicitud) : '', disabled: true }],

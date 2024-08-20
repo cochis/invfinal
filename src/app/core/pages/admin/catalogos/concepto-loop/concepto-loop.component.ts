@@ -3,23 +3,23 @@ import { Usuario } from 'src/app/core/models/usuario.model';
 import { FunctionsService } from 'src/app/shared/services/functions.service';
 import { BusquedasService } from 'src/app/shared/services/busquedas.service';
 import { environment } from 'src/environments/environment';
-import { ClienteLoop } from 'src/app/core/models/clienteLoop.model';
-import { ClienteLoopsService } from 'src/app/core/services/clienteLoops.service';
-import { CargarClienteLoops } from '../../../../interfaces/cargar-interfaces.interfaces';
+import { ConceptoLoop } from 'src/app/core/models/conceptoLoop.model';
+import { ConceptoLoopsService } from 'src/app/core/services/conceptoLoops.service';
+import { CargarConceptoLoops } from '../../../../interfaces/cargar-interfaces.interfaces';
 import * as XLSX from 'xlsx';
 @Component({
-  selector: 'app-cliente-loop',
-  templateUrl: './cliente-loop.component.html',
-  styleUrls: ['./cliente-loop.component.css']
+  selector: 'app-concepto-loop',
+  templateUrl: './concepto-loop.component.html',
+  styleUrls: ['./concepto-loop.component.css']
 })
-export class ClienteLoopComponent {
+export class ConceptoLoopComponent{
   uid = this.functionsService.getLocal('uid')
   today = this.functionsService.getToday()
   data!: any
   usuarios: Usuario[] = [];
   usuariosTemp: Usuario[] = [];
-  clienteLoops: ClienteLoop[] =[]
-  clienteLoopsTemp: ClienteLoop[]=[]
+  conceptoLoops: ConceptoLoop[] =[]
+  conceptoLoopsTemp: ConceptoLoop[]=[]
   
   loading = false
   url = environment.base_url
@@ -29,9 +29,9 @@ export class ClienteLoopComponent {
   constructor(
     private functionsService: FunctionsService,
     private busquedasService: BusquedasService,
-   private clienteLoopsService: ClienteLoopsService
+   private conceptoLoopsService: ConceptoLoopsService
   ) {
-    this.getClienteLoop()
+    this.getConceptoLoop()
 
   }
 
@@ -39,11 +39,11 @@ export class ClienteLoopComponent {
     termino = termino.trim()
     setTimeout(() => {
       if (termino.length === 0) {
-        this.clienteLoops = this.clienteLoopsTemp
+        this.conceptoLoops = this.conceptoLoopsTemp
         return
       }
-      this.busquedasService.buscar('clienteLoop', termino, this.functionsService.isAdmin()).subscribe((resp) => {
-        this.clienteLoops = resp
+      this.busquedasService.buscar('conceptoLoop', termino, this.functionsService.isAdmin()).subscribe((resp) => {
+        this.conceptoLoops = resp
 
         this.setPuestos()
       })
@@ -68,12 +68,12 @@ export class ClienteLoopComponent {
 
     }, 500);
   }
-  getClienteLoop() {
+  getConceptoLoop() {
     this.loading = true
-    this.clienteLoopsService.cargarClienteLoopsAll().subscribe((resp: CargarClienteLoops) => {
+    this.conceptoLoopsService.cargarConceptoLoopsAll().subscribe((resp: CargarConceptoLoops) => {
       // console.log('resp', resp)
-      this.clienteLoops = resp.clienteLoops
-      this.clienteLoopsTemp = resp.clienteLoops
+      this.conceptoLoops = resp.conceptoLoops
+      this.conceptoLoopsTemp = resp.conceptoLoops
       setTimeout(() => {
 
         this.loading = false
@@ -86,32 +86,32 @@ export class ClienteLoopComponent {
   }
 
 
-  editClienteLoop(id: string) {
+  editConceptoLoop(id: string) {
 
-    this.functionsService.navigateTo(`/core/catalogos/edit-cliente-loop/true/${id}`)
+    this.functionsService.navigateTo(`/core/catalogos/edit-concepto-loop/true/${id}`)
 
   }
-  isActived(clienteLoop : ClienteLoop) {
+  isActived(conceptoLoop : ConceptoLoop) {
 
-    this.clienteLoopsService.isActivedClienteLoop(clienteLoop).subscribe((resp: any) => {
-      this.getClienteLoop()
+    this.conceptoLoopsService.isActivedConceptoLoop(conceptoLoop).subscribe((resp: any) => {
+      this.getConceptoLoop()
 
 
     },
       (error: any) => {
        
-        this.functionsService.alertError(error,'ClienteLoops')
+        this.functionsService.alertError(error,'ConceptoLoops')
 
       })
   }
-  viewClienteLoop(id: string) {
-    this.functionsService.navigateTo(`/core/catalogos/edit-cliente-loop/false/${id}`)
+  viewConceptoLoop(id: string) {
+    this.functionsService.navigateTo(`/core/catalogos/edit-concepto-loop/false/${id}`)
 
   }
 
-  newClienteLoop() {
+  newConceptoLoop() {
 
-    this.functionsService.navigateTo('core/catalogos/new-cliente-loop')
+    this.functionsService.navigateTo('core/catalogos/new-concepto-loop')
   }
   onFileChange(ev) {
     let workBook = null;
@@ -126,9 +126,9 @@ export class ClienteLoopComponent {
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         return initial;
       }, {});
-      console.log('clientesLoop', jsonData.clienteLoop)
+      console.log('conceptosLoop', jsonData.conceptoLoop)
 
-      this.setClientes(jsonData.clienteLoop)
+      this.setConceptos(jsonData.conceptoLoop)
 
 
 
@@ -139,18 +139,18 @@ export class ClienteLoopComponent {
     }
     reader.readAsBinaryString(file);
   }
-  setClientes(clientes: any) {
+  setConceptos(conceptos: any) {
     this.loading = true
 
-    clientes.forEach(cl => {
-      let cliente = {
+    conceptos.forEach(cl => {
+      let concepto = {
         ...cl,
         activated:true,
         usuarioCreated: this.uid,
         dateCreated: this.today,
         lastEdited: this.today
       }
-      this.clienteLoopsService.crearClienteLoop(cliente).subscribe(resp => {
+      this.conceptoLoopsService.crearConceptoLoop(concepto).subscribe(resp => {
         console.log('resp', resp)
 
       },
@@ -161,7 +161,7 @@ export class ClienteLoopComponent {
     });
 
 
-    this.getClienteLoop()
+    this.getConceptoLoop()
     this.loading= false
   }
 }

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CargarClienteLoops, CargarEmpresas, CargarMonedas, CargarPagoProgramado, CargarPagoProgramados, CargarProveedorLoops, CargarSubsidiarias, CargarTerminoPagos, CargarTipoGastos, CargarUsuarios } from 'src/app/core/interfaces/cargar-interfaces.interfaces';
+import { CargarClienteLoops, CargarConceptoLoops, CargarEmpresas, CargarMonedas, CargarPagoProgramado, CargarPagoProgramados, CargarProveedorLoops, CargarSubsidiarias, CargarTerminoPagos, CargarTipoGastos, CargarUsuarios } from 'src/app/core/interfaces/cargar-interfaces.interfaces';
 import { ClienteLoop } from 'src/app/core/models/clienteLoop.model';
+import { ConceptoLoop } from 'src/app/core/models/conceptoLoop.model';
 import { Empresa } from 'src/app/core/models/Empresa';
 import { Moneda } from 'src/app/core/models/moneda.model';
 import { PagoProgramado } from 'src/app/core/models/pagoProgramado.model';
@@ -12,6 +13,7 @@ import { TipoGasto } from 'src/app/core/models/tipoGasto.model';
 
 import { Usuario } from 'src/app/core/models/usuario.model';
 import { ClienteLoopsService } from 'src/app/core/services/clienteLoops.service';
+import { ConceptoLoopsService } from 'src/app/core/services/conceptoLoops.service';
 import { FileService } from 'src/app/core/services/file.service';
 import { MonedasService } from 'src/app/core/services/monedas.service';
 import { PagoProgramadoService } from 'src/app/core/services/pagoProgramado.service';
@@ -45,6 +47,7 @@ export class NewPagoProgamadoComponent {
   usr = this.functionsService.getLocal('uid')
   empresas: Empresa[]
   monedas: Moneda[]
+  conceptoLoops: ConceptoLoop[]
   subsidiarias: Subsidiaria[]
   proveedorLoops: ProveedorLoop[]
   clienteLoops: ClienteLoop[]
@@ -65,6 +68,7 @@ export class NewPagoProgamadoComponent {
   validDate = false
   isLoop: boolean = undefined
   consecutivo = 0
+  otrConcepto=false
   constructor(
     private fb: FormBuilder,
     private functionsService: FunctionsService,
@@ -73,6 +77,7 @@ export class NewPagoProgamadoComponent {
     private tipoGastoService: TipoGastoService,
     private monedasService: MonedasService,
     private terminoPagoService: TerminoPagoService,
+    private conceptosloopService: ConceptoLoopsService,
     private subsidiariaService: SubsidiariaService,
     private empresasServices: EmpresasService,
     private proveedorLoopsService: ProveedorLoopsService,
@@ -103,7 +108,9 @@ export class NewPagoProgamadoComponent {
       proveedorLoop: ['', [Validators.required]],
       clienteLoop: ['', [Validators.required]],
       impExpLoop: ['', [Validators.required]],
-      concepto: ['', [Validators.required]],
+      concepto: [''],
+      conceptoLoop: [null],
+      otroConcepto: [''],
       cantidad: ['', [Validators.required]],
       fechaSolicitud: ['', [Validators.required]],
       fechaPago: [''],
@@ -160,6 +167,8 @@ export class NewPagoProgamadoComponent {
         clienteLoop: this.form.value.clienteLoop,
         impExpLoop: this.form.value.impExpLoop,
         concepto: this.form.value.concepto,
+        conceptoLoop: this.form.value.conceptoLoop,
+        otroConcepto: this.form.value.otroConcepto,
         cantidad: this.form.value.cantidad,
         fechaSolicitud: (new Date(this.form.value.fechaSolicitud).getTime()) + 100000000,
         fechaPago: this.form.value.fechaPago,
@@ -294,6 +303,15 @@ export class NewPagoProgamadoComponent {
         this.functionsService.alertError(error, 'PagoProgramado')
 
       });
+    this.conceptosloopService.cargarConceptoLoopsAll().subscribe((resp: CargarConceptoLoops) => {
+      this.conceptoLoops = resp.conceptoLoops
+      // console.log('this.clienteLoops', this.clienteLoops)
+      this.loading = false
+    },
+      (error) => {
+        this.functionsService.alertError(error, 'PagoProgramado')
+
+      });
 
 
   }
@@ -339,10 +357,12 @@ export class NewPagoProgamadoComponent {
         tipoGasto: this.form.value.tipoGasto,
         terminoPago: this.form.value.terminoPago,
         proveedor: this.form.value.proveedor,
-        proveedorLoop: (this.form.value.proveedorLoop=='')?null:this.form.value.proveedorLoop,
-        clienteLoop: (this.form.value.clienteLoop=='')?null:this.form.value.clienteLoop,
+        proveedorLoop: (this.form.value.proveedorLoop == '') ? null : this.form.value.proveedorLoop,
+        clienteLoop: (this.form.value.clienteLoop == '') ? null : this.form.value.clienteLoop,
         impExpLoop: this.form.value.impExpLoop,
         concepto: this.form.value.concepto,
+        conceptoLoop: this.form.value.conceptoLoop,
+        otroConcepto: this.form.value.otroConcepto,
         cantidad: this.form.value.cantidad,
         fechaSolicitud: (new Date(this.form.value.fechaSolicitud).getTime()) + 100000000,
         fechaPago: this.form.value.fechaPago,
@@ -366,7 +386,7 @@ export class NewPagoProgamadoComponent {
         url: this.url
 
       }
-      // console.log('pagoProgramado', pagoProgramado)
+     
 
       this.pagoProgramadoService.crearPagoProgramado(pagoProgramado).subscribe((resp: any) => {
 
@@ -441,6 +461,8 @@ export class NewPagoProgamadoComponent {
       clienteLoop: [pagoProgramado.clienteLoop],
       impExpLoop: [pagoProgramado.impExpLoop],
       concepto: [pagoProgramado.concepto],
+      conceptoLoop: [pagoProgramado.conceptoLoop],
+      otroConcepto: [pagoProgramado.otroConcepto],
       cantidad: [pagoProgramado.cantidad],
       fechaSolicitud: [pagoProgramado.fechaSolicitud],
       fechaPago: [pagoProgramado.fechaPago],
@@ -503,7 +525,19 @@ export class NewPagoProgamadoComponent {
     // console.log('factura', factura)
 
   }
+  validateConcepto(otro: string) {
+    console.log('otro', otro)
+    this.conceptoLoops.forEach(concepto => {
+      if(concepto.uid === otro){
+        this.otrConcepto= true
+      }else{
+        this.otrConcepto= false
+        this.form.patchValue({otroConcepto :''})
+        
+      }
+    });
 
+  }
 
 }
 

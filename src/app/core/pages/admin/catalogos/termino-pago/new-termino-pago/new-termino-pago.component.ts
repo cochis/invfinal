@@ -62,10 +62,12 @@ export class NewTerminoPagoComponent {
     if (this.form.valid) {
       this.form.value.nombre = this.form.value.nombre.toUpperCase().trim()
       this.form.value.clave = this.form.value.clave.toUpperCase().trim()
+  
 
       let terminoPago = {
         nombre: this.form.value.nombre,
         clave: this.form.value.clave,
+        empresa: this.form.value.empresa,
         usuarioCreated: this.functionsService.getLocal('uid')
       }
 

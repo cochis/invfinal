@@ -147,12 +147,33 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-md-3  ">
+                                <div class="col-12 col-md-3  " *ngIf="!isLoop">
 
                                     <div class="form-group">
                                         <label for="concepto">Concepto</label>
                                         <input type="text" class="form-control upper" id="concepto"
                                             formControlName="concepto" placeholder="Concepto">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3  " *ngIf="isLoop">
+
+                                    <div class="form-group">
+                                        <label for="conceptoLoop">Concepto</label>
+                                        <select name="" id="conceptoLoop" formControlName="conceptoLoop" #conceptoLoop
+                                        class="form-control upper" disabled="true" (change)="validateConcepto(conceptoLoop.value)">
+                                        <option value="">Selecciona una conceptoLoop</option>
+                                        <option [value]="item.uid" *ngFor="let item of conceptoLoops">
+                                            {{item.name}}
+                                        </option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3  " *ngIf="isLoop && otrConcepto">
+
+                                    <div class="form-group">
+                                        <label for="otroConcepto">Otro Concepto</label>
+                                        <input type="text" class="form-control upper" id="otroConcepto"
+                                            formControlName="otroConcepto" placeholder="Concepto">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-3  ">
@@ -215,7 +236,7 @@
                                 form.value.subsidiaria!=''  &&
                                 form.value.tipoGasto!=''  &&
                                 form.value.terminoPago!=''  &&
-                                form.value.concepto!=''  &&
+                               ( form.value.concepto!='' || form.value.conceptoLoop!='' ) &&
                                ( form.value.cantidad!='' ||  form.value.cantidad!=0)  &&
                                 form.value.fechaSolicitud!=''  &&
                                 form.value.moneda!=''  &&
@@ -246,7 +267,7 @@
                                 form.value.subsidiaria!=''  &&
                                 form.value.tipoGasto!=''  &&
                                 form.value.terminoPago!=''  &&
-                                form.value.concepto!=''  &&
+                                ( form.value.concepto!='' || form.value.conceptoLoop!='' ) &&
                                ( form.value.cantidad!='' ||  form.value.cantidad!=0)  &&
                                 form.value.fechaSolicitud!=''  &&
                                 form.value.moneda!=''  &&

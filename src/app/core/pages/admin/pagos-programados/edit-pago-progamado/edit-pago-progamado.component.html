@@ -37,11 +37,30 @@
                                             formControlName="tipoFactura" placeholder="Tipo de factura" readonly>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-3" style="margin-top: 24px;">
+                                <div class="col-12 col-md-3" style="margin-top: 24px;" *ngIf="form.value.concepto !==''">
                                     <div class="form-group">
                                         <label for="concepto">Concepto</label>
                                         <input type="text" class="form-control upper" id="concepto"
                                             formControlName="concepto" placeholder="Concepto" readonly>
+                                    </div>
+                                </div>
+                            
+                                <div class="col-12 col-md-3" style="margin-top: 24px;"  >
+                                    <div class="form-group">
+                                        <label for="conceptoLoop">Concepto Loop</label>
+                                        <select name="" id="conceptoLoop" formControlName="conceptoLoop"
+                                        class="form-control upper" #conceptoLoop readonly>
+                                        <option value="" disabled>Concepto loop</option>
+                                        <option [value]="conceptoLoop.uid" *ngFor="let conceptoLoop of conceptoLoops" disabled>
+                                            {{conceptoLoop.name}}</option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3" style="margin-top: 24px;" *ngIf="conceptoLoop.value  == OTCONCEPTO">
+                                    <div class="form-group">
+                                        <label for="otroConcepto" disabled >Otro concepto</label>
+                                        <input type="text" class="form-control upper" id="otroConcepto"
+                                            formControlName="otroConcepto" placeholder="Concepto" readonly>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-3" style="margin-top: 24px;">
@@ -64,9 +83,9 @@
                                     <div class="form-group">
                                         <label for="proveedorLoop">Proveedor Loop</label>
                                         <select name="" id="proveedorLoop" formControlName="proveedorLoop"
-                                            #proveedorLoop class="form-control upper">
-                                            <option value="">Selecciona una proveedorLoop</option>
-                                            <option [value]="item.uid" *ngFor="let item of proveedorLoops">
+                                            #proveedorLoop class="form-control upper" readonly>
+                                            <option value="" disabled>Selecciona una proveedorLoop</option>
+                                            <option [value]="item.uid" *ngFor="let item of proveedorLoops" disabled>
                                                 {{item.name}}
                                             </option>
                                         </select>
@@ -77,9 +96,9 @@
                                     <div class="form-group">
                                         <label for="clienteLoop">Cliente Loop</label>
                                         <select name="" id="clienteLoop" formControlName="clienteLoop" #clienteLoop
-                                            class="form-control upper">
-                                            <option value="">Selecciona una clienteLoop</option>
-                                            <option [value]="item.uid" *ngFor="let item of clienteLoops">
+                                            class="form-control upper" readonly>
+                                            <option value="" disabled>Selecciona una clienteLoop</option>
+                                            <option [value]="item.uid" *ngFor="let item of clienteLoops" disabled>
                                                 {{item.name}}
                                             </option>
                                         </select>

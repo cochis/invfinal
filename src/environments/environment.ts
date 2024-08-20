@@ -23,13 +23,16 @@ export const environment = {
   // base_url: "http://localhost:3010/api",
   // LOOP:'66a7d0898e30740fa7670bf4',
   // JASU:"66a7cf9d8e30740fa7670bca",
+  // OTCONCEPTO:'66c3b775e55598a85ebbb59c',
+
   
-  // //Enviromento PROD
+  // Enviromento PROD
   base_url: "https://infra.jasu.us/api",
   DLL:'6661f117416a9440845722e6',
   MXN:"6661f125416a9440845722eb",
   LOOP:'66a90b4350ddd12f55056f2e',
   JASU:"66a90b3850ddd12f55056f27",
+  OTCONCEPTO:'66c3b775e55598a85ebbb59c',
 
   ///////////////////////////////////////////////
   // base_url: "https://qa-infra.jasu.us/api"

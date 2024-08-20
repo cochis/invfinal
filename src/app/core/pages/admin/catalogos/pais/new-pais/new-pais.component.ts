@@ -1,22 +1,31 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+ 
+import { Role } from 'src/app/core/models/role.model';
+import { Stock } from 'src/app/core/models/stock.model';
+import { TipoStock } from 'src/app/core/models/tipoStock.model';
 import { Usuario } from 'src/app/core/models/usuario.model';
-import { ClienteLoop } from 'src/app/core/models/clienteLoop.model';
-import { ClienteLoopsService } from 'src/app/core/services/clienteLoops.service';
+import { Pais } from 'src/app/core/models/pais.model';
+import { RolesService } from 'src/app/core/services/roles.service';
+ 
+import { TipoStockService } from 'src/app/core/services/tipoStock.service';
+import { UsuariosService } from 'src/app/core/services/usuarios.service';
+ 
 import { FunctionsService } from 'src/app/shared/services/functions.service';
 import { environment } from 'src/environments/environment';
+import { PaissService } from 'src/app/core/services/pais.service';
 @Component({
-  selector: 'app-new-cliente-loop',
-  templateUrl: './new-cliente-loop.component.html',
-  styleUrls: ['./new-cliente-loop.component.css']
+  selector: 'app-new-pais',
+  templateUrl: './new-pais.component.html',
+  styleUrls: ['./new-pais.component.css']
 })
-export class NewClienteLoopComponent {
+export class NewPaisComponent{
   ADM = environment.ADM
 
   rol = this.functionsService.getLocal('role')
   loading = false
   usuarios: Usuario[]
-  clienteLoop: ClienteLoop
+  pais: Pais
   public form!: FormGroup
   today: Number = this.functionsService.getToday()
   submited: boolean = false
@@ -28,7 +37,7 @@ export class NewClienteLoopComponent {
     private fb: FormBuilder,
     private functionsService: FunctionsService,
    
-    private clienteLoopsService: ClienteLoopsService
+    private paissService: PaissService
   ) {
     this.loading = true
 
@@ -82,9 +91,8 @@ export class NewClienteLoopComponent {
 
   createForm() {
     this.form = this.fb.group({
-      name: [''],
-      pais: [''],
-      taxId: [''],
+      nombre: [''],
+      clave: [''],
       usuarioCreated: [''],
       activated: [true],
       dateCreated: [this.today],
@@ -97,21 +105,27 @@ export class NewClienteLoopComponent {
     this.loading = true
     this.submited = true
 
-    
+   
     if (this.form.valid) {
        
-    
+      if (this.form.value.usuarioAsignado != '') {
+        this.form.value.asignado = true
+      }
+      else {
+        this.form.value.asignado = false
+      }
+
       this.loading = false
 
       let obj = {
         ...this.form.value,
         usuarioCreated: this.functionsService.getLocal('uid')
       }
-      // console.log('obj', obj)
-      this.clienteLoopsService.crearClienteLoop(obj).subscribe((resp: any) => {
+      this.paissService.crearPais(obj).subscribe((resp: any) => {
+        console.log('resp', resp)
 
         //Message
-        this.functionsService.navigateTo('core/catalogos/cliente-loop')
+        this.functionsService.navigateTo('core/catalogos/paises')
         this.loading = false
       },
         (error) => {
@@ -131,8 +145,7 @@ export class NewClienteLoopComponent {
   }
 
   back() {
-    this.functionsService.navigateTo('core/catalogos/cliente-loop')
+    this.functionsService.navigateTo('core/catalogos/paises')
   }
 
 }
-

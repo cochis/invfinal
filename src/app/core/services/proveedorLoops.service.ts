@@ -126,6 +126,9 @@ export class ProveedorLoopsService {
   crearProveedorLoop(formData: ProveedorLoop) {
     return this.http.post(`${base_url}/proveedor-loop`, formData, this.headers)
   }
+  crearMasivaProveedorLoop(formData: ProveedorLoop) {
+    return this.http.post(`${base_url}/proveedor-loop/masiva`, formData, this.headers)
+  }
 
 
   isActivedProveedorLoop(proveedorLoop: ProveedorLoop) {

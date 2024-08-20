@@ -1,0 +1,75 @@
+<app-header></app-header>
+<main>
+    <app-loading class="animated1 fadeIn" *ngIf="loading"></app-loading>
+    <app-message class="animated1 fadeIn" *ngIf="msnOk"></app-message>
+    <section class="contact-section section-padding section-bg animated1 fadeIn " id="section_5" *ngIf="!loading">
+        <div class="container bw">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-12 text-center">
+                            <h2 class="mb-5">Crear Pais</h2>
+                        </div>
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                                <!-- <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="tipoStock">Tipo Stock</label>
+                                        <select name="" id="tipoStock" formControlName="tipoStock" class="form-control upper">
+                                            <option value="">Selecciona un tipo de stock</option>
+                                            <option [value]="item.uid" *ngFor="let item of tipoStocks">{{item.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="submited && errorControl['tipoStock'].errors " class="error">Es requerido
+                                    </span>
+                                </div> -->
+
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre</label>
+                                        <input type="text" class="form-control upper" id="nombre"
+                                            formControlName="nombre"   placeholder="Nombre">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['nombre'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                           
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="clave">Clave</label>
+                                        <input type="text" class="form-control upper" id="clave"
+                                            formControlName="clave"   clave="Clave">
+                                    </div>
+                                    <span *ngIf="submited && errorControl['clave'].errors " class="error">Es requerido
+                                    </span>
+                                </div>
+                       
+                            
+                               
+
+                            </div>
+
+                            <div class="row mt-5 text-center">
+                                <div class="col-12 col-md-6  mt-3 text-center">
+                                    <button class="btn btn-lg btn-block btn-warning" (click)="back()">Regresar</button>
+
+                                </div>
+                                <div class="col-12 col-md-6  mt-3 text-center ">
+                                    <button type="submit" class="btn btn-lg btn-block but  ">Crear</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+</main>
+<app-footer></app-footer>

@@ -5,6 +5,7 @@ import { Carga } from "../models/carga.model"
 import { ClienteLoop } from "../models/clienteLoop.model"
 import { Compania } from "../models/compania.model"
 import { Company } from "../models/company.model"
+import { ConceptoLoop } from "../models/conceptoLoop.model"
 import { CustomField } from "../models/customField.model"
 import { DataEs } from "../models/dataEs.model"
 import { Departamento } from "../models/departamento.model"
@@ -20,6 +21,7 @@ import { Moneda } from "../models/moneda.model"
 import { Oportunity } from "../models/oportunity.model"
 import { Origen } from "../models/origen.model"
 import { PagoProgramado } from "../models/pagoProgramado.model"
+import { Pais } from "../models/pais.model"
 import { Pipeline } from "../models/pipeline.model"
 import { Planta } from "../models/planta.model"
 import { Producto } from "../models/producto.model"
@@ -354,6 +356,14 @@ export interface CargarStocks {
     total: number
     stocks: Stock[]
 } 
+export interface CargarPais {
+    pais: Pais
+}
+
+export interface CargarPaiss {
+    total: number
+    paiss: Pais[]
+} 
 export interface CargarProveedor {
     proveedor: Proveedor
 }
@@ -444,4 +454,12 @@ export interface CargarClienteLoop {
 export interface CargarClienteLoops {
     total: number
     clienteLoops: ClienteLoop[]
+} 
+export interface CargarConceptoLoop {
+    conceptoLoop: ConceptoLoop
+}
+
+export interface CargarConceptoLoops {
+    total: number
+    conceptoLoops: ConceptoLoop[]
 } 

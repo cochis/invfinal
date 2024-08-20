@@ -34,6 +34,7 @@ export class PagoProgramadoService {
         const pagoProgramados = resp.pagoProgramados.map(
           (pagoProgramado) =>
             new PagoProgramado(
+             
               pagoProgramado.consecutivo,
               pagoProgramado.urgente,
               pagoProgramado.subsidiaria,
@@ -44,6 +45,8 @@ export class PagoProgramadoService {
               pagoProgramado.clienteLoop,
               pagoProgramado.impExpLoop,
               pagoProgramado.concepto,
+              pagoProgramado.conceptoLoop,
+              pagoProgramado.otroConcepto,
               pagoProgramado.cantidad,
               pagoProgramado.fechaSolicitud,
               pagoProgramado.fechaPago,
@@ -85,6 +88,7 @@ export class PagoProgramadoService {
         const pagoProgramados = resp.pagoProgramados.map(
           (pagoProgramado) =>
             new PagoProgramado(
+             
               pagoProgramado.consecutivo,
               pagoProgramado.urgente,
               pagoProgramado.subsidiaria,
@@ -95,6 +99,8 @@ export class PagoProgramadoService {
               pagoProgramado.clienteLoop,
               pagoProgramado.impExpLoop,
               pagoProgramado.concepto,
+              pagoProgramado.conceptoLoop,
+              pagoProgramado.otroConcepto,
               pagoProgramado.cantidad,
               pagoProgramado.fechaSolicitud,
               pagoProgramado.fechaPago,
@@ -145,6 +151,8 @@ export class PagoProgramadoService {
               pagoProgramado.clienteLoop,
               pagoProgramado.impExpLoop,
               pagoProgramado.concepto,
+              pagoProgramado.conceptoLoop,
+              pagoProgramado.otroConcepto,
               pagoProgramado.cantidad,
               pagoProgramado.fechaSolicitud,
               pagoProgramado.fechaPago,

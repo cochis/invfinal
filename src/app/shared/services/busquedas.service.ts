@@ -138,8 +138,8 @@ export class BusquedasService {
     tipo: 'usuarios' | 'roles' | 'tipoStocks' | 'tipoTickets' | 'stocks' | 'tickets' 
         | 'cargas' |'tipoCargas' |'proveedors'|'zonas'|'incoterms' | 'tipoProveedors' 
         | 'productos'| 'origens'| 'destinos' | 'tipoMaterials' | 'unidadMedidas' | 'monedas'
-        | 'materiaPrimas' |'abastos' | 'companias' | 'proveedorTransportes' | 'plantas'
-        | 'subsidiarias'| 'terminoPagos' |'tipoGastos' |'pagoProgramados' |'departamentos' 
+        | 'materiaPrimas' |'abastos' | 'companias' | 'proveedorTransportes' | 'plantas'| 'paises'
+        | 'subsidiarias'| 'terminoPagos' |'tipoGastos' |'pagoProgramados' |'departamentos' | 'conceptoLoop'
         |'puestos' |'tipoTransportes' |'tipoSolicitudViajes' | 'solicitudViajes'| 'tipoFacturas' | 'empresas' |'proveedorLoop'|'clienteLoop',
     termino: string = '',
     admin: true | false,

@@ -135,6 +135,12 @@ import { ProveedorLoopComponent } from './pages/admin/catalogos/proveedor-loop/p
 import { ClienteLoopComponent } from './pages/admin/catalogos/cliente-loop/cliente-loop.component';
 import { EditClienteLoopComponent } from './pages/admin/catalogos/cliente-loop/edit-cliente-loop/edit-cliente-loop.component';
 import { NewClienteLoopComponent } from './pages/admin/catalogos/cliente-loop/new-cliente-loop/new-cliente-loop.component';
+import { PaisComponent } from './pages/admin/catalogos/pais/pais.component';
+import { EditPaisComponent } from './pages/admin/catalogos/pais/edit-pais/edit-pais.component';
+import { NewPaisComponent } from './pages/admin/catalogos/pais/new-pais/new-pais.component';
+import { ConceptoLoopComponent } from './pages/admin/catalogos/concepto-loop/concepto-loop.component';
+import { EditConceptoLoopComponent } from './pages/admin/catalogos/concepto-loop/edit-concepto-loop/edit-concepto-loop.component';
+import { NewConceptoLoopComponent } from './pages/admin/catalogos/concepto-loop/new-concepto-loop/new-concepto-loop.component';
 
 
 const routes: Routes = [
@@ -245,6 +251,28 @@ const routes: Routes = [
         path: 'new-stock',
         component: NewStockComponent,
         data: { tittle: 'New stock' },
+        canActivate: [authGuard]
+
+      } ,
+      //stock
+      {
+        path: 'catalogos/paises',
+        component: PaisComponent,
+        data: { tittle: 'Pais' },
+        canActivate: [authGuard]
+
+      } ,
+      {
+        path: 'catalogos/edit-pais/:edit/:id',
+        component: EditPaisComponent,
+        data: { tittle: 'Edit pais' },
+        canActivate: [authGuard]
+
+      } ,
+      {
+        path: 'catalogos/new-pais',
+        component: NewPaisComponent,
+        data: { tittle: 'New pais' },
         canActivate: [authGuard]
 
       } ,
@@ -741,7 +769,7 @@ const routes: Routes = [
         canActivate: [authGuard]
 
       } ,
-      //proveedor -loop
+      //cliente -loop
       {
         path: 'catalogos/cliente-loop',
         component: ClienteLoopComponent,
@@ -760,6 +788,28 @@ const routes: Routes = [
         path: 'catalogos/new-cliente-loop',
         component: NewClienteLoopComponent,
         data: { tittle: 'New cliente-loop' },
+        canActivate: [authGuard]
+
+      } ,
+      //concepto -loop
+      {
+        path: 'catalogos/concepto-loop',
+        component: ConceptoLoopComponent,
+        data: { tittle: 'Concepto loop' },
+        canActivate: [authGuard]
+
+      } ,
+      {
+        path: 'catalogos/edit-concepto-loop/:edit/:id',
+        component: EditConceptoLoopComponent,
+        data: { tittle: 'Edit concepto-loop' },
+        canActivate: [authGuard]
+
+      } ,
+      {
+        path: 'catalogos/new-concepto-loop',
+        component: NewConceptoLoopComponent,
+        data: { tittle: 'New concepto-loop' },
         canActivate: [authGuard]
 
       } ,

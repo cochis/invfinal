@@ -145,6 +145,12 @@ import { ClienteLoopComponent } from './pages/admin/catalogos/cliente-loop/clien
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QRCodeModule } from 'angularx-qrcode';
 import { WebcamModule } from 'ngx-webcam';
+import { PaisComponent } from './pages/admin/catalogos/pais/pais.component';
+import { EditPaisComponent } from './pages/admin/catalogos/pais/edit-pais/edit-pais.component';
+import { NewPaisComponent } from './pages/admin/catalogos/pais/new-pais/new-pais.component';
+import { ConceptoLoopComponent } from './pages/admin/catalogos/concepto-loop/concepto-loop.component';
+import { NewConceptoLoopComponent } from './pages/admin/catalogos/concepto-loop/new-concepto-loop/new-concepto-loop.component';
+import { EditConceptoLoopComponent } from './pages/admin/catalogos/concepto-loop/edit-concepto-loop/edit-concepto-loop.component';
   
 
 @NgModule({
@@ -282,6 +288,12 @@ import { WebcamModule } from 'ngx-webcam';
         EditClienteLoopComponent,
         NewClienteLoopComponent,
         ClienteLoopComponent,
+        PaisComponent,
+        EditPaisComponent,
+        NewPaisComponent,
+        ConceptoLoopComponent,
+        NewConceptoLoopComponent,
+        EditConceptoLoopComponent,
     
     ],
     imports: [

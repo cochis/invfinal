@@ -1,26 +1,26 @@
 import { Component } from '@angular/core';
+import { CargarPaiss } from 'src/app/core/interfaces/cargar-interfaces.interfaces';
 import { Usuario } from 'src/app/core/models/usuario.model';
 import { FunctionsService } from 'src/app/shared/services/functions.service';
 import { BusquedasService } from 'src/app/shared/services/busquedas.service';
+import { Pais } from 'src/app/core/models/pais.model';
 import { environment } from 'src/environments/environment';
-import { ClienteLoop } from 'src/app/core/models/clienteLoop.model';
-import { ClienteLoopsService } from 'src/app/core/services/clienteLoops.service';
-import { CargarClienteLoops } from '../../../../interfaces/cargar-interfaces.interfaces';
+import { PaissService } from 'src/app/core/services/pais.service';
 import * as XLSX from 'xlsx';
 @Component({
-  selector: 'app-cliente-loop',
-  templateUrl: './cliente-loop.component.html',
-  styleUrls: ['./cliente-loop.component.css']
+  selector: 'app-pais',
+  templateUrl: './pais.component.html',
+  styleUrls: ['./pais.component.css']
 })
-export class ClienteLoopComponent {
-  uid = this.functionsService.getLocal('uid')
-  today = this.functionsService.getToday()
+export class PaisComponent {
   data!: any
   usuarios: Usuario[] = [];
   usuariosTemp: Usuario[] = [];
-  clienteLoops: ClienteLoop[] =[]
-  clienteLoopsTemp: ClienteLoop[]=[]
-  
+  paiss: Pais[]
+  paissTemp: Pais[]
+  paises: Pais[]
+  today = this.functionsService.getToday()
+  uid = this.functionsService.getLocal('uid')
   loading = false
   url = environment.base_url
 
@@ -29,9 +29,9 @@ export class ClienteLoopComponent {
   constructor(
     private functionsService: FunctionsService,
     private busquedasService: BusquedasService,
-   private clienteLoopsService: ClienteLoopsService
+    private paisService: PaissService
   ) {
-    this.getClienteLoop()
+    this.getPaiss()
 
   }
 
@@ -39,13 +39,13 @@ export class ClienteLoopComponent {
     termino = termino.trim()
     setTimeout(() => {
       if (termino.length === 0) {
-        this.clienteLoops = this.clienteLoopsTemp
+        this.paiss = this.paissTemp
         return
       }
-      this.busquedasService.buscar('clienteLoop', termino, this.functionsService.isAdmin()).subscribe((resp) => {
-        this.clienteLoops = resp
+      this.busquedasService.buscar('paises', termino, this.functionsService.isAdmin()).subscribe((resp) => {
+        this.paiss = resp
 
-        this.setPuestos()
+        this.setPaiss()
       })
 
     }, 500);
@@ -54,7 +54,7 @@ export class ClienteLoopComponent {
 
 
 
-  setPuestos() {
+  setPaiss() {
     this.loading = true
     setTimeout(() => {
 
@@ -68,12 +68,12 @@ export class ClienteLoopComponent {
 
     }, 500);
   }
-  getClienteLoop() {
+  getPaiss() {
     this.loading = true
-    this.clienteLoopsService.cargarClienteLoopsAll().subscribe((resp: CargarClienteLoops) => {
-      // console.log('resp', resp)
-      this.clienteLoops = resp.clienteLoops
-      this.clienteLoopsTemp = resp.clienteLoops
+    this.paisService.cargarPaissAll().subscribe((resp: CargarPaiss) => {
+      this.paiss = resp.paiss
+
+      this.paissTemp = resp.paiss
       setTimeout(() => {
 
         this.loading = false
@@ -86,33 +86,34 @@ export class ClienteLoopComponent {
   }
 
 
-  editClienteLoop(id: string) {
+  editPais(id: string) {
 
-    this.functionsService.navigateTo(`/core/catalogos/edit-cliente-loop/true/${id}`)
+    this.functionsService.navigateTo(`/core/catalogos/edit-pais/true/${id}`)
 
   }
-  isActived(clienteLoop : ClienteLoop) {
+  isActived(pais: Pais) {
 
-    this.clienteLoopsService.isActivedClienteLoop(clienteLoop).subscribe((resp: any) => {
-      this.getClienteLoop()
+    this.paisService.isActivedPais(pais).subscribe((resp: any) => {
+      this.getPaiss()
 
 
     },
       (error: any) => {
        
-        this.functionsService.alertError(error,'ClienteLoops')
+        this.functionsService.alertError(error,'Paiss')
 
       })
   }
-  viewClienteLoop(id: string) {
-    this.functionsService.navigateTo(`/core/catalogos/edit-cliente-loop/false/${id}`)
+  viewPais(id: string) {
+    this.functionsService.navigateTo(`/core/catalogos/edit-pais/false/${id}`)
 
   }
 
-  newClienteLoop() {
+  newPais() {
 
-    this.functionsService.navigateTo('core/catalogos/new-cliente-loop')
+    this.functionsService.navigateTo('core/catalogos/new-pais')
   }
+
   onFileChange(ev) {
     let workBook = null;
     let jsonData = null;
@@ -126,9 +127,9 @@ export class ClienteLoopComponent {
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         return initial;
       }, {});
-      console.log('clientesLoop', jsonData.clienteLoop)
+      console.log('paises', jsonData.paises)
 
-      this.setClientes(jsonData.clienteLoop)
+      this.setPaises(jsonData.paises)
 
 
 
@@ -139,18 +140,19 @@ export class ClienteLoopComponent {
     }
     reader.readAsBinaryString(file);
   }
-  setClientes(clientes: any) {
+
+  setPaises(paises: any) {
     this.loading = true
 
-    clientes.forEach(cl => {
-      let cliente = {
-        ...cl,
+    paises.forEach(pas => {
+      let pais = {
+        ...pas,
         activated:true,
         usuarioCreated: this.uid,
         dateCreated: this.today,
         lastEdited: this.today
       }
-      this.clienteLoopsService.crearClienteLoop(cliente).subscribe(resp => {
+      this.paisService.crearPais(pais).subscribe(resp => {
         console.log('resp', resp)
 
       },
@@ -161,7 +163,8 @@ export class ClienteLoopComponent {
     });
 
 
-    this.getClienteLoop()
+    this.getPaiss()
     this.loading= false
   }
+
 }

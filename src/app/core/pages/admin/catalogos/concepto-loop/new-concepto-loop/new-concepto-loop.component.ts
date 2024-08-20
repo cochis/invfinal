@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/core/models/usuario.model';
-import { ClienteLoop } from 'src/app/core/models/clienteLoop.model';
-import { ClienteLoopsService } from 'src/app/core/services/clienteLoops.service';
+import { ConceptoLoop } from 'src/app/core/models/conceptoLoop.model';
+import { ConceptoLoopsService } from 'src/app/core/services/conceptoLoops.service';
 import { FunctionsService } from 'src/app/shared/services/functions.service';
 import { environment } from 'src/environments/environment';
 @Component({
-  selector: 'app-new-cliente-loop',
-  templateUrl: './new-cliente-loop.component.html',
-  styleUrls: ['./new-cliente-loop.component.css']
+  selector: 'app-new-concepto-loop',
+  templateUrl: './new-concepto-loop.component.html',
+  styleUrls: ['./new-concepto-loop.component.css']
 })
-export class NewClienteLoopComponent {
+export class NewConceptoLoopComponent {
   ADM = environment.ADM
 
   rol = this.functionsService.getLocal('role')
   loading = false
   usuarios: Usuario[]
-  clienteLoop: ClienteLoop
+  conceptoLoop: ConceptoLoop
   public form!: FormGroup
   today: Number = this.functionsService.getToday()
   submited: boolean = false
@@ -28,7 +28,7 @@ export class NewClienteLoopComponent {
     private fb: FormBuilder,
     private functionsService: FunctionsService,
    
-    private clienteLoopsService: ClienteLoopsService
+    private conceptoLoopsService: ConceptoLoopsService
   ) {
     this.loading = true
 
@@ -83,8 +83,7 @@ export class NewClienteLoopComponent {
   createForm() {
     this.form = this.fb.group({
       name: [''],
-      pais: [''],
-      taxId: [''],
+      clave: [''],
       usuarioCreated: [''],
       activated: [true],
       dateCreated: [this.today],
@@ -108,10 +107,10 @@ export class NewClienteLoopComponent {
         usuarioCreated: this.functionsService.getLocal('uid')
       }
       // console.log('obj', obj)
-      this.clienteLoopsService.crearClienteLoop(obj).subscribe((resp: any) => {
+      this.conceptoLoopsService.crearConceptoLoop(obj).subscribe((resp: any) => {
 
         //Message
-        this.functionsService.navigateTo('core/catalogos/cliente-loop')
+        this.functionsService.navigateTo('core/catalogos/concepto-loop')
         this.loading = false
       },
         (error) => {
@@ -131,7 +130,7 @@ export class NewClienteLoopComponent {
   }
 
   back() {
-    this.functionsService.navigateTo('core/catalogos/cliente-loop')
+    this.functionsService.navigateTo('core/catalogos/concepto-loop')
   }
 
 }
